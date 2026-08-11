@@ -1,7 +1,7 @@
 /* Syntax — Service Worker
    アプリを更新したら VERSION の数字を上げてください。
    古いキャッシュは activate 時に自動で削除されます。 */
-const VERSION = 'v1.0.0';
+const VERSION = 'v1.0.1';
 const CORE = 'syntax-core-' + VERSION;
 const FONTS = 'syntax-fonts-v1';
 
@@ -13,7 +13,10 @@ const CORE_ASSETS = [
   './icons/icon-512.png',
   './icons/icon-maskable-512.png',
   './icons/apple-touch-icon.png',
-  './icons/favicon-32.png'
+  './icons/favicon-32.png',
+  './icons/shortcut-speak.png',
+  './icons/shortcut-mock.png',
+  './icons/shortcut-review.png'
 ];
 
 self.addEventListener('install', event => {

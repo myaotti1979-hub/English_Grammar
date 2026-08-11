@@ -11,11 +11,29 @@
   "orientation": "portrait",
   "background_color": "#E7EBF1",
   "theme_color": "#17253F",
-  "categories": ["education", "productivity"],
+  "categories": [
+    "education",
+    "productivity"
+  ],
   "icons": [
-    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "./icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ],
   "shortcuts": [
     {
@@ -23,21 +41,42 @@
       "short_name": "瞬間英作文",
       "description": "日本語を見て英語を口に出す12問",
       "url": "./?go=speak",
-      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "./icons/shortcut-speak.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "any"
+        }
+      ]
     },
     {
       "name": "Part 5 模試",
       "short_name": "模試",
       "description": "20問・6分40秒の時間制限つき演習",
       "url": "./?go=mock",
-      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "./icons/shortcut-mock.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "any"
+        }
+      ]
     },
     {
       "name": "復習",
       "short_name": "復習",
       "description": "間違えた問題だけをまとめて解く",
       "url": "./?go=review",
-      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "./icons/shortcut-review.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "any"
+        }
+      ]
     }
   ]
 }
