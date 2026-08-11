@@ -1,0 +1,2361 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Syntax — ビジネス英文法トレーニング</title>
+<meta name="theme-color" content="#17253F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Syntax">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icons/favicon-32.png" sizes="32x32">
+<link rel="icon" href="./icons/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+
+<style>
+/* ============ tokens ============ */
+:root{
+  --ink:#17253F;         /* 主インク */
+  --ink-2:#46587A;       /* 補助テキスト */
+  --ink-3:#7C8AA5;       /* 微細ラベル */
+  --paper:#E7EBF1;       /* 背景 */
+  --card:#FFFFFF;
+  --line:#D2D9E4;
+  --clause-main:#2F4B99; /* 主節 */
+  --clause-sub:#C07C12;  /* 従属節・接続表現 */
+  --clause-rel:#0F8C7E;  /* 関係詞節 */
+  --clause-word:#7A4A9E; /* 品詞・語法 */
+  --clause-out:#9E4A34;  /* 会話・作文 */
+  --wrong:#C13B54;
+  --right:#0F8C7E;
+  --r-lg:20px; --r-md:14px; --r-sm:9px;
+  --pad:18px;
+  --ja:'Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+  --en:'Fraunces','Iowan Old Style','Times New Roman',serif;
+  --mono:'JetBrains Mono','SFMono-Regular',ui-monospace,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:var(--ja); font-size:15px; line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  overscroll-behavior-y:none;
+}
+button{font-family:inherit;font-size:inherit;color:inherit;border:0;background:none;cursor:pointer}
+/* ============ shell ============ */
+#app{max-width:520px;margin:0 auto;min-height:100vh;min-height:100dvh;
+  padding:0 var(--pad) calc(86px + env(safe-area-inset-bottom));}
+.topbar{display:flex;align-items:baseline;gap:10px;
+  padding:calc(18px + env(safe-area-inset-top)) 0 14px}
+.wordmark{font-family:var(--en);font-weight:700;font-size:21px;letter-spacing:-.02em;
+  font-variation-settings:'SOFT' 20,'WONK' 1}
+.wordmark span{color:var(--clause-sub)}
+.tagline{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
+.screen{display:none;animation:fade .32s ease both}
+.screen.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ============ syntax underline : signature ============ */
+.sent{font-family:var(--en);font-size:19px;line-height:2.5;font-weight:400;letter-spacing:-.005em}
+.cl{position:relative;display:inline;padding-bottom:3px;
+  background-image:linear-gradient(var(--c),var(--c));
+  background-repeat:no-repeat;background-position:0 1.42em;
+  background-size:0% 3px;animation:draw .5s cubic-bezier(.2,.7,.3,1) forwards}
+.cl.main{--c:var(--clause-main)} .cl.sub{--c:var(--clause-sub)}
+.cl.rel{--c:var(--clause-rel)} .cl.key{--c:var(--clause-sub);font-weight:600}
+@keyframes draw{to{background-size:100% 3px}}
+.cl.key{background-position:0 1.42em}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px}
+.lg{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.06em;color:var(--ink-2)}
+.lg i{width:16px;height:3px;border-radius:2px;background:var(--c)}
+.lg.main{--c:var(--clause-main)}.lg.sub{--c:var(--clause-sub)}.lg.rel{--c:var(--clause-rel)}
+.cl.word{--c:var(--clause-word)}
+.cl.out{--c:var(--clause-out)}
+.sect.three{border-color:var(--clause-out)}
+.prompt{font-size:19px;font-weight:500;line-height:1.85;margin:6px 0 4px}
+.srcbox{background:#F4F7FB;border-left:3px solid var(--clause-out);border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding:12px 14px;margin:12px 0 16px;font-size:14px;line-height:1.8}
+.srcbox .sl{font-family:var(--en);font-size:16px;line-height:1.6;display:block}
+.srcbox .sl+.sl{margin-top:4px}
+.hintchip{display:inline-block;font-family:var(--en);font-size:15px;font-weight:600;color:var(--clause-out);
+  border:1.5px solid var(--clause-out);border-radius:20px;padding:3px 14px;margin-left:6px}
+.wtext{width:100%;min-height:130px;border:1.5px solid var(--line);border-radius:var(--r-md);
+  padding:13px;font-family:var(--en);font-size:16px;line-height:1.7;color:var(--ink);
+  background:var(--card);resize:vertical;outline:none}
+.wtext:focus{border-color:var(--ink)}
+.chk{list-style:none;margin:10px 0 0;padding:0}
+.chk li{font-size:12.5px;line-height:1.7;padding-left:20px;position:relative;margin-bottom:5px;color:var(--ink)}
+.chk li::before{content:'';position:absolute;left:2px;top:.55em;width:9px;height:9px;
+  border:1.5px solid var(--right);border-radius:2px}
+.selfnote{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--ink-3);
+  text-transform:uppercase;margin-bottom:9px;text-align:center}
+.grade{display:flex;gap:7px}
+.grade .btn{padding:13px 6px;font-size:13px}
+.sect{margin:26px 0 11px;padding-left:11px;border-left:3px solid var(--clause-main)}
+.sect b{display:block;font-size:14.5px;font-weight:700}
+.sect span{display:block;font-size:11.5px;color:var(--ink-3);margin-top:1px}
+.sect.two{border-color:var(--clause-word)}
+#runTimer{font-family:var(--mono);font-size:13px;font-weight:600;
+  padding:2px 10px;border-radius:20px;background:#DCE2EC}
+#runTimer.low{background:#FBEDEF;color:var(--wrong)}
+.note-lv{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3)}
+
+/* ============ cards ============ */
+.card{background:var(--card);border-radius:var(--r-lg);padding:20px;
+  box-shadow:0 1px 2px rgba(23,37,63,.06),0 8px 24px -14px rgba(23,37,63,.30)}
+.hero{background:var(--ink);color:#F2F5F9;padding:22px 20px 20px;position:relative;overflow:hidden}
+.hero .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  color:#8FA2C4;text-transform:uppercase;margin-bottom:14px;display:block}
+.hero .sent{color:#F7F9FC}
+.hero .ja{color:#9DAECB;font-size:12.5px;margin-top:10px;line-height:1.7}
+.hero .lg{color:#9DAECB}
+
+.h2{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--ink-3);
+  text-transform:uppercase;margin:30px 0 12px;display:flex;align-items:center;gap:10px}
+.h2::after{content:'';flex:1;height:1px;background:var(--line)}
+
+/* ============ unit list ============ */
+.unit{display:flex;gap:14px;align-items:center;width:100%;text-align:left;
+  background:var(--card);border-radius:var(--r-md);padding:14px 16px;margin-bottom:9px;
+  box-shadow:0 1px 2px rgba(23,37,63,.05);transition:transform .12s,box-shadow .12s}
+.unit:active{transform:scale(.985)}
+.unit .no{font-family:var(--mono);font-size:11px;color:var(--ink-3);width:20px;flex:none;padding-top:3px}
+.unit .body{flex:1;min-width:0}
+.unit .t{font-weight:500;font-size:14.5px;line-height:1.5}
+.unit .s{font-size:11.5px;color:var(--ink-3);margin-top:2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ring{width:34px;height:34px;flex:none;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--mono);font-size:9.5px;font-weight:600;color:var(--ink-2)}
+.tag{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;
+  padding:2px 7px;border-radius:20px;border:1px solid var(--line);color:var(--ink-3);margin-right:5px}
+.tag.t-main{color:var(--clause-main);border-color:#B9C6E6}
+.tag.t-sub{color:var(--clause-sub);border-color:#EAD3A5}
+.tag.t-rel{color:var(--clause-rel);border-color:#A8D8D1}
+.tag.t-word{color:var(--clause-word);border-color:#D6C2E8}
+.tag.t-out{color:var(--clause-out);border-color:#E8C4B6}
+
+/* ============ buttons ============ */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+  background:var(--ink);color:#fff;border-radius:var(--r-md);padding:15px;
+  font-weight:500;font-size:14.5px;transition:transform .12s,opacity .12s}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:transparent;color:var(--ink-2);border:1.5px solid var(--line)}
+.btn.accent{background:var(--clause-sub)}
+.btn[disabled]{opacity:.35}
+.btn.sm{padding:11px;font-size:13px;border-radius:var(--r-sm)}
+.row{display:flex;gap:9px}
+
+/* ============ lesson ============ */
+.navback{display:flex;align-items:center;gap:8px;padding:calc(16px + env(safe-area-inset-top)) 0 10px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-3)}
+.point{margin-bottom:12px}
+.point .n{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.1em}
+.point .rule{font-weight:500;font-size:14.5px;margin:4px 0 14px;line-height:1.65}
+.point .ja{font-size:12.5px;color:var(--ink-2);margin-top:9px;line-height:1.7}
+.point .note{font-size:12.5px;color:var(--ink-2);margin-top:12px;padding-top:12px;
+  border-top:1px dashed var(--line);line-height:1.8}
+.bad{color:var(--wrong);font-family:var(--en);font-size:15px}
+.good{color:var(--right);font-family:var(--en);font-size:15px}
+.pager{display:flex;gap:5px;margin:16px 0 14px}
+.pager i{height:3px;flex:1;border-radius:2px;background:var(--line);transition:background .3s}
+.pager i.on{background:var(--ink)}
+
+/* ============ quiz ============ */
+.qhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;
+  font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.08em}
+.qbar{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin-bottom:20px}
+.qbar i{display:block;height:100%;background:var(--ink);transition:width .35s ease}
+.qtext{font-family:var(--en);font-size:20px;line-height:1.95;margin-bottom:6px}
+.blank{border-bottom:2.5px solid var(--clause-sub);padding:0 22px;display:inline-block}
+.qja{font-size:12.5px;color:var(--ink-2);margin-bottom:18px}
+.opt{display:block;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--line);
+  border-radius:var(--r-md);padding:14px 16px;margin-bottom:9px;font-family:var(--en);font-size:17px;
+  transition:border-color .15s,background .15s,transform .1s}
+.opt:active{transform:scale(.99)}
+.opt.pick{border-color:var(--ink);background:#F4F7FB}
+.opt.ok{border-color:var(--right);background:#E9F5F2}
+.opt.ng{border-color:var(--wrong);background:#FBEDEF}
+.opt .mk{float:right;font-family:var(--mono);font-size:12px;font-weight:600}
+.opt.ok .mk{color:var(--right)}.opt.ng .mk{color:var(--wrong)}
+
+/* order drill */
+.slot{min-height:74px;border-radius:var(--r-md);border:1.5px dashed var(--line);
+  background:#F4F7FB;padding:10px;display:flex;flex-wrap:wrap;gap:7px;align-content:flex-start;margin-bottom:14px}
+.slot.done{border-style:solid}
+.bank{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+.chip{font-family:var(--en);font-size:16px;padding:8px 13px;border-radius:var(--r-sm);
+  background:var(--card);border:1.5px solid var(--line);line-height:1.3;transition:transform .1s,opacity .15s}
+.chip:active{transform:scale(.94)}
+.chip.used{opacity:.22;pointer-events:none}
+.chip.in{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip.ok{background:#E9F5F2;border-color:var(--right);color:var(--right)}
+.chip.ng{background:#FBEDEF;border-color:var(--wrong);color:var(--wrong)}
+
+.verdict{border-radius:var(--r-md);padding:16px;margin-top:4px;animation:fade .3s ease both}
+.verdict.ok{background:#E9F5F2;border-left:3px solid var(--right)}
+.verdict.ng{background:#FBEDEF;border-left:3px solid var(--wrong)}
+.verdict .vt{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:600;margin-bottom:8px}
+.verdict.ok .vt{color:var(--right)}.verdict.ng .vt{color:var(--wrong)}
+.verdict .ans{font-family:var(--en);font-size:16.5px;line-height:1.6;margin-bottom:8px}
+.verdict .why{font-size:13px;line-height:1.8;color:var(--ink)}
+.sticky{position:sticky;bottom:calc(84px + env(safe-area-inset-bottom));padding-top:12px}
+
+/* ============ stats ============ */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.stat{background:var(--card);border-radius:var(--r-md);padding:15px}
+.stat b{display:block;font-family:var(--mono);font-size:27px;font-weight:600;letter-spacing:-.02em}
+.stat s{display:block;text-decoration:none;font-size:11px;color:var(--ink-3);margin-top:2px}
+.bars{margin-top:6px}
+.bar{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.bar .lb{font-size:11.5px;color:var(--ink-2);width:96px;flex:none;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .tr{flex:1;height:7px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar .tr i{display:block;height:100%;background:var(--clause-main);border-radius:4px;transition:width .5s}
+.bar .pc{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);width:34px;text-align:right}
+.empty{text-align:center;padding:40px 20px;color:var(--ink-3);font-size:13px;line-height:1.9}
+.empty .big{font-family:var(--en);font-size:38px;color:var(--line);display:block;margin-bottom:8px}
+
+/* ============ tabbar ============ */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);display:flex;
+  padding:8px 0 calc(8px + env(safe-area-inset-bottom))}
+.tabbar .in{max-width:520px;margin:0 auto;display:flex;width:100%}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
+  font-size:10.5px;color:var(--ink-3);padding:3px 0;position:relative}
+.tab svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round}
+.tab.on{color:var(--ink)}
+.tab .dot{position:absolute;top:1px;right:calc(50% - 18px);min-width:16px;height:16px;
+  border-radius:9px;background:var(--wrong);color:#fff;font-family:var(--mono);font-size:9.5px;
+  display:grid;place-items:center;padding:0 4px}
+.toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom));transform:translateX(-50%);
+  background:var(--ink);color:#fff;padding:11px 18px;border-radius:24px;font-size:12.5px;
+  z-index:60;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,-6px)}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .cl{background-size:100% 3px!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- ===== 学ぶ ===== -->
+  <section class="screen on" id="s-learn">
+    <div class="topbar">
+      <div class="wordmark">Syn<span>tax</span></div>
+      <div class="tagline">Business grammar · B1→B2</div>
+    </div>
+    <div class="card hero">
+      <span class="eyebrow" id="heroLabel">今日の一文</span>
+      <div class="sent" id="heroSent"></div>
+      <div class="ja" id="heroJa"></div>
+      <div class="legend">
+        <span class="lg main"><i></i>主節</span>
+        <span class="lg sub"><i></i>接続・従属節</span>
+        <span class="lg rel"><i></i>関係詞節</span>
+      </div>
+    </div>
+    <div style="margin-top:10px" id="resumeWrap"></div>
+    <div class="h2">23ユニット・240問</div>
+    <div id="unitList"></div>
+    <div style="height:10px"></div>
+  </section>
+
+  <!-- ===== レッスン ===== -->
+  <section class="screen" id="s-lesson">
+    <button class="navback" onclick="go('learn')">← ユニット一覧</button>
+    <div id="lessonHead"></div>
+    <div class="pager" id="lessonPager"></div>
+    <div id="lessonBody"></div>
+    <div class="sticky"><div class="row" id="lessonNav"></div></div>
+  </section>
+
+  <!-- ===== 演習 ===== -->
+  <section class="screen" id="s-quiz">
+    <div class="topbar">
+      <div class="wordmark">演習</div>
+      <div class="tagline">Practice</div>
+    </div>
+    <div id="quizMenu"></div>
+  </section>
+
+  <!-- ===== 出題中 ===== -->
+  <section class="screen" id="s-run">
+    <button class="navback" id="runBack">← 中断する</button>
+    <div class="qhead"><span id="runTitle"></span><span id="runTimer" hidden></span><span id="runCount"></span></div>
+    <div class="qbar"><i id="runBar" style="width:0"></i></div>
+    <div id="runBody"></div>
+    <div class="sticky" id="runFoot"></div>
+  </section>
+
+  <!-- ===== 復習 ===== -->
+  <section class="screen" id="s-review">
+    <div class="topbar">
+      <div class="wordmark">復習</div>
+      <div class="tagline">Weak points</div>
+    </div>
+    <div id="reviewBody"></div>
+  </section>
+
+  <!-- ===== 記録 ===== -->
+  <section class="screen" id="s-stats">
+    <div class="topbar">
+      <div class="wordmark">記録</div>
+      <div class="tagline">Progress</div>
+    </div>
+    <div id="statsBody"></div>
+  </section>
+</div>
+
+<nav class="tabbar"><div class="in">
+  <button class="tab on" data-go="learn"><svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4H10a2 2 0 012 2v13a2 2 0 00-2-2H5.5A1.5 1.5 0 014 15.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H14a2 2 0 00-2 2v13a2 2 0 012-2h4.5a1.5 1.5 0 001.5-1.5z"/></svg>学ぶ</button>
+  <button class="tab" data-go="quiz"><svg viewBox="0 0 24 24"><path d="M9 11l2.5 2.5L20 5"/><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/></svg>演習</button>
+  <button class="tab" data-go="review"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7.5V12l3 2"/></svg>復習<span class="dot" id="reviewDot" hidden>0</span></button>
+  <button class="tab" data-go="stats"><svg viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg>記録</button>
+</div></nav>
+<div class="toast" id="toast"></div>
+<script>
+/* 構文マーク: [[text|main|sub|rel|key]] */
+const UNITS = [
+{
+ id:'u1', tag:'main', tagLabel:'TENSE',
+ title:'現在形と現在進行形',
+ sub:'事実・習慣 vs いま起きていること',
+ points:[
+  {rule:'現在形＝いつも変わらない事実・仕組み・習慣',
+   en:'Our team [[handles|key]] all overseas shipping.',
+   ja:'当社のチームが海外発送をすべて担当しています。',
+   note:'会社の役割、業務プロセス、契約内容など「基本的にそうなっている」ことは現在形。every week / usually / normally と相性がよい。'},
+  {rule:'現在進行形＝いま／この期間だけの一時的な状態',
+   en:'I [[am covering|key]] for Ken [[while he is on leave|sub]].',
+   ja:'ケンが休暇の間、私が代わりを務めています。',
+   note:'「ふだんは違うけれど、今はこう」というときは進行形。this week / at the moment / for now が目印。'},
+  {rule:'状態を表す動詞は進行形にしない',
+   en:'I [[understand|key]] your concern, and we [[need|key]] more time.',
+   ja:'ご懸念は理解しています。もう少し時間が必要です。',
+   note:'know / understand / believe / need / want / agree / own / contain などは進行形にしない。<span class="bad">✕ I am understanding</span> → <span class="good">◯ I understand</span>'},
+  {rule:'進行形は「変化・傾向」も表せる',
+   en:'Demand [[is growing|key]] in Southeast Asia.',
+   ja:'東南アジアで需要が伸びています。',
+   note:'grow / increase / improve / change などは進行形で「いま動いている最中」を表す。プレゼンで数字を説明するときの定番。'},
+  {rule:'時刻が決まった予定は現在形',
+   en:'According to the agenda, the session [[starts|key]] at ten.',
+   ja:'議題によると、セッションは10時開始です。',
+   note:'時刻表・スケジュールのように「決まっている公式の予定」は現在形。start / begin / leave / arrive / open / close でよく使う。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'Our supplier usually ___ within three business days.',
+   ja:'取引先は通常、3営業日以内に返答します。',
+   c:['responds','is responding','respond','has responded'], a:0,
+   why:'usually は習慣を表すので現在形。主語 supplier は三人称単数なので -s が必要です。'},
+  {t:'mcq', q:"Sorry, I can't talk now — I ___ a client call.",
+   ja:'すみません、今は話せません。顧客との電話中です。',
+   c:['take','am taking','took','have taken'], a:1,
+   why:'「今この瞬間」やっていることなので現在進行形。now / at the moment は進行形の合図です。'},
+  {t:'mcq', q:'We ___ that the current deadline is too tight.',
+   ja:'現在の納期は厳しすぎると考えています。',
+   c:['are believing','believe','believing','are believe'], a:1,
+   why:'believe は状態動詞なので進行形にしません。think も「意見」の意味なら現在形（I think that…）です。'},
+  {t:'mcq', q:'This quarter we ___ on cost reduction rather than expansion.',
+   ja:'今期は拡大よりコスト削減に注力しています。',
+   c:['focus','are focusing','focused','have focused'], a:1,
+   why:'this quarter＝「この期間だけ」の一時的な方針なので進行形。ふだんの方針なら We focus on… となります。'},
+  {t:'order', ja:'彼女は今週、ロンドン支社で研修を受けています。',
+   a:['She','is','attending','training','at','the','London','office','this','week'],
+   why:'this week の一時的な状況なので is attending。attend training で「研修を受ける」。'},
+  {t:'order', ja:'私たちの部署は毎月、進捗報告書を提出します。',
+   a:['Our','department','submits','a','progress','report','every','month'],
+   why:'every month の習慣なので現在形。department は三人称単数なので submits。'}
+ ]
+},
+{
+ id:'u2', tag:'main', tagLabel:'TENSE',
+ title:'過去形と現在完了',
+ sub:'「終わった話」か「今につながる話」か',
+ points:[
+  {rule:'過去形＝過去の一点。今とは切り離された話',
+   en:'We [[launched|key]] the service [[in March|sub]].',
+   ja:'3月にそのサービスを開始しました。',
+   note:'yesterday / last week / in 2023 / two days ago のように「終わった時」が示されたら必ず過去形。'},
+  {rule:'現在完了＝過去の出来事を「今」の話として伝える',
+   en:'[[We have already sent the invoice|main]], [[so please check your inbox|main]].',
+   ja:'請求書はもう送付済みですので、受信箱をご確認ください。',
+   note:'already / just / yet / so far は現在完了の目印。「だから今どうなのか」を伝えたいときに使う。'},
+  {rule:'現在完了は「終わった時」と一緒に使えない',
+   en:'<span class="bad">✕ I have sent it yesterday.</span> → <span class="good">◯ I sent it yesterday.</span>',
+   ja:'',
+   note:'これは日本人が最も落としやすいポイント。yesterday, last Friday, in 2020 が文中にあれば自動的に過去形を選ぶ。'},
+  {rule:'継続は have + 過去分詞 + since / for',
+   en:'[[I have worked with them|main]] [[since 2019|sub]].',
+   ja:'2019年から彼らと仕事をしています。',
+   note:'since＝起点（since 2019, since I joined）、for＝期間（for three years）。動作の継続を強調するなら have been working も可。'},
+  {rule:'過去完了＝過去のある時点より、さらに前',
+   en:'[[By the time I joined|sub]], [[they had already finalized the contract|main]].',
+   ja:'私が入社した時点で、彼らはすでに契約を締結していました。',
+   note:'過去の話が2つあり、前後関係をはっきりさせたいときだけ使う。基準になる過去（joined）＋その前（had finalized）。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'I ___ the report to you last Friday.',
+   ja:'先週の金曜日に報告書をお送りしました。',
+   c:['have sent','sent','had sent','send'], a:1,
+   why:'last Friday という終わった時点が示されているので過去形。現在完了は使えません。'},
+  {t:'mcq', q:'We ___ each other since the Osaka trade show.',
+   ja:'大阪の展示会以来の付き合いです。',
+   c:['know','knew','have known','had known'], a:2,
+   why:'since ～＝過去から今まで続いているので現在完了。know は状態動詞なので have been knowing とはしません。'},
+  {t:'mcq', q:'___ the minutes yet?',
+   ja:'議事録はもう仕上がりましたか。',
+   c:['Did you finish','Have you finished','Are you finishing','Had you finished'], a:1,
+   why:'yet は「今の時点でもう〜したか」を尋ねる語なので現在完了と組みます。'},
+  {t:'mcq', q:'When I arrived at the office, the meeting ___.',
+   ja:'私が出社したとき、会議はすでに始まっていました。',
+   c:['already started','has already started','had already started','was already start'], a:2,
+   why:'arrived（過去）より前の出来事なので過去完了 had + 過去分詞。'},
+  {t:'order', ja:'私たちはその会社と3年間取引をしています。',
+   a:['We','have','been','doing','business','with','that','company','for','three','years'],
+   why:'for three years の継続。動作の継続を強調する現在完了進行形 have been doing がぴったりです。'},
+  {t:'order', ja:'私が入社する前に、彼らはすでに決定していました。',
+   a:['They','had','already','decided','before','I','joined','the','company'],
+   why:'joined（過去）より前なので had decided。already は had と過去分詞の間に置きます。'}
+ ]
+},
+{
+ id:'u3', tag:'main', tagLabel:'TENSE',
+ title:'未来の言い分け',
+ sub:'will / be going to / 進行形 / be due to',
+ points:[
+  {rule:'will＝その場で決めたこと・申し出・約束',
+   en:'[[I will send you the revised file right away|main]].',
+   ja:'修正版をすぐにお送りします。',
+   note:'相手の話を聞いて「では〜します」と応じる場面はいつも will。I\'ll check / I\'ll get back to you は定型表現。'},
+  {rule:'be going to＝すでに決めている予定・根拠のある予測',
+   en:'[[We are going to expand into Vietnam|main]] [[next year|sub]].',
+   ja:'来年ベトナムに進出する予定です。',
+   note:'「もう社内で決まっている」なら be going to。目の前の証拠から予測するときも使う（Look at these numbers — we\'re going to miss the target.）'},
+  {rule:'現在進行形＝人と約束済みの個人的な予定',
+   en:'[[I am meeting the client|main]] [[at three tomorrow|sub]].',
+   ja:'明日3時に顧客と会うことになっています。',
+   note:'カレンダーに入っている確定予定。相手のいるアポイントで特に自然。'},
+  {rule:'時・条件の副詞節では未来形を使わない',
+   en:'[[I will call you|main]] [[as soon as I arrive|sub]].',
+   ja:'到着したらすぐにお電話します。',
+   note:'when / after / before / as soon as / until / if の後ろは現在形。<span class="bad">✕ as soon as I will arrive</span>'},
+  {rule:'be due to / be scheduled to＝公式に予定されている',
+   en:'[[The contract is due to expire|main]] [[at the end of next month|sub]].',
+   ja:'契約は来月末で失効する予定です。',
+   note:'メールや報告書で使うとフォーマルな響きになる。be about to は「まさに今〜しようとしている」。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'Please call me as soon as you ___ the file.',
+   ja:'ファイルを受け取ったらすぐご連絡ください。',
+   c:['will receive','receive','are receiving','received'], a:1,
+   why:'as soon as が導く時の副詞節では、未来の内容でも現在形を使います。'},
+  {t:'mcq', q:'Look at these figures — we ___ miss the target.',
+   ja:'この数字を見てください。目標未達になりそうです。',
+   c:['will','are going to','are miss','would'], a:1,
+   why:'目の前の根拠（数字）にもとづく予測なので be going to が自然です。'},
+  {t:'mcq', q:'A: We need one more copy.  B: OK, I ___ one now.',
+   ja:'A: もう1部必要です。B: 了解、今すぐ用意します。',
+   c:['am printing','will print','am going to print','print'], a:1,
+   why:'その場で決めた行動なので will。be going to は事前に決めていた場合に使います。'},
+  {t:'mcq', q:"I ___ the CEO at ten tomorrow — it's already in my calendar.",
+   ja:'明日10時にCEOと面会予定です。すでに予定表に入っています。',
+   c:['meet','am meeting','will meet','would meet'], a:1,
+   why:'相手と約束済みの確定予定は現在進行形で表せます。'},
+  {t:'order', ja:'契約は来月末で失効する予定です。',
+   a:['The','contract','is','due','to','expire','at','the','end','of','next','month'],
+   why:'be due to + 動詞の原形で「〜する予定である」。フォーマルな文書で頻出です。'},
+  {t:'order', ja:'来週の月曜日に大阪支社を訪問する予定です。',
+   a:['I','will','be','visiting','the','Osaka','office','next','Monday'],
+   why:'will be doing は「予定として自然にそうなる」という控えめな未来。ビジネスでは丁寧に響きます。'}
+ ]
+},
+{
+ id:'u4', tag:'sub', tagLabel:'LINKING',
+ title:'因果と逆接をつなぐ',
+ sub:'because / so / although / however の使い分け',
+ points:[
+  {rule:'理由：because・since・as ＋ 文／ due to・because of ＋ 名詞',
+   en:'[[The launch was delayed|main]] [[due to a supplier issue|sub]].',
+   ja:'仕入先の問題により、発売が遅れました。',
+   note:'後ろが「主語＋動詞」なら because、名詞のかたまりなら due to / because of。<span class="bad">✕ due to the supplier had a problem</span>'},
+  {rule:'結果：so ＋ 文／therefore・as a result は副詞',
+   en:'[[The cost increased|main]]; [[therefore, we revised the quotation|main]].',
+   ja:'コストが上がったため、見積もりを修正しました。',
+   note:'therefore は接続詞ではないので、2文をつなぐならセミコロンかピリオドが必要。so なら1文でつなげる。'},
+  {rule:'逆接：although・though・even though ＋ 文／despite・in spite of ＋ 名詞',
+   en:'[[Although the price is high|sub]], [[the quality is much better|main]].',
+   ja:'価格は高いものの、品質ははるかに優れています。',
+   note:'<span class="bad">✕ Although ~, but ~</span> は不可。日本語の「〜だが」につられやすい典型ミス。'},
+  {rule:'however は「しかし」だが接続詞ではない',
+   en:'[[We reduced the price|main]]. [[However, sales did not improve|main]].',
+   ja:'値下げをしました。しかし売上は改善しませんでした。',
+   note:'however は文頭・文中に置き、前後をコンマで区切る。but のように2文を直接つなぐことはできない。'},
+  {rule:'書き言葉と話し言葉のトーン',
+   en:'so → therefore ／ but → however ／ also → in addition',
+   ja:'',
+   note:'左が会話、右がメール・報告書向け。同じ意味でも語を変えるだけでフォーマル度が上がる。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'___ the heavy rain, the delivery arrived on time.',
+   ja:'大雨にもかかわらず、配送は時間どおりに到着しました。',
+   c:['Although','Despite','However','Because'], a:1,
+   why:'後ろが the heavy rain という名詞なので despite。文が続くなら Although it rained heavily となります。'},
+  {t:'mcq', q:'The project was postponed ___ a budget shortage.',
+   ja:'予算不足のため、プロジェクトは延期されました。',
+   c:['because','due to','so','although'], a:1,
+   why:'a budget shortage は名詞のかたまり。because を使うなら because the budget was short です。'},
+  {t:'mcq', q:'We lowered the price; ___, sales remained flat.',
+   ja:'値下げをしましたが、売上は横ばいのままでした。',
+   c:['however','although','despite','because'], a:0,
+   why:'セミコロンの後に副詞 however を置く形。although はここでは文構造に合いません。'},
+  {t:'mcq', q:'___ we increased the budget, the results were disappointing.',
+   ja:'予算を増やしたにもかかわらず、結果は期待外れでした。',
+   c:['Despite','In spite of','Although','Therefore'], a:2,
+   why:'後ろが we increased… という文なので although。despite / in spite of の後ろには名詞しか置けません。'},
+  {t:'order', ja:'システム障害のため、出荷が2日遅れました。',
+   a:['The','shipment','was','delayed','by','two','days','due','to','a','system','failure'],
+   why:'due to の後ろは名詞句 a system failure。be delayed by + 期間で「〜だけ遅れる」。'},
+  {t:'order', ja:'価格は高いものの、品質ははるかに優れています。',
+   a:['Although','the','price','is','high','the','quality','is','much','better'],
+   full:'Although the price is high, the quality is much better.',
+   why:'Although 節を前に置き、コンマで区切って主節へ。but を足さないのがポイントです。'}
+ ]
+},
+{
+ id:'u5', tag:'sub', tagLabel:'LINKING',
+ title:'対比・追加・条件',
+ sub:'while / unless / in case / as long as',
+ points:[
+  {rule:'追加：in addition (to) / moreover / besides',
+   en:'[[The system is faster|main]]. [[In addition, it costs less to maintain|main]].',
+   ja:'そのシステムは高速です。さらに維持費も安く済みます。',
+   note:'in addition to の後ろは名詞または動名詞（In addition to reducing costs, …）。in addition 単独なら文頭でコンマ。'},
+  {rule:'対比：while / whereas＝一方で',
+   en:'[[Sales grew in Asia|main]], [[whereas they fell in Europe|sub]].',
+   ja:'アジアでは売上が伸びた一方、欧州では減少しました。',
+   note:'2つの事実を並べて比べる言い方。数字の説明で非常に使える。while は「〜の間に」の意味もあるので文脈で判断。'},
+  {rule:'条件：unless＝if not（〜しない限り）',
+   en:'[[Unless you confirm by Friday|sub]], [[we will cancel the reservation|main]].',
+   ja:'金曜までにご確認いただけない場合、予約を取り消します。',
+   note:'unless の中に not を入れない。<span class="bad">✕ unless you don\'t confirm</span>'},
+  {rule:'条件：as long as / provided that＝〜という条件なら',
+   en:'[[We can start next week|main]] [[as long as the budget is approved|sub]].',
+   ja:'予算が承認されれば、来週から着手できます。',
+   note:'交渉で条件を出すときの定番。provided that はよりフォーマル。'},
+  {rule:'in case＝〜の場合に備えて（予防）',
+   en:'[[Bring an extra copy|main]] [[in case the client asks for one|sub]].',
+   ja:'顧客が求める場合に備えて、予備を1部持参してください。',
+   note:'if は「もし起きたら」、in case は「起きるかもしれないから先に準備する」。意味がずれるので要注意。'},
+  {rule:'if 節の中では will を使わない',
+   en:'[[If we lower the price|sub]], [[we will attract more customers|main]].',
+   ja:'値下げすれば、より多くの顧客を獲得できるでしょう。',
+   note:'条件節は現在形、主節が will。<span class="bad">✕ If we will lower the price</span>'}
+ ],
+ quiz:[
+  {t:'mcq', q:'___ you confirm by Friday, we will cancel the reservation.',
+   ja:'金曜までにご確認いただけない場合、予約を取り消します。',
+   c:['If','Unless','In case','As long as'], a:1,
+   why:'unless＝if not。「確認がなければ取り消す」という否定条件を1語で表せます。'},
+  {t:'mcq', q:'Our sales grew in Asia, ___ they fell in Europe.',
+   ja:'アジアでは売上が伸びた一方、欧州では減りました。',
+   c:['whereas','because','unless','therefore'], a:0,
+   why:'2つの事実の対比なので whereas。therefore は結果を表すので意味が合いません。'},
+  {t:'mcq', q:'Please take an extra copy ___ the client asks for one.',
+   ja:'顧客が求める場合に備えて、予備を持って行ってください。',
+   c:['if','in case','unless','so that'], a:1,
+   why:'「起きるかもしれないから前もって準備する」は in case。if だと「求められたらそのとき取る」になります。'},
+  {t:'mcq', q:'We can meet the deadline ___ the specifications do not change.',
+   ja:'仕様が変わらない限り、納期は守れます。',
+   c:['as long as','in case','whereas','despite'], a:0,
+   why:'条件を示す as long as。provided that も同じ意味で使えます。'},
+  {t:'order', ja:'値下げをすれば、より多くの顧客を獲得できるでしょう。',
+   a:['If','we','lower','the','price','we','will','attract','more','customers'],
+   full:'If we lower the price, we will attract more customers.',
+   why:'if 節は現在形 lower、主節は will attract。if の中に will を入れないのが鉄則です。'},
+  {t:'order', ja:'コスト削減に加えて、この方式は時間も節約します。',
+   a:['In','addition','to','reducing','costs','this','method','saves','time'],
+   full:'In addition to reducing costs, this method saves time.',
+   why:'in addition to の to は前置詞なので、後ろは動名詞 reducing になります。'}
+ ]
+},
+{
+ id:'u6', tag:'rel', tagLabel:'RELATIVE',
+ title:'関係代名詞の基本',
+ sub:'who / which / that と省略',
+ points:[
+  {rule:'主格：後ろに動詞が続く（人=who、物=which、両方=that）',
+   en:'[[The engineer|main]] [[who designed the system|rel]] [[will join us|main]].',
+   ja:'そのシステムを設計したエンジニアが参加します。',
+   note:'関係代名詞は「名詞の直後に置いて、その名詞を説明する文をつなぐ」働き。who の後ろは主語がないまま動詞が来る。'},
+  {rule:'目的格：後ろに「主語＋動詞」が続く。省略できる',
+   en:'[[The report|main]] [[(that) I sent yesterday|rel]] [[has an error|main]].',
+   ja:'昨日お送りした報告書に誤りがあります。',
+   note:'話し言葉では省略が普通。逆に言えば「名詞＋主語＋動詞」と並んでいたら関係代名詞が省略されている。'},
+  {rule:'関係代名詞の後ろは必ず「不完全な文」',
+   en:'<span class="bad">✕ The client who I met him was kind.</span> → <span class="good">◯ The client who I met was kind.</span>',
+   ja:'',
+   note:'him を残すのは日本人に多いミス。who / which がすでに「その人・その物」の役をしているので、代名詞を重ねない。'},
+  {rule:'that が好まれる場面',
+   en:'[[Everything|main]] [[that you need|rel]] [[is in the shared folder|main]].',
+   ja:'必要なものはすべて共有フォルダにあります。',
+   note:'everything / anything / all / the only / 最上級の後ろは that が自然。'},
+  {rule:'長い説明は「名詞のうしろ」に置く',
+   en:'[[We are looking for a partner|main]] [[who can support us in Asia|rel]].',
+   ja:'アジアで支援してくれるパートナーを探しています。',
+   note:'日本語は「アジアで支援してくれる」を先に言うが、英語は名詞を先に出して後ろから説明する。話すときの語順の切り替えがカギ。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'The supplier ___ we visited last month has raised its prices.',
+   ja:'先月訪問した仕入先が値上げをしました。',
+   c:['who','which','whose','what'], a:1,
+   why:'supplier は会社（物扱い）で、後ろが we visited と主語＋動詞なので目的格の which。that でも省略でも可です。'},
+  {t:'mcq', q:'I would like to introduce the colleague ___ will take over this project.',
+   ja:'このプロジェクトを引き継ぐ同僚をご紹介します。',
+   c:['who','which','whom','whose'], a:0,
+   why:'人が先行詞で、後ろに動詞 will take が続くので主格の who。'},
+  {t:'mcq', q:'The proposal ___ he submitted last week was approved.',
+   ja:'彼が先週提出した提案が承認されました。',
+   c:['which it','what','which','who'], a:2,
+   why:'目的格の which。submitted の目的語は which が兼ねているので、後ろに it を置くと重複になります。'},
+  {t:'mcq', q:'Everything ___ you need is in the shared folder.',
+   ja:'必要なものはすべて共有フォルダにあります。',
+   c:['what','that','who','whose'], a:1,
+   why:'everything のような語の後ろは that が自然。what は先行詞を含む語なので、前に名詞があるときは使えません。'},
+  {t:'order', ja:'これは私たちが昨年開発したシステムです。',
+   a:['This','is','the','system','that','we','developed','last','year'],
+   why:'the system を that we developed last year が後ろから説明します。that は省略も可能です。'},
+  {t:'order', ja:'会議に遅れた社員は謝罪しました。',
+   a:['The','employee','who','was','late','for','the','meeting','apologized'],
+   why:'who was late for the meeting が The employee を説明し、文全体の動詞は apologized。主語が長くなる形に慣れましょう。'}
+ ]
+},
+{
+ id:'u7', tag:'rel', tagLabel:'RELATIVE',
+ title:'関係詞の応用',
+ sub:'whose・前置詞＋which・非制限用法',
+ points:[
+  {rule:'whose＝「その〜の」。後ろに名詞が続く',
+   en:'[[We work with a firm|main]] [[whose headquarters are in Singapore|rel]].',
+   ja:'本社がシンガポールにある会社と取引しています。',
+   note:'whose の直後は必ず名詞（whose CEO / whose products / whose deadline）。人にも会社にも使える。'},
+  {rule:'前置詞＋関係代名詞（フォーマル）',
+   en:'[[This is the report|main]] [[on which our decision was based|rel]].',
+   ja:'これが私たちの判断の根拠となった報告書です。',
+   note:'会話では the report which our decision was based on と、前置詞を後ろに回すのが普通。文書では前に出すと格調が上がる。'},
+  {rule:'非制限用法：コンマ＋who / which（that は不可）',
+   en:'[[Our CEO|main]], [[who joined last year|rel]], [[is from Canada|main]].',
+   ja:'当社のCEOは昨年入社し、カナダ出身です。',
+   note:'コンマがあると「補足情報」。コンマがないと「どのCEOかを限定する」意味になる。<span class="bad">✕ Our CEO, that joined…</span>'},
+  {rule:'which は前の文全体を受けられる',
+   en:'[[He met the deadline|main]], [[which impressed the client|rel]].',
+   ja:'彼は納期を守り、そのことが顧客に好印象を与えました。',
+   note:'「そしてそれが〜」と話をつなぐ便利な形。会議のコメントで即使える。<span class="bad">✕ , what impressed…</span>'},
+  {rule:'where / when＝場所・時を説明する',
+   en:'[[This is the room|main]] [[where we hold weekly meetings|rel]].',
+   ja:'ここが毎週の会議を行う部屋です。',
+   note:'where の後ろは完全な文（主語＋動詞＋目的語がそろう）。which なら in which となる点が違い。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'We work with a firm ___ headquarters are in Singapore.',
+   ja:'本社がシンガポールにある会社と取引しています。',
+   c:['which','that','whose','where'], a:2,
+   why:'後ろに headquarters という名詞が続くので whose。「その会社の本社」という所有の関係です。'},
+  {t:'mcq', q:'Our CEO, ___ joined the company last year, is from Canada.',
+   ja:'当社のCEOは昨年入社し、カナダ出身です。',
+   c:['that','who','which','whom'], a:1,
+   why:'コンマ付きの非制限用法では that は使えません。人が先行詞なので who。'},
+  {t:'mcq', q:'He arrived thirty minutes late, ___ annoyed the client.',
+   ja:'彼は30分遅刻し、そのことが顧客を苛立たせました。',
+   c:['what','which','that','who'], a:1,
+   why:'前の文の内容全体を受ける which。この用法で what や that は使えません。'},
+  {t:'mcq', q:'This is the room ___ we hold our weekly meetings.',
+   ja:'ここが毎週の会議を行う部屋です。',
+   c:['which','where','that','what'], a:1,
+   why:'後ろが we hold our weekly meetings と完全な文なので where。which を使うなら in which です。'},
+  {t:'order', ja:'これが私たちの判断の根拠となった報告書です。',
+   a:['This','is','the','report','on','which','our','decision','was','based'],
+   why:'be based on ～ の on が関係代名詞の前に出た形。書き言葉でよく見る構造です。'},
+  {t:'order', ja:'彼女は納期を守り、それが顧客を感心させました。',
+   a:['She','met','the','deadline','which','impressed','the','client'],
+   full:'She met the deadline, which impressed the client.',
+   why:'コンマ＋which で「そしてそれが〜」。前の文全体が which の指す内容です。'}
+ ]
+},
+{
+ id:'u8', tag:'sub', tagLabel:'MODALS',
+ title:'丁寧さと仮定法',
+ sub:'依頼・提案・後悔をやわらかく伝える',
+ points:[
+  {rule:'依頼は過去形にするほど丁寧になる',
+   en:'[[I was wondering if you could send me the agenda|main]].',
+   ja:'議題をお送りいただけないかと思いまして。',
+   note:'Can you → Could you → Would you mind → I was wondering if you could の順に丁寧。was wondering と過去進行形にするのが決まり文句。'},
+  {rule:'断定を避ける might / may / should',
+   en:'[[There might be a slight delay|main]] [[in the delivery|sub]].',
+   ja:'配送に少し遅れが出る可能性があります。',
+   note:'will be a delay と言い切るより角が立たない。ビジネスでは「断定を薄める」だけで印象が変わる。'},
+  {rule:'仮定法過去：現在の事実と違う想定（were を使う）',
+   en:'[[If I were you|sub]], [[I would talk to the manager first|main]].',
+   ja:'私があなたなら、まず上司に相談します。',
+   note:'主語が I / he でも were。助言の定型として丸暗記でよい。'},
+  {rule:'仮定法過去完了：過去のやり直せない話',
+   en:'[[If we had received the data earlier|sub]], [[we could have met the deadline|main]].',
+   ja:'もっと早くデータを受け取っていれば、納期に間に合ったのですが。',
+   note:'形は「If + had + 過去分詞, would/could have + 過去分詞」。振り返りの会議で頻出。'},
+  {rule:'should have＝〜すべきだった（反省）',
+   en:'[[We should have informed the client sooner|main]].',
+   ja:'もっと早く顧客に伝えるべきでした。',
+   note:'could have＝できたのにしなかった／would have＝そうしていただろう。責任を認めつつ前向きに使う。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'I ___ wondering if you could review the draft today.',
+   ja:'本日中に草案をご確認いただけないかと思いまして。',
+   c:['am','was','have','would'], a:1,
+   why:'I was wondering if you could … は丁寧な依頼の決まり文句。過去形にすることで控えめな響きになります。'},
+  {t:'mcq', q:'If I ___ you, I would raise this issue at the meeting.',
+   ja:'私があなたなら、この件を会議で提起します。',
+   c:['am','was','were','will be'], a:2,
+   why:'仮定法過去では主語が I でも were を使うのが標準。助言の定型表現です。'},
+  {t:'mcq', q:'If we had received the data earlier, we ___ the deadline.',
+   ja:'もっと早くデータを受け取っていれば、納期に間に合ったのですが。',
+   c:['could meet','can meet','could have met','had met'], a:2,
+   why:'過去の事実と違う想定なので could have + 過去分詞。If 節は had received です。'},
+  {t:'mcq', q:'We ___ have informed the client sooner. I take responsibility.',
+   ja:'もっと早く顧客に伝えるべきでした。責任は私にあります。',
+   c:['should','will','can','must'], a:0,
+   why:'should have + 過去分詞で「〜すべきだった」。過去の判断への反省を表します。'},
+  {t:'order', ja:'金曜までにご回答いただくことは可能でしょうか。',
+   a:['Would','it','be','possible','to','give','us','your','answer','by','Friday'],
+   why:'Would it be possible to … ? は非常に丁寧な依頼。Can you より角が立ちません。'},
+  {t:'order', ja:'もっと早く知っていたら、別の方法を選んでいたでしょう。',
+   a:['If','we','had','known','earlier','we','would','have','chosen','another','way'],
+   full:'If we had known earlier, we would have chosen another way.',
+   why:'If + had + 過去分詞 → would have + 過去分詞。過去のやり直せない仮定の基本形です。'}
+ ]
+}
+,
+{
+ id:'u9', tag:'word', tagLabel:'FORM', sec:2,
+ title:'品詞を見抜く',
+ sub:'空所の前後だけで正解を決める',
+ points:[
+  {rule:'名詞の位置：冠詞・所有格・前置詞の直後',
+   en:'[[The company announced|main]] the [[expansion|key]] [[of its Asian operations|sub]].',
+   ja:'同社はアジア事業の拡大を発表しました。',
+   note:'-tion / -ment / -ance / -ity / -ness は名詞の合図。expand（動）→ expansion（名）→ expansive（形）→ expansively（副）と family で覚えると Part 5 が速くなる。'},
+  {rule:'形容詞の位置：名詞の前、be・become・remain の後',
+   en:'[[The board approved a significant increase|main]] [[in the budget|sub]].',
+   ja:'取締役会は予算の大幅な増額を承認しました。',
+   note:'-able / -ive / -ous / -ful / -al / -ic は形容詞。名詞の前が空所なら、まず形容詞を疑う。'},
+  {rule:'文の要素がそろっているのに空所があれば副詞',
+   en:'[[Sales increased|main]] [[steadily|key]] [[after the campaign|sub]].',
+   ja:'キャンペーン後、売上は着実に伸びました。',
+   note:'S＋V（＋O）が完成していて、それでも空所があるなら答えは -ly の副詞。この判断だけで Part 5 の数問が即答できる。'},
+  {rule:'人か物か：-er / -or / -ee vs -tion / -ance',
+   en:'[[Please contact the distributor|main]] [[for further details|sub]].',
+   ja:'詳細は販売代理店までご連絡ください。',
+   note:'applicant（応募者）/ application（応募）、employer / employee / employment、consultant / consultation。文脈が人を求めているか物事を求めているかで選ぶ。'},
+  {rule:'名詞＋名詞の複合名詞に注意',
+   en:'[[Please submit your expense report|main]] [[by the end of the month|sub]].',
+   ja:'経費報告書は月末までにご提出ください。',
+   note:'safety regulations / customer satisfaction / production facility / sales representative。名詞の前が空所でも、形容詞ではなく名詞が正解のことがある。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'The board approved a ___ increase in the marketing budget.',
+   ja:'取締役会はマーケティング予算の大幅な増額を承認しました。',
+   c:['significance','significant','significantly','signify'], a:1,
+   why:'increase という名詞の前なので形容詞 significant。名詞の直前は形容詞、が原則です。'},
+  {t:'mcq', q:'Our revenue grew ___ during the third quarter.',
+   ja:'第3四半期に売上は着実に伸びました。',
+   c:['steady','steadily','steadiness','steadier'], a:1,
+   why:'Our revenue grew で文が完成しているので、動詞を修飾する副詞 steadily。'},
+  {t:'mcq', q:'The ___ of the new plant will take about eighteen months.',
+   ja:'新工場の建設には約18か月かかります。',
+   c:['construct','constructive','construction','constructively'], a:2,
+   why:'The と of にはさまれた位置は名詞。construction が正解です。'},
+  {t:'mcq', q:'The proposal was ___ received by the client.',
+   ja:'その提案は顧客に好意的に受け止められました。',
+   c:['favor','favorable','favorably','favorite'], a:2,
+   why:'was received という動詞のかたまりを修飾するので副詞 favorably。受動態の間に入るのは副詞です。'},
+  {t:'mcq', q:'Please refer to the attached ___ for detailed pricing.',
+   ja:'詳細な価格については添付の仕様書をご覧ください。',
+   c:['specify','specific','specification','specifically'], a:2,
+   why:'the attached ___ と冠詞＋形容詞の後ろなので名詞 specification。'},
+  {t:'mcq', q:'All ___ are required to complete the safety training.',
+   ja:'全従業員が安全研修を修了する必要があります。',
+   c:['employ','employee','employees','employment'], a:2,
+   why:'All の後ろは可算名詞の複数形。動詞が are なので複数の employees です。'},
+  {t:'order', ja:'経費報告書は月末までにご提出ください。',
+   a:['Please','submit','your','expense','report','by','the','end','of','the','month'],
+   why:'expense report は名詞＋名詞の複合名詞。expensive report とはしません。'},
+  {t:'order', ja:'新製品は驚くほど好意的に受け止められました。',
+   a:['The','new','product','was','received','surprisingly','well'],
+   why:'was received を修飾するのが副詞 surprisingly well。副詞が副詞を修飾する形です。'}
+ ]
+},
+{
+ id:'u10', tag:'sub', tagLabel:'PREP/CONJ', sec:2,
+ title:'前置詞か接続詞か',
+ sub:'during / while、because of / because',
+ points:[
+  {rule:'前置詞の後ろは名詞、接続詞の後ろは文',
+   en:'[[During the meeting|sub]], [[we reviewed the figures|main]].',
+   ja:'会議中に数字を確認しました。',
+   note:'While we were meeting, the client called. のように「主語＋動詞」が続くなら接続詞 while。空所の後ろを見るだけで半分は解ける。'},
+  {rule:'ペアで覚える',
+   en:'during ↔ while ／ because of ↔ because ／ despite ↔ although ／ owing to ↔ since',
+   ja:'',
+   note:'左が前置詞（＋名詞）、右が接続詞（＋文）。TOEIC Part 5 では両方が選択肢に並ぶので、後ろの形で即決する。'},
+  {rule:'that がつくと接続詞になる語',
+   en:'[[Now that the budget has been approved|sub]], [[we can move forward|main]].',
+   ja:'予算が承認されたので、先に進めます。',
+   note:'now that / given that / provided that / in that。given だけなら前置詞（Given the circumstances, …）。'},
+  {rule:'by（期限）と until（継続）の違い',
+   en:'[[Please reply by Friday|main]]. [[The office is closed until Monday|main]].',
+   ja:'金曜までにご返信ください。／ 月曜まで閉office です。',
+   note:'by は「その時までに1回やる」、until は「その時までずっと続く」。submit by / remain closed until のように動詞とセットで覚える。'},
+  {rule:'前置詞の後ろの動詞は必ず動名詞',
+   en:'[[Thank you for providing the updated data|main]].',
+   ja:'最新データをご提供いただきありがとうございます。',
+   note:'before / after / by / without / in addition to / look forward to の後ろは -ing。<span class="bad">✕ Thank you for provide</span>'}
+ ],
+ quiz:[
+  {t:'mcq', q:'___ the negotiation, both sides remained calm.',
+   ja:'交渉の間、双方とも冷静でした。',
+   c:['While','During','Although','Because'], a:1,
+   why:'後ろが the negotiation という名詞なので前置詞 during。while なら while they were negotiating と文が必要です。'},
+  {t:'mcq', q:'The event was postponed ___ the typhoon warning.',
+   ja:'台風警報のため、イベントは延期されました。',
+   c:['because','because of','although','while'], a:1,
+   why:'the typhoon warning は名詞句なので because of。because を使うなら because a typhoon warning was issued です。'},
+  {t:'mcq', q:'Please submit the final version ___ Friday at five.',
+   ja:'最終版は金曜5時までにご提出ください。',
+   c:['by','until','since','during'], a:0,
+   why:'締め切りを表すのは by。until は「その時まで継続する」動作に使います。'},
+  {t:'mcq', q:'The office will remain closed ___ further notice.',
+   ja:'追って通知があるまで、オフィスは閉鎖されたままです。',
+   c:['by','until','during','for'], a:1,
+   why:'remain closed という状態が続くので until。until further notice は定型表現です。'},
+  {t:'mcq', q:'___ that the budget has been approved, we can proceed.',
+   ja:'予算が承認された以上、先に進められます。',
+   c:['Now','Even','Despite','During'], a:0,
+   why:'now that ＋文で「今や〜なので」。that がつくことで接続詞になります。'},
+  {t:'mcq', q:'Thank you for ___ us with the updated figures.',
+   ja:'最新の数字をご提供いただきありがとうございます。',
+   c:['provide','provided','providing','provision'], a:2,
+   why:'for は前置詞なので、後ろの動詞は動名詞 providing になります。'},
+  {t:'order', ja:'台風警報のため、イベントは延期されました。',
+   a:['The','event','was','postponed','because','of','the','typhoon','warning'],
+   why:'because of の後ろは名詞句。前置詞と接続詞の区別が問われる典型パターンです。'},
+  {t:'order', ja:'予算が承認された今、次の段階に進むことができます。',
+   a:['Now','that','the','budget','has','been','approved','we','can','move','forward'],
+   full:'Now that the budget has been approved, we can move forward.',
+   why:'now that ＋ 主語＋動詞。接続詞として文をつなぎ、コンマの後に主節が来ます。'}
+ ]
+},
+{
+ id:'u11', tag:'word', tagLabel:'AGREEMENT', sec:2,
+ title:'主語と動詞の一致',
+ sub:'each / one of / a number of',
+ points:[
+  {rule:'主語と動詞の間の修飾語に惑わされない',
+   en:'[[The list of approved suppliers|main]] [[has been updated|main]].',
+   ja:'承認済み取引先のリストが更新されました。',
+   note:'主語は list（単数）。of approved suppliers は飾りにすぎない。TOEIC は必ずこの「間に挟む」形で出題する。'},
+  {rule:'each / every / either / neither は単数扱い',
+   en:'[[Each of the departments submits|main]] [[a monthly report|main]].',
+   ja:'各部署が月次報告書を提出します。',
+   note:'Each of the + 複数名詞 + 単数動詞。every も同じ。neither A nor B は B に一致させる。'},
+  {rule:'a number of は複数、the number of は単数',
+   en:'A number of clients [[have|key]] requested a discount. The number of complaints [[has|key]] decreased.',
+   ja:'多くの顧客が値引きを求めています。／ 苦情の件数は減少しました。',
+   note:'a number of＝many（複数）、the number of＝件数そのもの（単数）。1文字違いで動詞が変わる頻出ポイント。'},
+  {rule:'one of the ＋ 複数名詞 ＋ 単数動詞',
+   en:'[[One of our engineers is visiting the site|main]] [[tomorrow|sub]].',
+   ja:'エンジニアの一人が明日現場を訪問します。',
+   note:'主語は one。engineers につられて are にしないこと。'},
+  {rule:'不可算・集合名詞は単数扱い',
+   en:'[[The equipment was delivered|main]] [[yesterday|sub]].',
+   ja:'機材は昨日納品されました。',
+   note:'equipment / information / feedback / machinery は単数扱い。staff は集合名詞で、英国式では複数扱いになることもある。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'The list of attendees ___ been finalized.',
+   ja:'出席者リストは確定しました。',
+   c:['have','has','are','were'], a:1,
+   why:'主語は list（単数）。of attendees は修飾語なので動詞は has です。'},
+  {t:'mcq', q:'Each of the branches ___ its own budget.',
+   ja:'各支店が独自の予算を管理しています。',
+   c:['manage','manages','are managing','have managed'], a:1,
+   why:'each は単数扱い。its own という単数の所有格もヒントになります。'},
+  {t:'mcq', q:'A number of employees ___ requested flexible hours.',
+   ja:'多くの従業員がフレックス勤務を希望しています。',
+   c:['has','have','is','was'], a:1,
+   why:'a number of ＝ many なので複数扱い。the number of なら単数で has になります。'},
+  {t:'mcq', q:'The number of customer complaints ___ decreased since March.',
+   ja:'顧客からの苦情件数は3月以降減少しています。',
+   c:['have','has','are','were'], a:1,
+   why:'the number of は「件数」という単数の概念。前問との対比で覚えましょう。'},
+  {t:'mcq', q:'One of the proposals ___ rejected by the committee.',
+   ja:'提案のうち1件は委員会に却下されました。',
+   c:['were','have been','was','are'], a:2,
+   why:'主語は one なので単数。proposals に引きずられないことがポイントです。'},
+  {t:'mcq', q:'Neither the supervisor nor the technicians ___ aware of the change.',
+   ja:'監督者も技術者も、その変更を知りませんでした。',
+   c:['was','were','is','has'], a:1,
+   why:'neither A nor B では、動詞は近いほう（technicians）に合わせます。'},
+  {t:'order', ja:'承認済み取引先のリストは毎月更新されます。',
+   a:['The','list','of','approved','suppliers','is','updated','every','month'],
+   why:'主語 list に合わせて is。of 以下の複数名詞に引きずられないよう注意します。'},
+  {t:'order', ja:'必要な情報はすべてポータルで入手できます。',
+   a:['All','the','information','you','need','is','available','on','the','portal'],
+   why:'information は不可算なので単数扱いで is。you need は information を後ろから説明しています。'}
+ ]
+},
+{
+ id:'u12', tag:'main', tagLabel:'VOICE', sec:2,
+ title:'受動態と使役',
+ sub:'is being done / have it done',
+ points:[
+  {rule:'ビジネス文書は行為者を出さない受動態が基本',
+   en:'[[The contract was signed|main]] [[on Monday|sub]].',
+   ja:'契約書は月曜に締結されました。',
+   note:'誰がやったかより「何が起きたか」を伝える文体。報告書・議事録では受動態のほうが自然に響く。'},
+  {rule:'進行形・完了形の受動態',
+   en:'[[The system is being upgraded|main]] [[this week|sub]].',
+   ja:'システムは今週アップグレード中です。',
+   note:'is being + 過去分詞（されている最中）、has been + 過去分詞（すでにされた）。TOEIC はこの形を必ず問う。'},
+  {rule:'by 以外の前置詞をとる受動表現',
+   en:'[[We are very satisfied with your service|main]].',
+   ja:'御社のサービスに大変満足しています。',
+   note:'be satisfied with / be concerned about / be involved in / be known for / be based on / be related to。丸ごと覚える。'},
+  {rule:'have / get ＋ 目的語 ＋ 過去分詞（〜してもらう）',
+   en:'[[We had the documents translated|main]] [[by an agency|sub]].',
+   ja:'書類は代理店に翻訳してもらいました。',
+   note:'自分でやるのではなく人にやってもらう形。get the car repaired なども同じ。'},
+  {rule:'使役動詞の後ろは原形',
+   en:'The manager had me [[revise|key]] the slides.',
+   ja:'部長は私にスライドを修正させました。',
+   note:'make / let / have ＋ 人 ＋ 動詞の原形。help は原形でも to 不定詞でも可。<span class="bad">✕ had me to revise</span>'}
+ ],
+ quiz:[
+  {t:'mcq', q:'The new policy ___ to all branches last week.',
+   ja:'新方針は先週、全支店に通達されました。',
+   c:['announced','was announced','has announced','announcing'], a:1,
+   why:'方針は「通達される」側なので受動態。last week があるので過去形の was announced です。'},
+  {t:'mcq', q:'The server ___ at the moment, so response times are slow.',
+   ja:'サーバーは現在アップグレード中のため、反応が遅くなっています。',
+   c:['is upgrading','is being upgraded','has upgraded','upgrades'], a:1,
+   why:'「されている最中」は is being + 過去分詞。進行形の受動態です。'},
+  {t:'mcq', q:'We are extremely ___ with the quality of your work.',
+   ja:'御社の仕事の質に大変満足しています。',
+   c:['satisfy','satisfying','satisfied','satisfaction'], a:2,
+   why:'人が満足しているので satisfied。satisfying は「満足させるような」で主語が物のときに使います。'},
+  {t:'mcq', q:'We had the documents ___ into Japanese by a local agency.',
+   ja:'書類は現地の代理店に日本語へ翻訳してもらいました。',
+   c:['translate','translated','translating','translation'], a:1,
+   why:'have + 目的語 + 過去分詞で「〜してもらう」。documents は訳される側です。'},
+  {t:'mcq', q:'The manager had me ___ the presentation before noon.',
+   ja:'部長は私に正午までにプレゼン資料を仕上げさせました。',
+   c:['to finish','finish','finished','finishing'], a:1,
+   why:'使役の have + 人 + 動詞の原形。to は不要です。'},
+  {t:'mcq', q:'All applications must ___ by March 31.',
+   ja:'すべての申請は3月31日までに提出されなければなりません。',
+   c:['submit','be submitted','submitting','been submitted'], a:1,
+   why:'助動詞 must の後ろの受動態は be + 過去分詞。applications は提出される側です。'},
+  {t:'order', ja:'契約書は法務部によって確認されました。',
+   a:['The','contract','was','reviewed','by','the','legal','department'],
+   why:'was + 過去分詞 + by ～ の基本形。行為者を示すときだけ by を使います。'},
+  {t:'order', ja:'その報告書は現在、翻訳されているところです。',
+   a:['The','report','is','being','translated','at','the','moment'],
+   why:'is being + 過去分詞。進行と受動が重なる形で、Part 5 の定番です。'}
+ ]
+},
+{
+ id:'u13', tag:'word', tagLabel:'VERB PATTERN', sec:2,
+ title:'to 不定詞と動名詞',
+ sub:'動詞ごとに決まった型がある',
+ points:[
+  {rule:'to 不定詞をとる動詞',
+   en:'[[We have decided to postpone the launch|main]].',
+   ja:'発売を延期することにしました。',
+   note:'decide / plan / agree / offer / manage / fail / hope / refuse / afford / promise / intend。「これからのこと」を表す動詞が多い。'},
+  {rule:'動名詞をとる動詞',
+   en:'[[We recommend reviewing the terms|main]] [[before signing|sub]].',
+   ja:'署名前に条件を確認することをお勧めします。',
+   note:'avoid / consider / suggest / recommend / finish / postpone / mind / deny / involve。<span class="bad">✕ recommend to review</span>'},
+  {rule:'意味が変わるペア',
+   en:'I stopped [[to check|key]] my email. ／ Please stop [[sending|key]] duplicate invoices.',
+   ja:'メールを確認するために立ち止まった。／ 重複請求書を送るのをやめてください。',
+   note:'stop to do（〜するために止まる）/ stop doing（〜をやめる）。remember to do（忘れずにする）/ remember doing（したのを覚えている）。'},
+  {rule:'to が前置詞のもの',
+   en:'[[I look forward to hearing from you|main]].',
+   ja:'ご返信をお待ちしております。',
+   note:'look forward to / be committed to / be dedicated to / object to / be used to ＋ 動名詞。メールの結びで最頻出。<span class="bad">✕ look forward to hear</span>'},
+  {rule:'目的を表す in order to / so as to',
+   en:'[[We hired a consultant|main]] [[in order to speed up the process|sub]].',
+   ja:'工程を早めるためにコンサルタントを起用しました。',
+   note:'単なる to do より目的が明確になる。否定は in order not to do。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'We have decided ___ the launch until June.',
+   ja:'発売を6月まで延期することにしました。',
+   c:['postponing','to postpone','postpone','postponed'], a:1,
+   why:'decide は to 不定詞をとる動詞です。decide doing とは言いません。'},
+  {t:'mcq', q:'The consultant recommended ___ the pricing structure.',
+   ja:'コンサルタントは価格体系の見直しを勧めました。',
+   c:['to revise','revising','revise','revised'], a:1,
+   why:'recommend は動名詞をとります。recommend that we revise … と that 節にする形も可能です。'},
+  {t:'mcq', q:'I look forward to ___ from you at your earliest convenience.',
+   ja:'ご都合のつき次第、ご連絡をお待ちしております。',
+   c:['hear','hearing','heard','be heard'], a:1,
+   why:'この to は前置詞なので後ろは動名詞 hearing。ビジネスメールで最も多いミスの一つです。'},
+  {t:'mcq', q:'Our team managed ___ the deadline despite the delay.',
+   ja:'遅延にもかかわらず、チームは何とか納期に間に合わせました。',
+   c:['meeting','to meet','meet','met'], a:1,
+   why:'manage to do で「何とか〜する」。manage doing にはこの意味がありません。'},
+  {t:'mcq', q:'Please avoid ___ confidential files by email.',
+   ja:'機密ファイルをメールで送ることは避けてください。',
+   c:['to send','sending','send','sent'], a:1,
+   why:'avoid は動名詞をとる動詞。to 不定詞は続けられません。'},
+  {t:'mcq', q:'We are committed to ___ the highest safety standards.',
+   ja:'当社は最高水準の安全基準を維持することに尽力しています。',
+   c:['maintain','maintaining','maintained','be maintain'], a:1,
+   why:'be committed to の to は前置詞なので動名詞 maintaining。look forward to と同じ仲間です。'},
+  {t:'order', ja:'契約書に署名する前に、条件を確認することをお勧めします。',
+   a:['We','recommend','reviewing','the','terms','before','signing','the','contract'],
+   why:'recommend の後ろは動名詞、before も前置詞なので signing。2か所とも -ing です。'},
+  {t:'order', ja:'工程を早めるためにコンサルタントを起用しました。',
+   a:['We','hired','a','consultant','in','order','to','speed','up','the','process'],
+   why:'in order to ＋ 動詞の原形。目的をはっきり示す書き言葉らしい表現です。'}
+ ]
+},
+{
+ id:'u14', tag:'rel', tagLabel:'PARTICIPLE', sec:2,
+ title:'分詞と後置修飾',
+ sub:'関係詞を短く言い換える',
+ points:[
+  {rule:'現在分詞＝する側、過去分詞＝される側',
+   en:'[[the team|main]] [[managing the project|rel]] ／ [[the report|main]] [[submitted last week|rel]]',
+   ja:'プロジェクトを管理しているチーム ／ 先週提出された報告書',
+   note:'which is managing → managing、which was submitted → submitted。関係代名詞＋be を省いた形と考えると迷わない。'},
+  {rule:'分詞構文で理由・時を短く表す',
+   en:'[[Having completed the audit|sub]], [[we issued the final report|main]].',
+   ja:'監査を終えたので、最終報告書を発行しました。',
+   note:'After we completed the audit, … を短縮した形。主節より前の出来事なら Having + 過去分詞。'},
+  {rule:'感情の動詞は -ing が物、-ed が人',
+   en:'[[The results were disappointing|main]], [[so we were disappointed|main]].',
+   ja:'結果は期待外れで、私たちは落胆しました。',
+   note:'interesting / interested、confusing / confused、satisfying / satisfied、exciting / excited。原因が -ing、感じる人が -ed。'},
+  {rule:'ビジネス文書の定型',
+   en:'[[Attached is the revised agreement|main]] [[for your review|sub]].',
+   ja:'ご確認用に修正版の契約書を添付いたします。',
+   note:'Attached is / Please find attached / Enclosed please find。Given the circumstances, … も同じ分詞由来の定型。'},
+  {rule:'分詞の意味上の主語は主節の主語',
+   en:'<span class="bad">✕ Walking into the room, the lights were off.</span> → <span class="good">◯ Walking into the room, I found the lights off.</span>',
+   ja:'',
+   note:'部屋に入ったのは lights ではなく I。主語がずれる分詞構文は英文ライティングでは減点対象になる。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'The employees ___ in the pilot program will receive extra training.',
+   ja:'試験プログラムに参加している従業員は追加研修を受けます。',
+   c:['participate','participating','participated','participation'], a:1,
+   why:'employees は「参加する側」なので現在分詞 participating。who are participating の短縮形です。'},
+  {t:'mcq', q:'Please review the document ___ to this email.',
+   ja:'このメールに添付された書類をご確認ください。',
+   c:['attaching','attached','attach','attachment'], a:1,
+   why:'document は「添付される側」なので過去分詞 attached。which is attached の短縮です。'},
+  {t:'mcq', q:'___ the audit, we issued the final report to the client.',
+   ja:'監査を終えたのち、顧客に最終報告書を発行しました。',
+   c:['Having completed','Have completed','Been completed','To have completing'], a:0,
+   why:'主節より前に終わった動作なので Having + 過去分詞。分詞構文の完了形です。'},
+  {t:'mcq', q:'The quarterly results were ___, so the board requested an explanation.',
+   ja:'四半期業績は期待外れで、取締役会は説明を求めました。',
+   c:['disappointed','disappointing','disappoint','disappointment'], a:1,
+   why:'results は「がっかりさせる側」なので -ing。人が主語なら were disappointed になります。'},
+  {t:'mcq', q:'Data ___ by the survey team will be analyzed next week.',
+   ja:'調査チームが収集したデータは来週分析されます。',
+   c:['collecting','collected','collect','collection'], a:1,
+   why:'data は集められる側なので過去分詞 collected。which was collected の短縮形です。'},
+  {t:'mcq', q:'Everyone at the meeting was ___ by the sudden announcement.',
+   ja:'会議の全員がその突然の発表に困惑しました。',
+   c:['confusing','confuse','confused','confusion'], a:2,
+   why:'感じているのは人なので -ed の confused。発表そのものを説明するなら confusing です。'},
+  {t:'order', ja:'先週提出された報告書には誤りが含まれていました。',
+   a:['The','report','submitted','last','week','contained','an','error'],
+   why:'submitted last week が The report を後ろから説明します。文全体の動詞は contained です。'},
+  {t:'order', ja:'ご確認用に修正版の契約書を添付いたします。',
+   a:['Attached','is','the','revised','contract','for','your','review'],
+   why:'Attached is ～ は倒置した定型表現。メールの添付案内でそのまま使えます。'}
+ ]
+},
+{
+ id:'u15', tag:'sub', tagLabel:'EMPHASIS', sec:2,
+ title:'比較・強調・倒置',
+ sub:'as ~ as / the 比較級 / Not only',
+ points:[
+  {rule:'as ～ as と not as ～ as',
+   en:'[[This model is not as expensive as the previous one|main]].',
+   ja:'このモデルは前のモデルほど高くありません。',
+   note:'as と as の間には必ず原級（形容詞・副詞のもとの形）。twice as large as のように倍数を前に置ける。'},
+  {rule:'比較級を強めるのは much / far / significantly（very は不可）',
+   en:'[[Sales are significantly higher|main]] [[than last year|sub]].',
+   ja:'売上は昨年より大幅に高い水準です。',
+   note:'much better / far more efficient / considerably lower。<span class="bad">✕ very higher</span>　very は原級だけを強める。'},
+  {rule:'one of the ＋ 最上級 ＋ 複数名詞',
+   en:'[[This is one of the fastest growing markets|main]] [[in Asia|sub]].',
+   ja:'ここはアジアで最も成長の速い市場の一つです。',
+   note:'最上級の後ろの名詞は必ず複数形。one of the fastest market は誤り。'},
+  {rule:'The 比較級 ～, the 比較級 ～',
+   en:'[[The sooner we decide|sub]], [[the lower the cost will be|main]].',
+   ja:'早く決めるほど、費用は低く抑えられます。',
+   note:'交渉で条件を提示するときに強い。The more you order, the bigger the discount becomes.'},
+  {rule:'否定語が文頭に来ると倒置になる',
+   en:'[[Not only did we meet the target|main]], [[but we also exceeded it|main]].',
+   ja:'目標を達成しただけでなく、上回りました。',
+   note:'Not only did we / Never have I / Only after the review did we …。書き言葉・スピーチで格が上がる。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'The costs this year are ___ higher than last year.',
+   ja:'今年のコストは昨年よりはるかに高くなっています。',
+   c:['very','much','so','too'], a:1,
+   why:'比較級 higher を強めるのは much / far / significantly。very は比較級を修飾できません。'},
+  {t:'mcq', q:'The new model is not as expensive ___ the previous one.',
+   ja:'新モデルは前のモデルほど高くありません。',
+   c:['than','as','that','so'], a:1,
+   why:'as ～ as の形。than を使うのは比較級（more expensive than）のときです。'},
+  {t:'mcq', q:'Nagoya is one of the ___ industrial cities in Japan.',
+   ja:'名古屋は日本有数の工業都市の一つです。',
+   c:['larger','largest','more large','large'], a:1,
+   why:'one of the の後ろは最上級＋複数名詞。largest cities の形になります。'},
+  {t:'mcq', q:'The sooner we decide, the ___ the total cost will be.',
+   ja:'早く決めるほど、総コストは低く抑えられます。',
+   c:['low','lower','lowest','lowly'], a:1,
+   why:'The 比較級 ～, the 比較級 ～ の構文。両方とも比較級にそろえます。'},
+  {t:'mcq', q:'Not only ___ we meet the target, but we also exceeded it.',
+   ja:'目標を達成しただけでなく、上回りました。',
+   c:['do','did','have','were'], a:1,
+   why:'Not only が文頭に出ると倒置が起き、助動詞が主語の前に出ます。過去の話なので did。'},
+  {t:'mcq', q:'Our new supplier offers ___ better terms than the previous one.',
+   ja:'新しい仕入先は以前よりはるかに良い条件を提示しています。',
+   c:['very','far','too','more'], a:1,
+   why:'far better で「はるかに良い」。better はすでに比較級なので more は不要です。'},
+  {t:'order', ja:'早く決めれば決めるほど、費用は低く抑えられます。',
+   a:['The','sooner','we','decide','the','lower','the','cost','will','be'],
+   full:'The sooner we decide, the lower the cost will be.',
+   why:'The 比較級 ～, the 比較級 ～。前半が条件、後半が結果を表します。'},
+  {t:'order', ja:'これはアジアで最も成長の速い市場の一つです。',
+   a:['This','is','one','of','the','fastest','growing','markets','in','Asia'],
+   why:'one of the ＋ 最上級 ＋ 複数名詞。markets を単数にしないことがポイントです。'}
+ ]
+},
+{
+ id:'u16', tag:'word', tagLabel:'ARTICLES', sec:2,
+ title:'冠詞と可算・不可算',
+ sub:'information / equipment / staff',
+ points:[
+  {rule:'不可算名詞には a も複数形もつかない',
+   en:'[[We need more information and equipment|main]] [[before the launch|sub]].',
+   ja:'発売前にさらに情報と機材が必要です。',
+   note:'information / equipment / furniture / advice / feedback / luggage / machinery / research / access / progress。<span class="bad">✕ informations</span>'},
+  {rule:'数えたいときは単位語を使う',
+   en:'[[Could you give me a piece of advice|main]] [[on this issue|sub]]?',
+   ja:'この件について助言をいただけますか。',
+   note:'a piece of advice / an item of equipment / two pieces of information / a bit of feedback。'},
+  {rule:'a は初出、the は特定',
+   en:'[[We hired a consultant|main]]. [[The consultant starts on Monday|main]].',
+   ja:'コンサルタントを1名採用しました。その人は月曜から着任します。',
+   note:'2回目以降は the。世界に一つしかないもの（the head office, the CEO of our company）も the。'},
+  {rule:'無冠詞になる定型表現',
+   en:'[[Please confirm by email in advance|main]].',
+   ja:'事前にメールでご確認ください。',
+   note:'by email / by phone / in advance / on time / at work / in charge of / under construction / on behalf of。'},
+  {rule:'紛らわしい可算・不可算',
+   en:'a job（仕事1件）／ work（仕事一般）　an employee（社員1名）／ staff（職員全体）',
+   ja:'',
+   note:'1人を指すなら a staff member。<span class="bad">✕ a staff</span>　a suggestion は数えられるが advice は不可算。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'We have received a lot of ___ from customers this month.',
+   ja:'今月は顧客から多くの意見が寄せられました。',
+   c:['feedbacks','feedback','a feedback','the feedbacks'], a:1,
+   why:'feedback は不可算なので複数形にも a にもしません。a lot of は可算・不可算どちらにも使えます。'},
+  {t:'mcq', q:'Could you give me ___ on how to handle this client?',
+   ja:'この顧客への対応について助言をいただけますか。',
+   c:['an advice','advices','some advice','a advice'], a:2,
+   why:'advice は不可算。数えるなら a piece of advice、量を示すなら some advice です。'},
+  {t:'mcq', q:'All new ___ must attend the orientation on Monday.',
+   ja:'新入職員は全員、月曜のオリエンテーションに出席してください。',
+   c:['staffs','staff members','a staff','staff member'], a:1,
+   why:'staff は集合名詞。個々の人を指すときは staff member とし、複数なら staff members です。'},
+  {t:'mcq', q:'Please confirm your attendance ___ email by Friday.',
+   ja:'金曜までにメールで出席の可否をご確認ください。',
+   c:['by','with','on','in'], a:0,
+   why:'手段を表す by email は無冠詞の定型表現。by phone / by post も同じ形です。'},
+  {t:'mcq', q:'We hired a consultant last month. ___ consultant will start on Monday.',
+   ja:'先月コンサルタントを採用しました。その人は月曜から着任します。',
+   c:['A','An','The','Some'], a:2,
+   why:'2回目に登場する特定の人なので the。初出が a、既出が the という基本ルールです。'},
+  {t:'mcq', q:'The new wing of the factory is currently under ___.',
+   ja:'工場の新棟は現在建設中です。',
+   c:['a construction','construction','the constructions','constructing'], a:1,
+   why:'under construction は無冠詞の決まり文句。under review / under discussion も同様です。'},
+  {t:'order', ja:'必要な情報はすべて添付書類に記載されています。',
+   a:['All','the','information','you','need','is','in','the','attached','document'],
+   why:'information は不可算なので複数形にせず、動詞も is。you need が information を説明しています。'},
+  {t:'order', ja:'事前にメールでご確認いただけますか。',
+   a:['Could','you','confirm','by','email','in','advance'],
+   why:'by email も in advance も冠詞のつかない定型句。まとまりで覚えるのが近道です。'}
+ ]
+},
+{
+ id:'u17', tag:'word', tagLabel:'COLLOCATION', sec:2,
+ title:'動詞と前置詞の相性',
+ sub:'comply with / be eligible for',
+ points:[
+  {rule:'動詞＋前置詞のセット',
+   en:'[[All suppliers must comply with our safety standards|main]].',
+   ja:'すべての取引先は当社の安全基準を遵守しなければなりません。',
+   note:'comply with / refrain from / benefit from / result in / account for / deal with / respond to / participate in / apply for。'},
+  {rule:'be ＋ 形容詞 ＋ 前置詞',
+   en:'[[Employees are eligible for the bonus|main]] [[after one year|sub]].',
+   ja:'従業員は1年経過後に賞与の対象となります。',
+   note:'be responsible for / be eligible for / be subject to / be capable of / be familiar with / be aware of / be committed to。'},
+  {rule:'書き言葉の定型前置詞句',
+   en:'[[The work was completed in accordance with the contract|main]].',
+   ja:'作業は契約に従って完了しました。',
+   note:'in accordance with / on behalf of / in response to / with regard to / in the event of / prior to / in lieu of。'},
+  {rule:'前置詞をつけない他動詞',
+   en:'<span class="bad">✕ We discussed about the budget.</span> → <span class="good">◯ We discussed the budget.</span>',
+   ja:'',
+   note:'discuss / attend / mention / approach / contact / reach / enter / answer / marry は前置詞不要。日本語の「〜について」に引きずられやすい。'},
+  {rule:'前置詞で意味が変わるペア',
+   en:'apply [[for|key]] a position（職に応募する）／ apply [[to|key]] a company（会社に申し込む）',
+   ja:'',
+   note:'consist of（〜から成る）、result in（結果として〜になる）、result from（〜が原因で起こる）。方向の違いを意識する。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'All contractors must comply ___ the safety regulations.',
+   ja:'すべての請負業者は安全規則を遵守しなければなりません。',
+   c:['to','with','for','on'], a:1,
+   why:'comply with がセット。名詞形は compliance with です。'},
+  {t:'mcq', q:'Employees become eligible ___ the bonus after one year of service.',
+   ja:'従業員は勤続1年で賞与の対象となります。',
+   c:['to','of','for','with'], a:2,
+   why:'be eligible for ～ で「〜の資格がある」。eligible to do の形もあります。'},
+  {t:'mcq', q:'The renovation was carried out in accordance ___ the agreement.',
+   ja:'改修は合意に従って実施されました。',
+   c:['to','with','of','for'], a:1,
+   why:'in accordance with が一つの前置詞句。according to と混ぜないよう注意します。'},
+  {t:'mcq', q:'We will discuss ___ at the meeting tomorrow.',
+   ja:'明日の会議で予算について話し合います。',
+   c:['about the budget','the budget','on the budget','of the budget'], a:1,
+   why:'discuss は他動詞なので前置詞は不要。talk about とは形が違います。'},
+  {t:'mcq', q:'Please refrain ___ using mobile phones during the presentation.',
+   ja:'プレゼン中の携帯電話のご使用はお控えください。',
+   c:['to','of','from','with'], a:2,
+   why:'refrain from doing で「〜を控える」。from は前置詞なので後ろは動名詞です。'},
+  {t:'mcq', q:'I am writing ___ to your inquiry of May 3.',
+   ja:'5月3日のお問い合わせにお答えして連絡しております。',
+   c:['in response','in respond','on response','for response'], a:0,
+   why:'in response to ～ が定型。respond は動詞なので名詞形 response を使います。'},
+  {t:'order', ja:'田中部長に代わってご連絡しております。',
+   a:['I','am','writing','on','behalf','of','Mr','Tanaka'],
+   why:'on behalf of ～ で「〜を代表して・〜に代わって」。ビジネスメールの定型です。'},
+  {t:'order', ja:'すべての取引先は当社の安全基準を遵守しなければなりません。',
+   a:['All','suppliers','must','comply','with','our','safety','standards'],
+   why:'comply with のセットと、safety standards という複合名詞の組み合わせです。'}
+ ]
+},
+{
+ id:'mx', hidden:true, tag:'word', tagLabel:'MOCK', sec:2,
+ title:'模試専用問題',
+ sub:'Part 5 形式',
+ points:[],
+ quiz:[
+  {t:'mcq', q:'The manager, along with two assistants, ___ attending the conference.',
+   ja:'部長は2名の補佐とともに会議に出席します。',
+   c:['are','is','were','have'], a:1,
+   why:'along with ～ は主語に含まれません。主語は The manager なので単数の is です。'},
+  {t:'mcq', q:'Ms. Ito will be ___ for the new branch in Nagoya.',
+   ja:'伊藤氏が名古屋の新支店を担当します。',
+   c:['response','responsible','responsibly','responsibility'], a:1,
+   why:'be responsible for ～ の形。be 動詞の後ろは形容詞です。'},
+  {t:'mcq', q:'The shipment arrived three days ___ than expected.',
+   ja:'荷物は予定より3日早く到着しました。',
+   c:['early','earlier','earliest','more early'], a:1,
+   why:'than があるので比較級 earlier。early の比較級に more はつけません。'},
+  {t:'mcq', q:'Applicants ___ submit their documents by June 30 will be contacted first.',
+   ja:'6月30日までに書類を提出した応募者に、先にご連絡します。',
+   c:['who','which','whose','whom'], a:0,
+   why:'先行詞が人 Applicants で、後ろに動詞 submit が続くので主格の who です。'},
+  {t:'mcq', q:'___ receiving your payment, we will ship the order immediately.',
+   ja:'ご入金を確認次第、すぐに商品を発送いたします。',
+   c:['Upon','While','Although','Despite'], a:0,
+   why:'upon doing で「〜するとすぐに」。契約書やビジネス文書で頻出です。'},
+  {t:'mcq', q:'The training session has been ___ to next Tuesday.',
+   ja:'研修は来週火曜に再設定されました。',
+   c:['rescheduling','rescheduled','reschedule','schedule'], a:1,
+   why:'has been + 過去分詞の受動態。研修は「変更される」側です。'},
+  {t:'mcq', q:'Neither the supervisor nor the technicians ___ aware of the change.',
+   ja:'監督者も技術者も、その変更を把握していませんでした。',
+   c:['was','were','is','has'], a:1,
+   why:'neither A nor B では動詞は近いほうの technicians に一致します。'},
+  {t:'mcq', q:'The company offers ___ discounts to long-term clients.',
+   ja:'同社は長期顧客に対してかなりの割引を提供しています。',
+   c:['substantial','substantially','substance','substantiate'], a:0,
+   why:'discounts という名詞の前なので形容詞 substantial です。'},
+  {t:'mcq', q:'Please make sure that all invoices ___ before the end of the month.',
+   ja:'月末までにすべての請求書が処理されるようにしてください。',
+   c:['process','are processed','processing','to process'], a:1,
+   why:'invoices は処理される側なので受動態 are processed になります。'},
+  {t:'mcq', q:'The seminar was ___ informative that we plan to attend it again.',
+   ja:'そのセミナーは大変有益だったので、再度参加する予定です。',
+   c:['such','so','very','too'], a:1,
+   why:'so + 形容詞 + that ～ の構文。such なら such an informative seminar that ～ の形になります。'},
+  {t:'mcq', q:'Sales have increased ___ 15 percent since January.',
+   ja:'売上は1月以降15パーセント増加しました。',
+   c:['by','of','to','in'], a:0,
+   why:'増減の幅を示すのは by。increase to なら「〜の水準まで増える」という到達点を表します。'},
+  {t:'mcq', q:'Our head office will be relocated ___ the end of the year.',
+   ja:'本社は年末までに移転します。',
+   c:['by','until','during','from'], a:0,
+   why:'期限を表すのは by。until は状態が続く場合に使います。'},
+  {t:'mcq', q:'Employees are required to submit expense reports ___ a monthly basis.',
+   ja:'従業員は月単位で経費報告書を提出する必要があります。',
+   c:['in','on','at','by'], a:1,
+   why:'on a monthly basis が定型。on a regular basis も同じ形です。'},
+  {t:'mcq', q:'The new software allows users ___ documents more efficiently.',
+   ja:'新しいソフトにより、利用者は書類をより効率的に共有できます。',
+   c:['share','sharing','to share','shared'], a:2,
+   why:'allow + 人 + to do の形。enable や encourage も同じ型をとります。'},
+  {t:'mcq', q:'It is essential that every participant ___ the registration form in advance.',
+   ja:'参加者全員が事前に登録用紙を記入することが不可欠です。',
+   c:['completes','complete','completing','completed'], a:1,
+   why:'essential / necessary / important の後の that 節では動詞を原形にします（should の省略）。'},
+  {t:'mcq', q:'The consultant whose recommendations ___ implemented last year has left the firm.',
+   ja:'昨年その提言が実行されたコンサルタントは退職しました。',
+   c:['was','were','is','being'], a:1,
+   why:'whose 節の主語は recommendations（複数）なので were。文全体の動詞 has は The consultant に対応します。'},
+  {t:'mcq', q:'Had we known about the defect, we ___ the shipment.',
+   ja:'欠陥を知っていたら、出荷を止めていたでしょう。',
+   c:['would delay','will delay','would have delayed','had delayed'], a:2,
+   why:'If we had known の if を省いた倒置形。主節は would have + 過去分詞です。'},
+  {t:'mcq', q:'The finance team is responsible for ___ the annual budget.',
+   ja:'財務チームが年次予算の作成を担当しています。',
+   c:['prepare','preparing','preparation','prepared'], a:1,
+   why:'for は前置詞なので後ろは動名詞 preparing。preparation なら of が必要です。'},
+  {t:'mcq', q:'Only after the inspection ___ the factory resume operations.',
+   ja:'検査の後になってはじめて、工場は操業を再開できました。',
+   c:['could','it could','could it','it can'], a:2,
+   why:'Only after ～ が文頭に出ると倒置が起き、助動詞が主語の前に来ます。'},
+  {t:'mcq', q:'Please contact our support desk ___ you have any further questions.',
+   ja:'ご不明な点がございましたら、サポート窓口までご連絡ください。',
+   c:['should','in case of','despite','unless'], a:0,
+   why:'should you have ～ は if you have ～ の倒置形で、丁寧な書き言葉です。'},
+  {t:'mcq', q:'The proposal was rejected ___ it exceeded the approved budget.',
+   ja:'その提案は承認済み予算を超えていたため却下されました。',
+   c:['because of','due to','because','despite'], a:2,
+   why:'後ろが it exceeded ～ という文なので接続詞 because。because of と due to は名詞が続きます。'},
+  {t:'mcq', q:'All personnel ___ to wear identification badges at all times.',
+   ja:'全職員は常時、身分証の着用を求められます。',
+   c:['require','requires','are required','is required'], a:2,
+   why:'personnel は複数扱いの集合名詞で、着用を求められる側なので are required です。'},
+  {t:'mcq', q:'The report was far more detailed than ___ submitted last quarter.',
+   ja:'その報告書は前四半期に提出されたものよりはるかに詳細でした。',
+   c:['one','the one','that one','it'], a:1,
+   why:'既出の報告書を指す代名詞 the one。後ろの submitted last quarter が説明を加えています。'},
+  {t:'mcq', q:'Ms. Aoki has been with the company ___ more than a decade.',
+   ja:'青木氏は10年以上その会社に在籍しています。',
+   c:['since','for','during','from'], a:1,
+   why:'期間の長さには for。since なら since 2014 のように起点を示します。'}
+ ]
+}
+
+,
+{
+ id:'u18', tag:'out', tagLabel:'NOUN CLAUSE', sec:3,
+ title:'名詞節で文を伸ばす',
+ sub:'that / whether / 疑問詞 / what',
+ points:[
+  {rule:'that 節で「〜ということ」をひとかたまりにする',
+   en:'[[I think|main]] [[that we should postpone the launch|rel]].',
+   ja:'発売は延期すべきだと思います。',
+   note:'会話では that を省くのが普通。まず「I think ＋ 文」を口ぐせにすると、単語で止まらず文が続くようになる。think / believe / say / mean / hope / agree / confirm はすべてこの形。'},
+  {rule:'whether・if で「〜かどうか」',
+   en:'[[I am not sure|main]] [[whether the client has approved it|rel]].',
+   ja:'顧客が承認したかどうか、確信がありません。',
+   note:'前置詞の後ろや文の主語になるときは whether のみ。I am not sure if ～ は会話なら自然。'},
+  {rule:'間接疑問は「疑問詞＋主語＋動詞」。倒置しない',
+   en:'[[Could you tell me|main]] [[when the shipment will arrive|rel]]?',
+   ja:'出荷がいつ到着するか教えていただけますか。',
+   note:'<span class="bad">✕ Could you tell me when will the shipment arrive?</span>　疑問文の語順を残してしまうのは会話で最も多い崩れ方。'},
+  {rule:'what＝「〜すること・もの」。言い直しの万能フレーズ',
+   en:'[[What I mean is|main]] [[that we need two more weeks|rel]].',
+   ja:'私が言いたいのは、あと2週間必要だということです。',
+   note:'What I mean is / What we need is / What happened was。詰まったときにこの型で言い直すと、沈黙せずに立て直せる。'},
+  {rule:'The reason is that ～ で理由を後ろに足す',
+   en:'[[The reason is|main]] [[that the supplier changed its schedule|rel]].',
+   ja:'理由は、仕入先が予定を変更したことです。',
+   note:'Because から話し始めると文が途中で終わりやすい。結論を言い切ってから The reason is that ～ と足すほうが安定する。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'Could you tell me ___ the shipment will arrive?',
+   ja:'出荷がいつ到着するか教えていただけますか。',
+   c:['when will','when','when does','that when'], a:1,
+   why:'間接疑問は疑問詞＋主語＋動詞。when will と倒置したままにしないのがポイントです。'},
+  {t:'mcq', q:'I am not sure ___ the client has approved the budget.',
+   ja:'顧客が予算を承認したかどうか分かりません。',
+   c:['that','what','whether','which'], a:2,
+   why:'「〜かどうか」は whether。会話では if も使えますが、書き言葉では whether が安全です。'},
+  {t:'mcq', q:'___ I mean is that we need two more weeks.',
+   ja:'私が言いたいのは、あと2週間必要だということです。',
+   c:['That','What','Which','It'], a:1,
+   why:'what は先行詞を含む関係代名詞で「〜すること」。言い直しの定型です。'},
+  {t:'mcq', q:'The reason for the delay is ___ the supplier changed its schedule.',
+   ja:'遅延の理由は、仕入先が予定を変更したことです。',
+   c:['because','that','what','due to'], a:1,
+   why:'The reason is that ～ が正しい形。reason と because は意味が重なるため一緒に使いません。'},
+  {t:'combine', src:['The client has approved the budget.','I am not sure about that.'],
+   hint:'whether', ja:'顧客が予算を承認したかどうか分かりません。',
+   a:['I','am','not','sure','whether','the','client','has','approved','the','budget'],
+   why:'about that を whether 節に置き換えます。前置詞のかたまりを名詞節に変えるのが、文を長くするコツです。'},
+  {t:'combine', src:['We should postpone the launch.','I think so.'],
+   hint:'that', ja:'発売は延期すべきだと思います。',
+   a:['I','think','that','we','should','postpone','the','launch'],
+   why:'I think so で終わらせず、that 節で中身をそのまま抱え込みます。会話ではこの that は省略できます。'},
+  {t:'speak', ja:'出荷がいつ到着するか教えていただけますか。',
+   a:'Could you tell me when the shipment will arrive?',
+   why:'間接疑問の語順。will arrive を後ろに置いたまま言い切れるかがポイントです。'},
+  {t:'speak', ja:'私が言いたいのは、あと2週間必要だということです。',
+   a:'What I mean is that we need two more weeks.',
+   why:'What I mean is ～ は詰まったときの立て直しフレーズ。反射的に出せるまで繰り返しましょう。'}
+ ]
+},
+{
+ id:'u19', tag:'out', tagLabel:'DISCOURSE', sec:3,
+ title:'会話をつなぐ表現',
+ sub:'途切れさせないためのつなぎ語',
+ points:[
+  {rule:'話を足す：On top of that / Plus / Also',
+   en:'[[The price is competitive|main]]. [[On top of that|sub]], [[delivery is faster|main]].',
+   ja:'価格は競争力があります。その上、配送も速いです。',
+   note:'書き言葉の moreover / furthermore より、話し言葉では on top of that / plus が自然。1つ言い切ってから足すので、長い文を組み立てなくてよい。'},
+  {rule:'言い直す：Actually / I mean / Let me rephrase that',
+   en:'[[Actually|sub]], [[I meant next Friday, not this Friday|main]].',
+   ja:'すみません、今週ではなく来週の金曜のことです。',
+   note:'間違えたときに黙ってしまうのが最大の失点。この一言を挟めば会話は切れない。'},
+  {rule:'受けてから戻す：That said / Having said that / Still',
+   en:'[[The cost is high|main]]. [[That said|sub]], [[the quality justifies it|main]].',
+   ja:'コストは高いです。とはいえ、品質がそれに見合います。',
+   note:'相手の意見を一度受け止めてから自分の主張に戻す形。会議で角を立てずに反論できる。'},
+  {rule:'具体化する：For example / In particular / Take ~ for example',
+   en:'[[Costs went up|main]]. [[In particular|sub]], [[shipping doubled|main]].',
+   ja:'コストが上がりました。とくに配送費が倍になりました。',
+   note:'抽象的な一文で終わらせず、必ず具体例を1つ足す。これだけで話の量が倍になる。'},
+  {rule:'まとめる：The point is / In short / So',
+   en:'[[The point is|main]] [[that we need a decision by Friday|rel]].',
+   ja:'要は、金曜までに決定が必要だということです。',
+   note:'話が長くなったときの着地表現。The point is that ～ で結論に戻れる。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'The price is high. ___, the quality is excellent.',
+   ja:'価格は高いです。とはいえ、品質は素晴らしい。',
+   c:['That said','For example','In short','On top of that'], a:0,
+   why:'一度認めてから反対の内容に戻すのが that said。逆接のつなぎとして会話で頻出です。'},
+  {t:'mcq', q:'___, I meant next Friday, not this Friday.',
+   ja:'すみません、今週ではなく来週の金曜のことです。',
+   c:['In short','Actually','Therefore','As a result'], a:1,
+   why:'actually は自分の発言を訂正するときの合図。会話を止めずに言い直せます。'},
+  {t:'mcq', q:'It is faster. On top of ___, it costs less to maintain.',
+   ja:'速いです。その上、維持費も安く済みます。',
+   c:['that','it','this one','there'], a:0,
+   why:'on top of that で一つのかたまり。前の文全体を that が受けています。'},
+  {t:'mcq', q:'We have discussed many details, but the ___ is that we need a decision today.',
+   ja:'細部を色々話しましたが、要は今日決定が必要だということです。',
+   c:['point','cause','case','way'], a:0,
+   why:'The point is that ～ で話を着地させます。結論に戻る合図として使えます。'},
+  {t:'order', ja:'とはいえ、品質はそのコストに見合っています。',
+   a:['That','said','the','quality','justifies','the','cost'],
+   full:'That said, the quality justifies the cost.',
+   why:'That said の後ろにコンマを置き、そのまま主節を続けます。'},
+  {t:'speak', ja:'価格は高いです。とはいえ、品質はそれに見合います。',
+   a:'The price is high. That said, the quality justifies it.',
+   why:'2文に切って、つなぎ語で受け直す形。1文で言い切ろうとしないのがコツです。'},
+  {t:'speak', ja:'すみません、言い直します。私が言いたいのは納期のことです。',
+   a:'Sorry, let me rephrase that. What I mean is the delivery date.',
+   why:'訂正の合図＋言い直しの型。この2つをセットで持っておくと沈黙が減ります。'},
+  {t:'speak', ja:'その上、配送も今より速くなります。',
+   a:'On top of that, delivery will be faster than it is now.',
+   why:'On top of that で前の文を受けて情報を足します。会話の分量を増やす基本動作です。'}
+ ]
+},
+{
+ id:'u20', tag:'out', tagLabel:'JOINING', sec:3,
+ title:'文をつなぐ4つの手段',
+ sub:'途切れさせない・つなぎすぎない',
+ points:[
+  {rule:'つなぐ手段は4つしかない',
+   en:'① and / but / so ② because / although / when ③ however / therefore ④ 関係詞・分詞',
+   ja:'',
+   note:'①等位接続詞は2文を対等につなぐ。②従属接続詞は主従をつける。③接続副詞は前をピリオドかセミコロンで区切る。④は名詞に情報を足す。話すときは①と②の4語（but / so / because / although）だけで十分戦える。'},
+  {rule:'コンマだけで2文をつながない',
+   en:'<span class="bad">✕ We lowered the price, sales did not improve.</span> → <span class="good">◯ We lowered the price, but sales did not improve.</span>',
+   ja:'',
+   note:'日本語の「〜して、〜して」をそのまま英語にすると起きるミス（コンマスプライス）。つなぐ語を必ず1つ入れる。'},
+  {rule:'従属節だけで言い切らない',
+   en:'<span class="bad">✕ Because the supplier changed the schedule.</span> → <span class="good">◯ We were late because the supplier changed the schedule.</span>',
+   ja:'',
+   note:'Because ～ だけでは文が完成しない。会話で「Because…」と言って止まってしまう癖は、主節を先に言う習慣で直せる。'},
+  {rule:'and でつなぎ続けず、2文に切る',
+   en:'[[Sales fell in the first quarter|main]]. [[However, margins improved|main]].',
+   ja:'第1四半期は売上が落ちました。しかし利益率は改善しました。',
+   note:'長くつなぐほど途中で崩れる。短く切って接続副詞で受けるほうが、話しても書いても伝わる。'},
+  {rule:'英語は結論が先、理由が後',
+   en:'[[We should postpone it|main]], [[because the data is not ready|sub]].',
+   ja:'データがそろっていないので、延期すべきです。',
+   note:'日本語は理由から入るが、英語は結論を先に置く。この順番を変えるだけで、話し出しの詰まりが大きく減る。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'We lowered the price, ___ sales did not improve.',
+   ja:'値下げをしましたが、売上は改善しませんでした。',
+   c:['but','however','therefore','moreover'], a:0,
+   why:'コンマ1つで2文をつなげるのは等位接続詞だけ。however を使うならピリオドかセミコロンが必要です。'},
+  {t:'mcq', q:'We were late ___ the supplier changed the schedule.',
+   ja:'仕入先が予定を変更したため、遅れました。',
+   c:['because of','because','due to','therefore'], a:1,
+   why:'後ろが文なので接続詞 because。because of と due to の後ろは名詞です。'},
+  {t:'mcq', q:'Sales fell in the first quarter. ___, margins improved.',
+   ja:'第1四半期は売上が落ちました。しかし利益率は改善しました。',
+   c:['But','However','Although','Because'], a:1,
+   why:'ピリオドで切った後に置けるのは接続副詞 however。文頭の But も会話では使えますが、書き言葉では However が標準です。'},
+  {t:'mcq', q:'The data is not ready, ___ we should postpone the meeting.',
+   ja:'データがそろっていないので、会議を延期すべきです。',
+   c:['so','however','therefore','because'], a:0,
+   why:'コンマ＋等位接続詞 so で結果をつなぎます。therefore はセミコロンかピリオドが必要です。'},
+  {t:'combine', src:['We lowered the price.','Sales did not improve.'],
+   hint:'but', ja:'値下げをしましたが、売上は改善しませんでした。',
+   a:['We','lowered','the','price','but','sales','did','not','improve'],
+   full:'We lowered the price, but sales did not improve.',
+   why:'2文を対等につなぐので、コンマ＋but。ここを but なしにするとコンマスプライスになります。'},
+  {t:'combine', src:['The supplier changed the schedule.','We were late.'],
+   hint:'because', ja:'仕入先が予定を変更したため、私たちは遅れました。',
+   a:['We','were','late','because','the','supplier','changed','the','schedule'],
+   why:'結論（遅れた）を先に置き、理由を because で後ろに足します。英語の語順に慣れる練習です。'},
+  {t:'speak', ja:'データがそろっていないので、会議は延期すべきだと思います。',
+   a:'I think we should postpone the meeting because the data is not ready.',
+   why:'結論を先に言い切ってから because を足す形。日本語の順番のまま話さないことが大切です。'},
+  {t:'write', ja:'次の3つの断片を、つなぐ語を使って自然な2文にまとめてください。',
+   src:'Price is high. Quality is good. We should buy it.',
+   a:'Although the price is high, the quality is good. That is why I think we should buy it.',
+   check:['コンマだけで2文をつないでいないか','譲歩を Although または but で示しているか','最後に結論の文を置いているか'],
+   why:'短い断片を並べるだけでは、話しても書いても幼く聞こえます。譲歩→結論の型に入れるだけで一気に大人の英語になります。'}
+ ]
+},
+{
+ id:'u21', tag:'out', tagLabel:'STRUCTURE', sec:3,
+ title:'意見を組み立てる型',
+ sub:'一文で終わらせない話し方',
+ points:[
+  {rule:'PREPの4文型：結論 → 理由 → 例 → 結論',
+   en:'[[I think we should delay the launch|main]]. [[The main reason is that the data is incomplete|main]]. [[For example, the Q2 figures are missing|main]]. [[So I would suggest moving it to July|main]].',
+   ja:'発売を遅らせるべきだと思います。理由はデータが不完全だからです。たとえば第2四半期の数字がありません。ですので7月への変更を提案します。',
+   note:'文法が使えないのではなく、次に何を言うか決まっていないから詰まる。この4文の型を持っておけば、話しながら次の文を探せる。'},
+  {rule:'譲歩してから主張する',
+   en:'[[While I understand your concern|sub]], [[I still believe this is the best option|main]].',
+   ja:'ご懸念は理解しますが、それでもこれが最善だと考えます。',
+   note:'While I understand ～, I still think ～ は反対意見を述べる型。いきなり No と言わずに済む。'},
+  {rule:'理由を重ねる',
+   en:'[[First, it reduces cost|main]]. [[Second, it saves time|main]]. [[On top of that, it is easier to maintain|main]].',
+   ja:'第一にコストが下がります。第二に時間が節約できます。その上、保守も容易です。',
+   note:'First / Second / On top of that と数えると、話す量が自然に増え、聞き手も追いやすくなる。'},
+  {rule:'断定をやわらげる',
+   en:'[[It seems to me that|main]] [[we need more data|rel]].',
+   ja:'もう少しデータが必要だと思われます。',
+   note:'I would say ～ / It seems to me that ～ / I am not sure, but ～。断言を避けることで、議論の場が保たれる。'},
+  {rule:'最後に相手へ返す',
+   en:'[[Does that make sense|main]]? [[Would that work for you|main]]?',
+   ja:'ご理解いただけましたか。／ それでご都合よろしいですか。',
+   note:'自分の番を終えるときに一言返すと、会話が続く。沈黙が生まれにくくなる。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'___ I understand your concern, I still believe this is the best option.',
+   ja:'ご懸念は理解しますが、それでもこれが最善だと考えます。',
+   c:['While','Despite','However','Because'], a:0,
+   why:'while は「〜だけれども」の譲歩を表す接続詞。後ろに文が続きます。'},
+  {t:'mcq', q:'It seems ___ me that we need more data before deciding.',
+   ja:'決定の前にもう少しデータが必要だと思われます。',
+   c:['for','to','at','with'], a:1,
+   why:'It seems to me that ～ が定型。断定を避ける言い方として便利です。'},
+  {t:'mcq', q:'The main ___ is that the figures are incomplete.',
+   ja:'主な理由は、数字が不完全だということです。',
+   c:['reason','because','cause of','why'], a:0,
+   why:'The main reason is that ～ の形。because を続けると意味が重複します。'},
+  {t:'mcq', q:'___ that make sense, or would you like me to explain it again?',
+   ja:'ご理解いただけましたか。それとももう一度説明しましょうか。',
+   c:['Do','Does','Is','Would'], a:1,
+   why:'主語は that（単数）なので Does。会話の締めに使う定型表現です。'},
+  {t:'order', ja:'ご懸念は理解しますが、それでもこれが最善だと考えます。',
+   a:['While','I','understand','your','concern','I','still','believe','this','is','the','best','option'],
+   full:'While I understand your concern, I still believe this is the best option.',
+   why:'While 節を前に置き、コンマの後に主節。still を入れると「それでも」の含みが出ます。'},
+  {t:'combine', src:['You are concerned about the cost.','This is still the best option.'],
+   hint:'While', ja:'コストをご心配なのは分かりますが、それでもこれが最善案です。',
+   a:['While','you','are','concerned','about','the','cost','this','is','still','the','best','option'],
+   full:'While you are concerned about the cost, this is still the best option.',
+   why:'相手の立場を While 節で受けてから自分の主張を置きます。反論の基本形です。'},
+  {t:'speak', ja:'発売を遅らせるべきだと思います。理由はデータがそろっていないからです。',
+   a:'I think we should delay the launch. The main reason is that the data is incomplete.',
+   why:'結論→理由の2文。1文目を言い切ってから2文目を足す感覚をつかみましょう。'},
+  {t:'write', ja:'「新システムの導入に賛成」という意見を、PREPの型で4文書いてください。',
+   src:'立場：賛成 ／ 理由：作業時間が減る ／ 例：月に約20時間の削減 ／ 結論：承認を提案',
+   a:'I am in favor of introducing the new system. The main reason is that it would reduce our workload. For example, we could save about twenty hours a month. That is why I would recommend approving it.',
+   check:['1文目で立場をはっきり示しているか','2文目を The main reason is that ~ で始めているか','3文目に具体例を入れているか','最後にもう一度結論を置いているか'],
+   why:'型が決まっていれば、話すときも同じ順番で口が動きます。書いて覚えた型は、そのまま会話で使えます。'}
+ ]
+},
+{
+ id:'u22', tag:'out', tagLabel:'EMAIL', sec:3,
+ title:'メールで使う文法',
+ sub:'依頼・断り・催促・謝罪',
+ points:[
+  {rule:'依頼：I would appreciate it if you could ～',
+   en:'[[I would appreciate it if you could send the revised file by Friday|main]].',
+   ja:'金曜までに修正版をお送りいただけますと幸いです。',
+   note:'it を落とさないこと。Could you ～? よりも丁寧で、社外向けに安心して使える。'},
+  {rule:'断り：I am afraid ～ / we are unable to ～',
+   en:'[[I am afraid we are unable to accept the current terms|main]].',
+   ja:'恐れ入りますが、現在の条件はお受けできません。',
+   note:'cannot より we are unable to のほうが柔らかい。I am afraid を頭に置くと衝撃が和らぐ。'},
+  {rule:'催促：following up / I was wondering if ～',
+   en:'[[I was wondering if you have had a chance to review the proposal|main]].',
+   ja:'ご提案をご確認いただけましたでしょうか。',
+   note:'Have you finished ～? は直接的すぎる。following up on ～ で切り出すと角が立たない。'},
+  {rule:'謝罪：apologize for ＋ 名詞・動名詞',
+   en:'[[We apologize for the delay|main]] [[in responding to your request|sub]].',
+   ja:'ご依頼への返信が遅れましたことをお詫びします。',
+   note:'<span class="bad">✕ We apologize to delay</span>　for の後ろは名詞か -ing。'},
+  {rule:'結びの定型',
+   en:'[[Please let me know if you have any questions|main]]. [[I look forward to hearing from you|main]].',
+   ja:'ご不明な点があればお知らせください。ご返信をお待ちしております。',
+   note:'look forward to の to は前置詞なので hearing。毎回使う表現だからこそ間違えたくない。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'I would appreciate ___ if you could reply by Friday.',
+   ja:'金曜までにご返信いただけますと幸いです。',
+   c:['it','that','you','this'], a:0,
+   why:'appreciate it if ～ が固定の形。it を落とすミスが非常に多い表現です。'},
+  {t:'mcq', q:'I am afraid we ___ to accept these terms.',
+   ja:'恐れ入りますが、これらの条件はお受けできません。',
+   c:['are unable','are not able of','cannot able','are disabled'], a:0,
+   why:'be unable to do で「〜できない」。cannot より丁寧に響きます。'},
+  {t:'mcq', q:'I was wondering if you have had a chance ___ the proposal.',
+   ja:'ご提案をご確認いただけましたでしょうか。',
+   c:['review','to review','reviewing','reviewed'], a:1,
+   why:'a chance to do の形。have a chance to review で「確認する機会がある」です。'},
+  {t:'mcq', q:'We apologize ___ the delay in responding to your inquiry.',
+   ja:'お問い合わせへの返信が遅れましたことをお詫びします。',
+   c:['of','for','to','about'], a:1,
+   why:'apologize for ～ が正しい形。for の後ろは名詞または動名詞です。'},
+  {t:'order', ja:'金曜までに修正版をお送りいただけますと幸いです。',
+   a:['I','would','appreciate','it','if','you','could','send','the','revised','file','by','Friday'],
+   why:'appreciate it if you could ～ をひとかたまりで覚えると、依頼メールが一瞬で書けます。'},
+  {t:'speak', ja:'恐れ入りますが、現在の条件をお受けすることはできません。',
+   a:'I am afraid we are unable to accept the current terms.',
+   why:'断りの型。I am afraid で受け止め、we are unable to で柔らかく伝えます。'},
+  {t:'speak', ja:'ご不明な点がございましたら、お知らせください。',
+   a:'Please let me know if you have any questions.',
+   why:'メールの結びと会議の締めの両方で使えます。反射で出るまで練習しましょう。'},
+  {t:'write', ja:'次の内容で、催促のメール本文を3文で書いてください。',
+   src:'先週送った見積もりへの返答がまだ ／ 金曜までに回答がほしい ／ 急かしすぎない口調で',
+   a:'I am just following up on the quotation I sent last week. I was wondering if you have had a chance to review it. If possible, I would appreciate it if you could give us your response by Friday.',
+   check:['following up on ~ で切り出しているか','I was wondering if ~ で丁寧に確認しているか','期限を I would appreciate it if you could ~ で伝えているか'],
+   why:'催促は「事実の確認 → 状況の確認 → 依頼」の3文で組み立てると、丁寧さを保ったまま要求を伝えられます。'}
+ ]
+},
+{
+ id:'u23', tag:'out', tagLabel:'REPORTING', sec:3,
+ title:'報告する文法',
+ sub:'時制の一致と間接話法',
+ points:[
+  {rule:'過去の発言を伝えると時制が一つ下がる',
+   en:'[[He said|main]] [[that he would send the report|rel]].',
+   ja:'彼は報告書を送ると言いました。',
+   note:'元の発言 I will send ～ が would に変わる。will→would、can→could、is→was、have done→had done。議事録や報告メールで必ず使う。'},
+  {rule:'今も変わらない事実は時制を下げない',
+   en:'[[She said|main]] [[that the office opens at nine|rel]].',
+   ja:'彼女はオフィスは9時に開くと言いました。',
+   note:'一般的な事実や現在も有効な内容はそのまま。機械的に過去にしなくてよい。'},
+  {rule:'say と tell の使い分け',
+   en:'He told me that ～ ／ He said that ～ ／ He asked me whether ～',
+   ja:'',
+   note:'tell の後ろには必ず人が来る。say の直後に人は置けない。<span class="bad">✕ He said me that ～</span>'},
+  {rule:'間接疑問の語順に注意',
+   en:'[[She asked|main]] [[when the shipment would arrive|rel]].',
+   ja:'彼女は出荷がいつ到着するのか尋ねました。',
+   note:'<span class="bad">✕ She asked when would the shipment arrive.</span>　報告するときは疑問文の語順を戻す。'},
+  {rule:'報告で使い分ける動詞',
+   en:'[[He pointed out|main]] [[that the budget had already been approved|rel]].',
+   ja:'彼は予算がすでに承認されていると指摘しました。',
+   note:'mentioned（言及した）/ confirmed（確認した）/ pointed out（指摘した）/ suggested（提案した）/ agreed（同意した）。said ばかり使わないだけで報告書の質が上がる。'}
+ ],
+ quiz:[
+  {t:'mcq', q:'He said that he ___ the report by Monday.',
+   ja:'彼は月曜までに報告書を送ると言いました。',
+   c:['will send','would send','sends','is sending'], a:1,
+   why:'said が過去なので、元の will は would に変わります。時制の一致の基本です。'},
+  {t:'mcq', q:'She ___ me that the meeting had been postponed.',
+   ja:'彼女は会議が延期されたと私に伝えました。',
+   c:['said','told','spoke','talked'], a:1,
+   why:'直後に人が来るのは tell。say を使うなら said to me となります。'},
+  {t:'mcq', q:'They asked ___ we could extend the deadline.',
+   ja:'彼らは納期を延長できるかどうか尋ねました。',
+   c:['that','whether','what','which'], a:1,
+   why:'Yes / No で答える質問を報告するときは whether または if を使います。'},
+  {t:'mcq', q:'She asked when the shipment ___.',
+   ja:'彼女は出荷がいつ到着するのか尋ねました。',
+   c:['would arrive','would it arrive','will arrive','did arrive'], a:0,
+   why:'間接疑問なので倒置せず、時制の一致で will が would になります。'},
+  {t:'order', ja:'彼は予算はすでに承認されていると指摘しました。',
+   a:['He','pointed','out','that','the','budget','had','already','been','approved'],
+   why:'pointed out（過去）に合わせて、承認はさらに前なので had been approved となります。'},
+  {t:'order', ja:'彼は翌日に修正版を送ると言いました。',
+   a:['He','said','that','he','would','send','the','revised','file','the','next','day'],
+   why:'tomorrow は報告のときに the next day に変わります。時を表す語も一緒に移動させます。'},
+  {t:'speak', ja:'田中さんは会議が延期されたと私に伝えました。',
+   a:'Mr. Tanaka told me that the meeting had been postponed.',
+   why:'told me that ～ と、さらに前の出来事を表す had been postponed の組み合わせです。'},
+  {t:'write', ja:'次の発言を、議事録用に間接話法の1文にまとめてください。',
+   src:'佐藤氏の発言: "We cannot meet the deadline because the supplier is late."',
+   a:'Mr. Sato said that they could not meet the deadline because the supplier was late.',
+   check:['cannot を could not に変えているか','is を was に変えているか','said that ~ の形にしているか','we を they に置き換えているか'],
+   why:'発言を報告に変えるときは、時制・人称・時を表す語の3点を同時に動かします。議事録作成の中核となる操作です。'}
+ ]
+},
+{
+ id:'sp', hidden:true, tag:'out', tagLabel:'SPEAKING', sec:3,
+ title:'瞬間英作文バンク',
+ sub:'全ユニット横断',
+ points:[],
+ quiz:[
+  {t:'speak', ja:'当社のチームが海外発送をすべて担当しています。', a:'Our team handles all overseas shipping.', why:'恒常的な業務は現在形。三人称単数の -s を落とさないこと。'},
+  {t:'speak', ja:'ケンが休暇の間、私が代わりを務めています。', a:'I am covering for Ken while he is on leave.', why:'一時的な状況は進行形。while の後ろは文が続きます。'},
+  {t:'speak', ja:'東南アジアで需要が伸びています。', a:'Demand is growing in Southeast Asia.', why:'変化の途中は進行形。数字を説明する場面の定番です。'},
+  {t:'speak', ja:'先週の金曜に報告書をお送りしました。', a:'I sent you the report last Friday.', why:'終わった時点が示されているので過去形。現在完了は使えません。'},
+  {t:'speak', ja:'大阪の展示会以来のお付き合いです。', a:'We have known each other since the Osaka trade show.', why:'since ～ は現在完了と組みます。know は進行形にしません。'},
+  {t:'speak', ja:'その会社とは3年間取引をしています。', a:'We have been doing business with that company for three years.', why:'継続を強調する現在完了進行形。for ＋ 期間です。'},
+  {t:'speak', ja:'私が着いたとき、会議はすでに始まっていました。', a:'When I arrived, the meeting had already started.', why:'過去の一点より前の出来事なので過去完了です。'},
+  {t:'speak', ja:'法務が承認し次第、契約を確定します。', a:'We will finalize the contract as soon as the legal team approves it.', why:'時の副詞節の中は未来でも現在形。will を入れないこと。'},
+  {t:'speak', ja:'明日の3時に顧客と会う予定です。', a:'I am meeting the client at three tomorrow.', why:'約束済みの予定は現在進行形で表せます。'},
+  {t:'speak', ja:'契約は来月末で失効する予定です。', a:'The contract is due to expire at the end of next month.', why:'be due to ＋ 原形。公式な予定を表すフォーマルな言い方です。'},
+  {t:'speak', ja:'仕入先の問題により発売が遅れました。', a:'The launch was delayed due to a supplier issue.', why:'due to の後ろは名詞句。受動態と組み合わせるのが自然です。'},
+  {t:'speak', ja:'価格は高いものの、品質ははるかに優れています。', a:'Although the price is high, the quality is much better.', why:'Although 節の後に but を足さないこと。比較級は much で強めます。'},
+  {t:'speak', ja:'値下げをしました。しかし売上は改善しませんでした。', a:'We lowered the price. However, sales did not improve.', why:'however は接続詞ではないので、前で文を切ります。'},
+  {t:'speak', ja:'金曜までにご確認いただけない場合、予約を取り消します。', a:'Unless you confirm by Friday, we will cancel the reservation.', why:'unless の中に not は入れません。if not と同じ意味です。'},
+  {t:'speak', ja:'アジアでは売上が伸びた一方、欧州では減少しました。', a:'Sales grew in Asia, whereas they fell in Europe.', why:'対比は whereas。数字の説明で強力に使えます。'},
+  {t:'speak', ja:'予算が承認されれば、来週から着手できます。', a:'We can start next week as long as the budget is approved.', why:'as long as で条件を示します。条件節は現在形です。'},
+  {t:'speak', ja:'顧客が求める場合に備えて、予備を1部持参します。', a:'I will bring an extra copy in case the client asks for one.', why:'in case は「備えて」。if とは意味が違います。'},
+  {t:'speak', ja:'昨日お送りした報告書に誤りがありました。', a:'The report I sent you yesterday had an error.', why:'目的格の関係代名詞は省略できます。名詞の後ろに文が続く形に慣れましょう。'},
+  {t:'speak', ja:'このプロジェクトを引き継ぐ同僚をご紹介します。', a:'I would like to introduce the colleague who will take over this project.', why:'主格の who。名詞を先に出して後ろから説明する語順です。'},
+  {t:'speak', ja:'アジアで支援してくれるパートナーを探しています。', a:'We are looking for a partner who can support us in Asia.', why:'日本語は説明が先、英語は名詞が先。この切り替えが会話の鍵です。'},
+  {t:'speak', ja:'本社がシンガポールにある会社と取引しています。', a:'We work with a firm whose headquarters are in Singapore.', why:'whose の直後は名詞。所有の関係を1語で表せます。'},
+  {t:'speak', ja:'彼は納期を守り、それが顧客を感心させました。', a:'He met the deadline, which impressed the client.', why:'コンマ＋which で前の文全体を受けます。話を伸ばす便利な形です。'},
+  {t:'speak', ja:'議題をお送りいただけないかと思いまして。', a:'I was wondering if you could send me the agenda.', why:'最も丁寧な依頼の型。was wondering と過去形にします。'},
+  {t:'speak', ja:'私があなたなら、まず上司に相談します。', a:'If I were you, I would talk to the manager first.', why:'仮定法過去では主語が I でも were を使います。'},
+  {t:'speak', ja:'もっと早くデータを受け取っていれば、納期に間に合ったのですが。', a:'If we had received the data earlier, we could have met the deadline.', why:'過去の仮定は had ＋ 過去分詞、主節は could have ＋ 過去分詞です。'},
+  {t:'speak', ja:'第3四半期に売上は着実に伸びました。', a:'Our revenue grew steadily in the third quarter.', why:'動詞を修飾するのは副詞 steadily。品詞の判断は会話でも効きます。'},
+  {t:'speak', ja:'交渉の間、双方とも冷静でした。', a:'During the negotiation, both sides remained calm.', why:'during の後ろは名詞。文を続けるなら while です。'},
+  {t:'speak', ja:'追って通知があるまで、オフィスは閉鎖されます。', a:'The office will remain closed until further notice.', why:'状態の継続は until。until further notice は定型句です。'},
+  {t:'speak', ja:'各支店が独自の予算を管理しています。', a:'Each of the branches manages its own budget.', why:'each は単数扱い。動詞に -s がつきます。'},
+  {t:'speak', ja:'苦情の件数は3月以降減少しています。', a:'The number of complaints has decreased since March.', why:'the number of は単数扱い。a number of との違いに注意します。'},
+  {t:'speak', ja:'システムは今週アップグレード中です。', a:'The system is being upgraded this week.', why:'is being ＋ 過去分詞で「されている最中」を表します。'},
+  {t:'speak', ja:'書類は代理店に翻訳してもらいました。', a:'We had the documents translated by an agency.', why:'have ＋ 目的語 ＋ 過去分詞で「〜してもらう」です。'},
+  {t:'speak', ja:'署名前に条件を確認することをお勧めします。', a:'We recommend reviewing the terms before signing.', why:'recommend も before も後ろは動名詞になります。'},
+  {t:'speak', ja:'ご返信をお待ちしております。', a:'I look forward to hearing from you.', why:'この to は前置詞。hear ではなく hearing です。'},
+  {t:'speak', ja:'先週提出された報告書には誤りが含まれていました。', a:'The report submitted last week contained an error.', why:'過去分詞が名詞を後ろから説明します。関係詞の短縮形です。'},
+  {t:'speak', ja:'ご確認用に修正版の契約書を添付いたします。', a:'Attached is the revised contract for your review.', why:'Attached is ～ はメールの定型。倒置した形です。'},
+  {t:'speak', ja:'早く決めるほど、費用は低く抑えられます。', a:'The sooner we decide, the lower the cost will be.', why:'The 比較級 ～, the 比較級 ～。交渉で強い表現です。'},
+  {t:'speak', ja:'目標を達成しただけでなく、上回りました。', a:'Not only did we meet the target, but we also exceeded it.', why:'否定語が文頭に出ると倒置。助動詞が主語の前に来ます。'},
+  {t:'speak', ja:'事前にメールでご確認いただけますか。', a:'Could you confirm by email in advance?', why:'by email も in advance も無冠詞の定型句です。'},
+  {t:'speak', ja:'すべての取引先は当社の安全基準を遵守しなければなりません。', a:'All suppliers must comply with our safety standards.', why:'comply with のセットと複合名詞 safety standards の組み合わせです。'}
+ ]
+},
+{
+ id:'wr', hidden:true, tag:'out', tagLabel:'WRITING', sec:3,
+ title:'ライティング課題',
+ sub:'メール・報告の実践',
+ points:[],
+ quiz:[
+  {t:'write', ja:'納品遅延のお詫びと新しい納期を伝えるメール本文を、3文で書いてください。',
+   src:'遅延の事実 ／ 原因は仕入先の出荷遅れ ／ 新納期は今月20日',
+   a:'We apologize for the delay in delivering your order. The delay was caused by a shipping issue at our supplier. We expect to deliver the items by the twentieth of this month.',
+   check:['apologize for ＋ 名詞の形になっているか','原因を受動態か due to で示しているか','新しい納期を具体的に述べているか'],
+   why:'謝罪 → 原因 → 対応の3文が基本形。原因の説明に受動態を使うと、責任追及の色が薄まり事実の報告として読めます。'},
+  {t:'write', ja:'会議の日程変更をお願いするメール本文を、3文で書いてください。',
+   src:'木曜の会議を来週へ ／ 理由は主要メンバーの出張 ／ 候補日を相手に尋ねる',
+   a:'I am writing to ask whether we could move Thursday meeting to next week. The reason is that two key members will be away on a business trip. Would you let me know which days would work for you?',
+   check:['依頼を whether や if の名詞節で丁寧に述べているか','理由を The reason is that ~ で足しているか','最後に相手へ質問を返しているか'],
+   why:'依頼 → 理由 → 相手への質問。最後を疑問文で終えると、返信が来やすくなります。'},
+  {t:'write', ja:'値上げの通知メール本文を、4文で書いてください。',
+   src:'来月から5パーセント値上げ ／ 原因は原材料費の高騰 ／ これまでの取引への感謝 ／ 質問を歓迎',
+   a:'Thank you for your continued business over the past years. We regret to inform you that we will need to raise our prices by five percent starting next month. This is due to a significant increase in raw material costs. Please let us know if you have any questions about this change.',
+   check:['感謝から入っているか','regret to inform you that ~ で本題を切り出しているか','増加幅を by ~ percent で示しているか','質問を受け付ける一文で締めているか'],
+   why:'悪い知らせは、感謝で入り、事実、理由、フォローの順に置くと受け入れられやすくなります。'},
+  {t:'write', ja:'提案を断るメール本文を、3文で書いてください。',
+   src:'今回は見送る ／ 理由は今期の予算枠 ／ 来期の再検討には前向き',
+   a:'Thank you for sending us your detailed proposal. I am afraid we are unable to move forward with it at this time, as it exceeds our budget for this fiscal year. That said, we would be happy to reconsider it when the next budget is approved.',
+   check:['感謝の一文から入っているか','I am afraid ~ / be unable to ~ で柔らかく断っているか','That said などで前向きな余地を残しているか'],
+   why:'断りは「感謝 → 断り＋理由 → 余地を残す」の3文。最後の一文があるかどうかで関係の続き方が変わります。'},
+  {t:'write', ja:'プロジェクトの進捗報告を、3文で書いてください。',
+   src:'設計フェーズは完了 ／ テストは現在進行中 ／ 来週末までに完了見込み',
+   a:'The design phase has been completed as scheduled. The system is currently being tested by the development team. We expect the testing to be finished by the end of next week.',
+   check:['完了した工程を現在完了の受動態で表しているか','進行中の作業を is being ~ で表しているか','見込みを expect to ~ か be expected to ~ で示しているか'],
+   why:'進捗報告は「完了 → 進行中 → 見込み」の3つの時制を書き分けられるかが勝負です。受動態を使うと客観的な報告になります。'},
+  {t:'write', ja:'次の発言を議事録用に、間接話法の2文にまとめてください。',
+   src:'山田氏: "We will need two more weeks. I have already informed the client."',
+   a:'Mr. Yamada said that they would need two more weeks. He added that he had already informed the client.',
+   check:['will を would に変えているか','have informed を had informed に変えているか','we を they に置き換えているか','2文目に added などの動詞を使っているか'],
+   why:'時制・人称の変換に加え、said を繰り返さず added や pointed out を使うと、報告文らしくなります。'},
+  {t:'write', ja:'ある提案に反対する意見を、譲歩から入る形で3文書いてください。',
+   src:'提案：全社で新ツールを即日導入 ／ 懸念：研修の時間がない ／ 対案：部署ごとに段階導入',
+   a:'While I understand the need to introduce the new tool quickly, I am concerned that we would not have enough time for training. If we roll it out to every department at once, many staff members may struggle to use it properly. I would therefore suggest introducing it department by department over the next few months.',
+   check:['While ~ で相手の意図を認めているか','懸念を I am concerned that ~ で述べているか','対案を I would suggest ~ で提示しているか'],
+   why:'反対意見は、譲歩 → 懸念 → 対案の順で置くと建設的に受け取られます。会議でそのまま話せる型です。'},
+  {t:'write', ja:'見積もりを依頼するメール本文を、3文で書いてください。',
+   src:'製品A を500個 ／ 納期は9月末希望 ／ 今週金曜までに回答希望',
+   a:'We are interested in ordering five hundred units of Product A. Could you let us know your price and whether you would be able to deliver them by the end of September? I would appreciate it if you could reply by this Friday.',
+   check:['数量を具体的に述べているか','whether の名詞節で条件を尋ねているか','回答期限を appreciate it if you could ~ で伝えているか'],
+   why:'依頼メールは「要件 → 確認事項 → 期限」の3文。1文に詰め込まず分けるほうが、相手も返信しやすくなります。'}
+ ]
+}
+
+];
+
+const HERO = [
+ {en:'[[The supplier|main]] [[whose quotation we received yesterday|rel]] [[has revised its terms|main]].',
+  ja:'昨日見積もりを受け取った仕入先が、条件を修正しました。'},
+ {en:'[[Although the budget is tight|sub]], [[we have already secured the key resources|main]].',
+  ja:'予算は厳しいものの、主要なリソースはすでに確保しています。'},
+ {en:'[[We will finalize the contract|main]] [[as soon as the legal team approves it|sub]].',
+  ja:'法務が承認し次第、契約を確定します。'},
+ {en:'[[Sales grew in Asia|main]], [[whereas they declined in Europe|sub]].',
+  ja:'アジアでは売上が伸びた一方、欧州では減少しました。'},
+ {en:'[[He met every deadline|main]], [[which impressed the entire team|rel]].',
+  ja:'彼はすべての納期を守り、そのことがチーム全体を感心させました。'},
+ {en:'[[If we had known about the delay|sub]], [[we would have changed the plan|main]].',
+  ja:'遅延を知っていれば、計画を変更していたでしょう。'},
+ {en:'[[Not only did we meet the target|main]], [[but we also exceeded it|main]].',
+  ja:'目標を達成しただけでなく、上回りました。'},
+ {en:'[[Attached is the revised agreement|main]] [[for your review|sub]].',
+  ja:'ご確認用に修正版の契約書を添付いたします。'},
+ {en:'[[Having completed the audit|sub]], [[we issued the final report|main]].',
+  ja:'監査を終えたので、最終報告書を発行しました。'},
+ {en:'[[The list of approved suppliers|main]] [[has been updated|main]] [[in accordance with the new policy|sub]].',
+  ja:'承認済み取引先のリストが新方針に従って更新されました。'}
+];
+</script>
+
+<script>
+/* ========== storage : artifact / PWA / memory の順に自動選択 ========== */
+const KEY='syntax.v1';
+let S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null};
+const mem={};
+const io={
+  async get(){
+    try{ if(window.storage){const r=await window.storage.get(KEY,false);return r?r.value:null;} }catch(e){}
+    try{ return localStorage.getItem(KEY); }catch(e){}
+    return mem[KEY]||null;
+  },
+  async set(v){
+    try{ if(window.storage){await window.storage.set(KEY,v,false);return;} }catch(e){}
+    try{ localStorage.setItem(KEY,v);return; }catch(e){}
+    mem[KEY]=v;
+  }
+};
+let saveT=null;
+function save(){clearTimeout(saveT);saveT=setTimeout(()=>io.set(JSON.stringify(S)),200);}
+async function load(){
+  const raw=await io.get();
+  if(raw){try{const p=JSON.parse(raw);S=Object.assign(S,p);
+    S.stats=Object.assign({total:0,correct:0,days:{}},p.stats||{});}catch(e){}}
+}
+const today=()=>new Date().toLocaleDateString('sv-SE');
+
+/* ========== helpers ========== */
+const $=s=>document.querySelector(s);
+const el=(h)=>{const d=document.createElement('div');d.innerHTML=h.trim();return d.firstElementChild;};
+function mark(t){return t.replace(/\[\[(.+?)\|(main|sub|rel|key)\]\]/g,(m,a,b)=>`<span class="cl ${b}">${a}</span>`);}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('on');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),1800);}
+function updateDot(){const n=S.wrong.length,d=$('#reviewDot');
+  if(!d)return;d.hidden=n===0;d.textContent=n>99?'99+':n;}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
+const U=id=>UNITS.find(u=>u.id===id);
+const VU=UNITS.filter(u=>!u.hidden);
+function unitRow(u,i,fn,sub){const st=uStat(u.id);
+  return `<button class="unit" onclick="${fn}('${u.id}')">
+    <span class="no">${String(i+1).padStart(2,'0')}</span>
+    <span class="body"><span class="t">${u.title}</span>
+      <span class="s"><span class="tag t-${u.tag}">${u.tagLabel}</span>${sub||u.sub}</span></span>
+    ${ring(st.best)}</button>`;}
+function unitListHTML(fn,withCount){
+  let out='';
+  VU.forEach((u,i)=>{
+    if(i===0)out+='<div class="sect"><b>土台をつくる</b><span>時制・接続・関係詞を口から出せるようにする</span></div>';
+    if((u.sec||1)===2&&(VU[i-1]&&(VU[i-1].sec||1)===1))
+      out+='<div class="sect two"><b>900点への精度</b><span>Part 5 で差がつく品詞・語法・一致・倒置</span></div>';
+    if((u.sec||1)===3&&(VU[i-1]&&(VU[i-1].sec||1)===2))
+      out+='<div class="sect three"><b>話す・書くに変える</b><span>覚えた文法を、口と手から出せるようにする</span></div>';
+    out+=unitRow(u,i,fn,withCount?`${u.quiz.length}問 ・ ${uStat(u.id).best?'最高 '+uStat(u.id).best+'%':'未挑戦'}`:null);
+  });
+  return out;}
+function startUnitQuiz(id){startQuiz('unit',id);}
+function uStat(id){const s=S.units[id]||{};return {seen:!!s.seen,best:s.best||0,done:s.done||0};}
+
+/* ========== nav ========== */
+let cur='learn';
+function go(name){
+  if(typeof stopTimer==='function'&&name!=='run')stopTimer();
+  cur=name;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id==='s-'+name));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.go===name));
+  window.scrollTo(0,0);
+  if(name==='learn')renderLearn();
+  if(name==='quiz')renderQuizMenu();
+  if(name==='review')renderReview();
+  if(name==='stats')renderStats();
+}
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>go(t.dataset.go));
+
+/* ========== 学ぶ ========== */
+function ring(pc){
+  const r=15,c=2*Math.PI*r,off=c*(1-pc/100);
+  return `<div class="ring"><svg width="34" height="34" viewBox="0 0 34 34">
+    <circle cx="17" cy="17" r="${r}" stroke="#D2D9E4" stroke-width="3" fill="none"/>
+    <circle cx="17" cy="17" r="${r}" stroke="${pc>=80?'#0F8C7E':'#2F4B99'}" stroke-width="3" fill="none"
+      stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}"/>
+  </svg><b>${pc?pc:'–'}</b></div>`;
+}
+function renderLearn(){
+  const h=HERO[(new Date().getDate()+new Date().getMonth())%HERO.length];
+  $('#heroSent').innerHTML=mark(h.en);
+  $('#heroJa').textContent=h.ja;
+  $('#unitList').innerHTML=unitListHTML('openLesson');
+  const rw=$('#resumeWrap');
+  if(S.last&&U(S.last.u)){
+    rw.innerHTML=`<button class="btn accent" onclick="openLesson('${S.last.u}',${S.last.p})">
+      続きから — ${U(S.last.u).title}</button>`;
+  }else{rw.innerHTML=`<button class="btn" onclick="openLesson('u1')">はじめる — 01 現在形と現在進行形</button>`;}
+  updateDot();
+}
+
+/* ========== レッスン ========== */
+let L={u:null,p:0};
+function openLesson(id,p=0){
+  const uu=U(id);if(!uu||!uu.points.length){toast('このユニットに解説ページはありません');return;}
+  L={u:id,p:p};S.last={u:id,p:p};
+  S.units[id]=Object.assign({seen:true},S.units[id]);save();
+  go('lesson');paintLesson();
+}
+function paintLesson(){
+  const u=U(L.u),pt=u.points[L.p];
+  $('#lessonHead').innerHTML=`<div style="margin-bottom:14px">
+    <div class="tag t-${u.tag}" style="margin-bottom:6px">${u.tagLabel}</div>
+    <div style="font-size:19px;font-weight:700;line-height:1.5">${u.title}</div>
+    <div style="font-size:12px;color:var(--ink-3)">${u.sub}</div></div>`;
+  $('#lessonPager').innerHTML=u.points.map((_,i)=>`<i class="${i<=L.p?'on':''}"></i>`).join('');
+  $('#lessonBody').innerHTML=`<div class="card point">
+    <div class="n">POINT ${L.p+1} / ${u.points.length}</div>
+    <div class="rule">${pt.rule}</div>
+    ${pt.en?`<div class="sent">${mark(pt.en)}</div>`:''}
+    ${pt.ja?`<div class="ja">${pt.ja}</div>`:''}
+    ${pt.note?`<div class="note">${pt.note}</div>`:''}
+  </div>`;
+  const last=L.p===u.points.length-1;
+  $('#lessonNav').innerHTML=
+    `${L.p>0?'<button class="btn ghost" onclick="stepLesson(-1)">戻る</button>':''}
+     ${last?`<button class="btn accent" onclick="startQuiz('unit','${u.id}')">このユニットを演習する</button>`
+           :'<button class="btn" onclick="stepLesson(1)">次へ</button>'}`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function stepLesson(d){
+  const u=U(L.u);L.p=Math.max(0,Math.min(u.points.length-1,L.p+d));
+  S.last={u:L.u,p:L.p};save();paintLesson();
+}
+
+/* ========== 演習メニュー ========== */
+function renderQuizMenu(){
+  $('#quizMenu').innerHTML=`
+  <div class="card" style="margin-bottom:10px;border-left:3px solid var(--clause-out)">
+    <div style="font-weight:500;margin-bottom:4px">瞬間英作文 <span class="note-lv">12問 / 声に出す</span></div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
+      日本語を見て、英語を口に出してから答えを確認します。会話で文が途切れるのは、知識ではなく取り出す速さの問題です。ここが本番に一番近い練習になります。</div>
+    <button class="btn" onclick="startQuiz('speak')">声に出して始める</button>
+  </div>
+  <div class="card" style="margin-bottom:10px;border-left:3px solid var(--clause-out)">
+    <div style="font-weight:500;margin-bottom:4px">ライティング課題 <span class="note-lv">3問 / 自己採点</span></div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
+      メールや報告を実際に書いてから、模範解答とチェック項目で自己採点します。書ける型は、そのまま会話でも使えます。</div>
+    <button class="btn ghost" onclick="startQuiz('write')">書いて始める</button>
+  </div>
+  <div class="card" style="margin-bottom:10px;border-left:3px solid var(--clause-word)">
+    <div style="font-weight:500;margin-bottom:4px">Part 5 模試 <span class="note-lv">20問 / 6分40秒</span></div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
+      本番と同じ1問20秒ペースで20問。全ユニットと模試専用問題から出題します。900点帯では、解けることに加えて速く解けることが必要です。</div>
+    <button class="btn accent" onclick="startQuiz('mock')">模試を始める</button>
+    ${S.stats.mockBest?`<div style="font-family:var(--mono);font-size:11px;color:var(--ink-3);text-align:center;margin-top:10px">BEST ${S.stats.mockBest}%</div>`:''}
+  </div>
+  <div class="card" style="margin-bottom:10px">
+    <div style="font-weight:500;margin-bottom:4px">ミックス演習</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
+      全ユニットから10問をランダム出題。実際の会話では文法は混ざって出てくるので、混ぜて解く練習が効きます。</div>
+    <button class="btn" onclick="startQuiz('mix')">10問を始める</button>
+  </div>
+  <div class="card" style="margin-bottom:10px">
+    <div style="font-weight:500;margin-bottom:4px">弱点集中</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
+      正答率の低いユニットから優先的に出題します。</div>
+    <button class="btn ghost" onclick="startQuiz('weak')">弱点10問を始める</button>
+  </div>
+  <div class="h2">ユニット別</div>
+  ${unitListHTML('startUnitQuiz',true)}
+  <div style="height:10px"></div>`;
+}
+
+/* ========== 出題エンジン ========== */
+let R=null;
+function qref(u,i){return {u:u,i:i,q:U(u).quiz[i]};}
+function startQuiz(mode,uid){
+  let list=[],title='';
+  if(mode==='unit'){const u=U(uid);title=u.title;list=u.quiz.map((_,i)=>qref(uid,i));}
+  else if(mode==='mix'){title='ミックス演習';
+    VU.forEach(u=>u.quiz.forEach((_,i)=>list.push(qref(u.id,i))));list=shuffle(list).slice(0,10);}
+  else if(mode==='speak'){title='瞬間英作文';
+    UNITS.forEach(u=>u.quiz.forEach((q,i)=>{if(q.t==='speak')list.push(qref(u.id,i));}));
+    list=shuffle(list).slice(0,12);}
+  else if(mode==='write'){title='ライティング';
+    UNITS.forEach(u=>u.quiz.forEach((q,i)=>{if(q.t==='write')list.push(qref(u.id,i));}));
+    list=shuffle(list).slice(0,3);}
+  else if(mode==='mock'){title='Part 5 模試';
+    UNITS.forEach(u=>u.quiz.forEach((q,i)=>{if(q.t==='mcq')list.push(qref(u.id,i));}));
+    list=shuffle(list).slice(0,20);}
+  else if(mode==='weak'){title='弱点集中';
+    const sc=VU.map(u=>({u:u,s:uStat(u.id).best||0}));sc.sort((a,b)=>a.s-b.s);
+    sc.slice(0,4).forEach(x=>x.u.quiz.forEach((_,i)=>list.push(qref(x.u.id,i))));
+    list=shuffle(list).slice(0,10);}
+  else if(mode==='review'){title='復習';
+    list=shuffle(S.wrong.map(w=>qref(w.u,w.i)).filter(x=>x.q)).slice(0,12);}
+  if(!list.length){toast('出題できる問題がありません');return;}
+  R={mode,uid,title,list,idx:0,correct:0,answered:false,pick:null,built:[]};
+  go('run');paintQ();
+  if(mode==='mock')startTimer(list.length*20);
+}
+$('#runBack').onclick=()=>{if(R&&R.mode==='unit')go('learn');else if(R&&R.mode==='review')go('review');else go('quiz');};
+
+function paintQ(){
+  const it=R.list[R.idx],q=it.q;
+  R.answered=false;R.pick=null;R.built=[];
+  $('#runTitle').textContent=R.title;
+  $('#runCount').textContent=`${R.idx+1} / ${R.list.length}`;
+  $('#runBar').style.width=(R.idx/R.list.length*100)+'%';
+  R.graded=false;
+  if(q.t==='speak'){
+    $('#runBody').innerHTML=`
+      <div class="qja">日本語を見て、英語で声に出してみましょう</div>
+      <div class="prompt">${q.ja}</div>
+      <div id="verdict"></div>`;
+    paintFoot();return;
+  }
+  if(q.t==='write'){
+    $('#runBody').innerHTML=`
+      <div class="qja" style="font-size:14px;color:var(--ink);line-height:1.8">${q.ja}</div>
+      ${q.src?`<div class="srcbox">${q.src}</div>`:''}
+      <textarea class="wtext" id="wtext" placeholder="ここに英文を書いてみましょう"></textarea>
+      <div id="verdict"></div>`;
+    paintFoot();return;
+  }
+  if(q.t==='mcq'){
+    R.order=shuffle(q.c.map((c,i)=>({c,i})));
+    $('#runBody').innerHTML=`
+      <div class="qtext">${q.q.replace('___','<span class="blank"></span>')}</div>
+      <div class="qja">${q.ja}</div>
+      <div id="opts">${R.order.map((o,n)=>
+        `<button class="opt" data-n="${n}" onclick="pick(${n})">${o.c}</button>`).join('')}</div>
+      <div id="verdict"></div>`;
+  }else{
+    R.bank=shuffle(q.a.map((w,i)=>({w,i})));
+    $('#runBody').innerHTML=`
+      ${q.t==='combine'?`<div class="qja">次の2文を <span class="hintchip">${q.hint}</span> を使って1文にしてください</div>
+        <div class="srcbox">${q.src.map(s=>`<span class="sl">${s}</span>`).join('')}</div>`:''}
+      <div class="qja" style="font-size:14px;color:var(--ink);margin-bottom:14px">${q.ja}</div>
+      <div class="slot" id="slot"></div>
+      <div class="bank" id="bank">${R.bank.map((b,n)=>
+        `<button class="chip" data-n="${n}" onclick="tapChip(${n})">${b.w}</button>`).join('')}</div>
+      <div id="verdict"></div>`;
+    paintSlot();
+  }
+  paintFoot();
+}
+function paintFoot(){
+  const last=R.idx===R.list.length-1,q=R.list[R.idx].q,self=(q.t==='speak'||q.t==='write');
+  const nextBtn=`<button class="btn" onclick="nextQ()">${last?'結果を見る':'次の問題へ'}</button>`;
+  if(self){
+    if(!R.answered){
+      $('#runFoot').innerHTML=`<button class="btn" onclick="reveal()">${q.t==='speak'?'言えたら模範解答を見る':'書けたら模範解答を見る'}</button>`;
+    }else if(!R.graded){
+      $('#runFoot').innerHTML=`<div class="selfnote">自己採点してください</div><div class="grade">
+        ${q.t==='speak'
+          ?`<button class="btn ghost" onclick="grade(0)">出てこなかった</button>
+            <button class="btn ghost" onclick="grade(0)">つまずいた</button>
+            <button class="btn" onclick="grade(1)">言えた</button>`
+          :`<button class="btn ghost" onclick="grade(0)">直しが必要</button>
+            <button class="btn" onclick="grade(1)">書けていた</button>`}</div>`;
+    }else{$('#runFoot').innerHTML=nextBtn;}
+    return;
+  }
+  if(!R.answered){
+    const ready=q.t==='mcq'?R.pick!==null:R.built.length===q.a.length;
+    $('#runFoot').innerHTML=`<button class="btn" id="chk" ${ready?'':'disabled'} onclick="check()">答え合わせ</button>`;
+  }else{$('#runFoot').innerHTML=nextBtn;}
+}
+function reveal(){
+  const q=R.list[R.idx].q;
+  $('#verdict').innerHTML=`<div class="verdict ok">
+    <div class="vt">模範解答</div>
+    <div class="ans sent" style="line-height:1.75">${mark(q.a)}</div>
+    ${q.check?`<ul class="chk">${q.check.map(c=>`<li>${c}</li>`).join('')}</ul>`:''}
+    <div class="why" style="margin-top:10px">${q.why}</div></div>`;
+  R.answered=true;R.graded=false;paintFoot();
+  $('#verdict').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function grade(ok){R.graded=true;record(R.list[R.idx],!!ok);paintFoot();}
+function pick(n){
+  if(R.answered)return;R.pick=n;
+  document.querySelectorAll('#opts .opt').forEach(b=>b.classList.toggle('pick',+b.dataset.n===n));
+  paintFoot();
+}
+function paintSlot(){
+  const s=$('#slot');
+  s.innerHTML=R.built.map((n,k)=>`<button class="chip in" onclick="unTap(${k})">${R.bank[n].w}</button>`).join('')
+    ||`<span style="font-size:12px;color:var(--ink-3);align-self:center">下の語を順番にタップして英文をつくる</span>`;
+  document.querySelectorAll('#bank .chip').forEach(b=>b.classList.toggle('used',R.built.includes(+b.dataset.n)));
+}
+function tapChip(n){if(R.answered||R.built.includes(n))return;R.built.push(n);paintSlot();paintFoot();}
+function unTap(k){if(R.answered)return;R.built.splice(k,1);paintSlot();paintFoot();}
+
+function check(){
+  const it=R.list[R.idx],q=it.q;let ok=false,mine='';
+  if(q.t==='mcq'){
+    ok=R.order[R.pick].i===q.a;
+    document.querySelectorAll('#opts .opt').forEach(b=>{
+      const n=+b.dataset.n,isA=R.order[n].i===q.a;
+      b.classList.remove('pick');
+      if(isA){b.classList.add('ok');b.insertAdjacentHTML('afterbegin','<span class="mk">正解</span>');}
+      else if(n===R.pick){b.classList.add('ng');b.insertAdjacentHTML('afterbegin','<span class="mk">選択</span>');}
+    });
+  }else{
+    mine=R.built.map(n=>R.bank[n].w);
+    ok=mine.join(' ')===q.a.join(' ');
+    $('#slot').classList.add('done');
+    $('#slot').querySelectorAll('.chip').forEach((c,k)=>{
+      c.classList.remove('in');c.classList.add(mine[k]===q.a[k]?'ok':'ng');});
+  }
+  const answer=q.t==='mcq'
+    ? q.q.replace('___',`<b style="color:var(--clause-sub)">${q.c[q.a]}</b>`)
+    : (q.full||q.a.join(' ')+'.');
+  $('#verdict').innerHTML=`<div class="verdict ${ok?'ok':'ng'}">
+    <div class="vt">${ok?'正解':'もう一度確認'}</div>
+    <div class="ans">${answer}</div>
+    <div class="why">${q.why}</div></div>`;
+  R.answered=true;record(it,ok);paintFoot();
+  if(!ok)$('#verdict').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function record(it,ok){
+  S.stats.total++;if(ok){S.stats.correct++;R.correct++;}
+  const d=today();S.stats.days[d]=(S.stats.days[d]||0)+1;
+  const w=S.wrong.findIndex(x=>x.u===it.u&&x.i===it.i);
+  if(ok){if(w>-1){S.wrong[w].n=(S.wrong[w].n||0)+1;if(S.wrong[w].n>=2)S.wrong.splice(w,1);}}
+  else{if(w>-1)S.wrong[w].n=0;else S.wrong.push({u:it.u,i:it.i,n:0});}
+  save();updateDot();
+}
+function nextQ(){
+  if(R.idx<R.list.length-1){R.idx++;paintQ();window.scrollTo({top:0,behavior:'smooth'});return;}
+  finish();
+}
+function finish(){
+  const pc=Math.round(R.correct/R.list.length*100);
+  stopTimer();
+  if(R.mode==='mock'){S.stats.mockBest=Math.max(S.stats.mockBest||0,pc);save();}
+  if(R.mode==='unit'){
+    const st=S.units[R.uid]||{};st.best=Math.max(st.best||0,pc);st.done=(st.done||0)+1;st.seen=true;
+    S.units[R.uid]=st;save();
+  }
+  $('#runBar').style.width='100%';
+  $('#runCount').textContent='完了';
+  $('#runBody').innerHTML=`<div class="card" style="text-align:center;padding:32px 20px">
+    <div style="font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--ink-3)">SCORE</div>
+    <div style="font-family:var(--mono);font-size:52px;font-weight:600;letter-spacing:-.03em;line-height:1.2">${pc}<span style="font-size:22px">%</span></div>
+    <div style="font-size:13px;color:var(--ink-2)">${R.list.length}問中 ${R.correct}問 正解</div>
+    ${R.mode==='mock'?`<div style="font-size:12.5px;color:var(--ink);margin-top:14px;line-height:1.8;
+      padding-top:14px;border-top:1px solid var(--line);text-align:left">${mockComment(pc)}</div>`:''}
+    ${S.wrong.length?`<div style="font-size:12.5px;color:var(--ink-2);margin-top:16px;line-height:1.8">
+      間違えた問題は復習リストに入りました。<br>2回連続で正解するとリストから外れます。</div>`:''}
+  </div>`;
+  $('#runFoot').innerHTML=`<div class="row">
+    <button class="btn ghost" onclick="startQuiz('${R.mode}','${R.uid||''}')">もう一度</button>
+    ${S.wrong.length?`<button class="btn" onclick="startQuiz('review')">復習する（${S.wrong.length}）</button>`
+      :`<button class="btn" onclick="go('learn')">ユニットに戻る</button>`}</div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ========== 模試タイマー ========== */
+let timerId=null;
+function startTimer(sec){stopTimer();R.left=sec;$('#runTimer').hidden=false;paintTimer();
+  timerId=setInterval(()=>{R.left--;paintTimer();if(R.left<=0){stopTimer();toast('時間切れです');finish();}},1000);}
+function stopTimer(){if(timerId){clearInterval(timerId);timerId=null;}
+  const t=$('#runTimer');if(t)t.hidden=true;}
+function paintTimer(){const t=$('#runTimer');if(!t)return;
+  const m=Math.floor(Math.max(R.left,0)/60),s=Math.max(R.left,0)%60;
+  t.textContent=m+':'+String(s).padStart(2,'0');t.classList.toggle('low',R.left<=60);}
+
+function mockComment(pc){
+  if(pc>=95)return 'Part 5 相当の精度は <b>900点圏</b> です。この速さを保ったまま、長文の処理量を増やす段階に入っています。';
+  if(pc>=85)return '<b>850〜900点圏</b> の精度です。落とした分野を復習で潰せば、文法での失点はほぼなくなります。';
+  if(pc>=70)return '<b>800点圏</b> です。900点帯との差は品詞・語法・一致の取りこぼしに出ます。弱点集中で該当ユニットを回しましょう。';
+  return 'まずは間違えた問題の解説を読み直し、該当ユニットを一つずつ固めていきましょう。';}
+
+/* ========== 復習 ========== */
+function renderReview(){
+  const b=$('#reviewBody');
+  if(!S.wrong.length){
+    b.innerHTML=`<div class="card"><div class="empty"><span class="big">◎</span>
+      復習リストは空です。<br>演習で間違えた問題が自動でここに集まります。</div>
+      <button class="btn" onclick="go('quiz')">演習に進む</button></div>`;return;
+  }
+  const byU={};S.wrong.forEach(w=>{(byU[w.u]=byU[w.u]||[]).push(w);});
+  b.innerHTML=`<div class="card" style="margin-bottom:10px">
+    <div style="font-weight:500;margin-bottom:4px">${S.wrong.length}問が復習待ちです</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
+      2回連続で正解するとリストから外れます。1日1回まわすのが効率的です。</div>
+    <button class="btn" onclick="startQuiz('review')">復習を始める</button></div>
+  <div class="h2">内訳</div>
+  ${Object.keys(byU).map(uid=>{const u=U(uid);
+    return `<button class="unit" ${u.hidden?'':`onclick="openLesson('${uid}')"`}>
+      <span class="no">${u.hidden?'--':String(VU.indexOf(u)+1).padStart(2,'0')}</span>
+      <span class="body"><span class="t">${u.title}</span>
+      <span class="s">${byU[uid].length}問が復習待ち${u.hidden?'':' ・ タップで解説を読む'}</span></span>
+      <span style="font-family:var(--mono);font-size:17px;color:var(--wrong)">${byU[uid].length}</span>
+    </button>`;}).join('')}
+  <div style="height:10px"></div>
+  <button class="btn ghost sm" onclick="clearWrong()">復習リストを空にする</button>`;
+}
+function clearWrong(){S.wrong=[];save();renderReview();renderLearn();toast('復習リストを空にしました');}
+
+/* ========== 記録 ========== */
+function streak(){
+  let n=0;const d=new Date();
+  for(;;){const k=d.toLocaleDateString('sv-SE');
+    if(S.stats.days[k]){n++;d.setDate(d.getDate()-1);}
+    else if(n===0&&k===today()){d.setDate(d.getDate()-1);}
+    else break;
+    if(n>999)break;}
+  return n;
+}
+function renderStats(){
+  const t=S.stats.total,c=S.stats.correct;
+  const rate=t?Math.round(c/t*100):0;
+  const doneUnits=VU.filter(u=>uStat(u.id).best>=80).length;
+  $('#statsBody').innerHTML=`
+  <div class="grid2" style="margin-bottom:9px">
+    <div class="stat"><b>${streak()}</b><s>連続学習日数</s></div>
+    <div class="stat"><b>${rate}<span style="font-size:15px">%</span></b><s>通算 正答率</s></div>
+    <div class="stat"><b>${t}</b><s>解いた問題数</s></div>
+    <div class="stat"><b>${doneUnits}<span style="font-size:15px">/${VU.length}</span></b><s>80%以上のユニット</s></div>
+    <div class="stat"><b>${S.stats.mockBest||0}<span style="font-size:15px">%</span></b><s>模試 最高スコア</s></div>
+    <div class="stat"><b>${S.wrong.length}</b><s>復習待ちの問題</s></div>
+  </div>
+  <div class="h2">ユニット別の到達度</div>
+  <div class="card bars">${VU.map(u=>{const p=uStat(u.id).best;
+    return `<div class="bar"><span class="lb">${u.title}</span>
+      <span class="tr"><i style="width:${p}%;background:${p>=80?'#0F8C7E':'#2F4B99'}"></i></span>
+      <span class="pc">${p?p+'%':'–'}</span></div>`;}).join('')}</div>
+  <div class="h2">修了までの距離</div>
+  <div class="card">${finishStatus()}</div>
+  <div class="h2">つまずきの傾向</div>
+  <div class="card"><div style="font-size:13px;line-height:1.9;color:var(--ink-2)">${advice()}</div></div>
+  <div style="height:14px"></div>
+  <button class="btn ghost sm" onclick="resetAll()">学習データをすべて消去する</button>
+  <div style="height:10px"></div>`;
+}
+function finishStatus(){
+  const need=VU.filter(u=>uStat(u.id).best<80);
+  const mock=S.stats.mockBest||0;
+  const spoken=S.units.sp&&S.units.sp.done, written=S.units.wr&&S.units.wr.done;
+  if(!need.length&&mock>=90)
+    return `<div style="text-align:center;padding:8px 0">
+      <div style="font-family:var(--en);font-size:30px;font-weight:700;letter-spacing:-.02em">Complete</div>
+      <div style="font-size:13px;line-height:1.9;color:var(--ink-2);margin-top:8px">
+      全ユニット80%以上、模試90%以上を達成しました。ここまで来れば、TOEIC の文法問題で迷う場面はほとんど残っていません。
+      あとは瞬間英作文を毎日回して、知識を速度に変える段階です。</div></div>`;
+  const items=[
+    ['全ユニットで80%以上',`残り ${need.length} ユニット`,need.length===0],
+    ['模試で90%以上',`現在 ${mock}%`,mock>=90],
+    ['復習リストを空にする',`残り ${S.wrong.length} 問`,S.wrong.length===0]];
+  return `<div style="font-size:13px;line-height:1.9;color:var(--ink-2);margin-bottom:12px">
+    次の3つがそろったら修了です。</div>
+    <ul class="chk" style="margin:0">${items.map(([t,s,ok])=>
+      `<li style="${ok?'color:var(--right)':''}">${t} — ${ok?'達成':s}</li>`).join('')}</ul>`;}
+
+function advice(){
+  if(!S.stats.total)return '演習を解くと、ここに苦手の傾向が表示されます。まずはユニット01から進めてみてください。';
+  const cnt={main:0,sub:0,rel:0,word:0,out:0};
+  S.wrong.forEach(w=>{const u=U(w.u);if(u)cnt[u.tag]++;});
+  const name={main:'時制・態',sub:'接続表現・比較・助動詞',rel:'関係詞・分詞',word:'品詞・語法・一致',out:'会話・作文への応用'};
+  const top=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0];
+  if(!cnt[top])return '今のところ復習待ちはありません。ミックス演習で定着を確認しましょう。';
+  return `いま最も取りこぼしが多いのは <b>${name[top]}</b>（${cnt[top]}問）です。該当ユニットの解説を読み直してから復習を回すと、定着が早くなります。`;
+}
+function resetAll(){
+  if(!confirm('学習データをすべて消去します。よろしいですか？'))return;
+  S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null};save();renderStats();renderLearn();
+  toast('学習データを消去しました');
+}
+
+/* ========== Service Worker ========== */
+(function(){
+  if(!('serviceWorker' in navigator))return;
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js').then(reg=>{
+      reg.addEventListener('updatefound',()=>{
+        const sw=reg.installing;if(!sw)return;
+        sw.addEventListener('statechange',()=>{
+          if(sw.state==='installed'&&navigator.serviceWorker.controller)
+            toast('新しいバージョンがあります。開き直すと更新されます');
+        });
+      });
+    }).catch(()=>{});
+  });
+})();
+
+/* ========== boot ========== */
+load().then(()=>{
+  go('learn');
+  const p=new URLSearchParams(location.search).get('go');
+  if(p==='speak'||p==='mock'||p==='write'||p==='mix'||p==='review')
+    setTimeout(()=>startQuiz(p),0);
+});
+</script>
+
+</body>
+</html>
