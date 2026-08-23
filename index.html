@@ -98,6 +98,57 @@ button{font-family:inherit;font-size:inherit;color:inherit;border:0;background:n
   text-transform:uppercase;margin-bottom:9px;text-align:center}
 .grade{display:flex;gap:7px}
 .grade .btn{padding:13px 6px;font-size:13px}
+.sel{width:100%;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:12px;
+  font-family:var(--ja);font-size:14px;color:var(--ink);background:var(--card);outline:none;
+  -webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%237C8AA5' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 13px center;background-size:11px;padding-right:34px}
+.sel:focus{border-color:var(--ink)}
+input.sel{background-image:none;padding-right:12px;font-family:var(--mono);font-size:13px}
+.lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--ink-3);
+  text-transform:uppercase;margin-bottom:6px}
+.pills{display:flex;gap:7px;flex-wrap:wrap}
+.pill{border:1.5px solid var(--line);border-radius:20px;padding:8px 15px;font-size:13px;color:var(--ink-2)}
+.pill.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.mini{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--wrong);
+  border:1px solid var(--line);border-radius:20px;padding:3px 10px;margin-left:10px}
+.next{border-left:3px solid var(--clause-out)}
+.nextt{font-weight:700;font-size:15.5px;line-height:1.5;margin-bottom:6px}
+.nextb{font-size:12.5px;color:var(--ink-2);line-height:1.9}
+.next .btn.sm{width:auto;flex:1}
+.radar{width:100%;max-width:320px;height:auto;display:block;margin:0 auto}
+.radarnote{font-size:12px;color:var(--ink-2);line-height:1.8;text-align:center;padding:4px 8px 6px}
+.hm{width:100%;height:auto;display:block}
+.hmleg{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:10px;
+  font-family:var(--mono);font-size:9px;color:var(--ink-3)}
+.hmleg i{width:11px;height:11px;border-radius:2.5px}
+.trend{width:100%;height:auto;display:block}
+.tnote{font-size:11.5px;color:var(--ink-3);line-height:1.75;margin-top:10px;
+  padding-top:10px;border-top:1px solid var(--line)}
+.weak{display:flex;gap:12px;background:var(--card);border-radius:var(--r-md);
+  padding:15px;margin-bottom:9px;box-shadow:0 1px 2px rgba(23,37,63,.05)}
+.wno{font-family:var(--mono);font-size:19px;font-weight:600;color:var(--wrong);
+  line-height:1;padding-top:2px}
+.wt{font-weight:500;font-size:14.5px}
+.ws{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-top:3px}
+.wa{font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-top:8px}
+.weak .btn.sm{width:auto;flex:1}
+.bkstat{display:grid;grid-template-columns:1fr auto;gap:7px 12px;align-items:baseline;
+  background:#F4F7FB;border-radius:var(--r-sm);padding:13px 15px}
+.bkstat span{font-size:12.5px;color:var(--ink-2)}
+.bkstat b{font-family:var(--mono);font-size:16px;font-weight:600;text-align:right}
+.linkbtn{text-decoration:underline;color:var(--ink-2);font-size:11.5px;padding:0}
+.fixedval{font-family:var(--mono);font-size:13px;color:var(--ink-2);
+  background:#F4F7FB;border-radius:var(--r-sm);padding:12px 13px}
+.aimsg{margin-top:12px;font-size:12.5px;line-height:1.8;color:var(--ink-2);
+  background:#F4F7FB;border-radius:var(--r-sm);padding:11px 13px}
+.aimsg.err{background:#FBEDEF;color:var(--wrong)}
+.gq{border-top:1px solid var(--line);padding:14px 0 4px}
+.gqt{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);margin-bottom:7px}
+.gqa{font-family:var(--en);font-size:14px;color:var(--right);margin-top:4px}
+.gqj{font-size:12.5px;color:var(--ink-2);margin-top:6px}
+.gqw{font-size:12px;color:var(--ink-3);line-height:1.75;margin-top:5px}
+a.btn{text-decoration:none}
 .sect{margin:26px 0 11px;padding-left:11px;border-left:3px solid var(--clause-main)}
 .sect b{display:block;font-size:14.5px;font-weight:700}
 .sect span{display:block;font-size:11.5px;color:var(--ink-3);margin-top:1px}
@@ -232,7 +283,7 @@ button{font-family:inherit;font-size:inherit;color:inherit;border:0;background:n
   padding:8px 0 calc(8px + env(safe-area-inset-bottom))}
 .tabbar .in{max-width:520px;margin:0 auto;display:flex;width:100%}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
-  font-size:10.5px;color:var(--ink-3);padding:3px 0;position:relative}
+  font-size:10px;color:var(--ink-3);padding:3px 0;position:relative}
 .tab svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;
   stroke-linecap:round;stroke-linejoin:round}
 .tab.on{color:var(--ink)}
@@ -307,6 +358,31 @@ button{font-family:inherit;font-size:inherit;color:inherit;border:0;background:n
     <div id="reviewBody"></div>
   </section>
 
+  <!-- ===== AI生成 ===== -->
+  <section class="screen" id="s-ai">
+    <div class="topbar">
+      <div class="wordmark">問題を作る</div>
+      <div class="tagline">Generate with Gemini</div>
+    </div>
+    <div id="aiBody"></div>
+  </section>
+
+  <!-- ===== APIキー設定 ===== -->
+  <section class="screen" id="s-aiset">
+    <button class="navback" onclick="go('ai')">← 戻る</button>
+    <div id="aisetBody"></div>
+  </section>
+
+  <!-- ===== バックアップ ===== -->
+  <section class="screen" id="s-backup">
+    <button class="navback" onclick="go('stats')">← 記録にもどる</button>
+    <div style="margin-bottom:18px">
+      <div class="wordmark" style="font-size:19px">データの移行</div>
+      <div class="tagline">Backup &amp; restore</div>
+    </div>
+    <div id="bkBody"></div>
+  </section>
+
   <!-- ===== 記録 ===== -->
   <section class="screen" id="s-stats">
     <div class="topbar">
@@ -321,6 +397,7 @@ button{font-family:inherit;font-size:inherit;color:inherit;border:0;background:n
   <button class="tab on" data-go="learn"><svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4H10a2 2 0 012 2v13a2 2 0 00-2-2H5.5A1.5 1.5 0 014 15.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H14a2 2 0 00-2 2v13a2 2 0 012-2h4.5a1.5 1.5 0 001.5-1.5z"/></svg>学ぶ</button>
   <button class="tab" data-go="quiz"><svg viewBox="0 0 24 24"><path d="M9 11l2.5 2.5L20 5"/><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/></svg>演習</button>
   <button class="tab" data-go="review"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7.5V12l3 2"/></svg>復習<span class="dot" id="reviewDot" hidden>0</span></button>
+  <button class="tab" data-go="ai"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></svg>作る</button>
   <button class="tab" data-go="stats"><svg viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg>記録</button>
 </div></nav>
 <div class="toast" id="toast"></div>
@@ -1869,7 +1946,7 @@ const HERO = [
 <script>
 /* ========== storage : artifact / PWA / memory の順に自動選択 ========== */
 const KEY='syntax.v1';
-let S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null};
+let S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null,gen:{},cat:{},type:{},ai:{key:'',think:'high'}};
 const mem={};
 const io={
   async get(){
@@ -1935,6 +2012,9 @@ function go(name){
   if(name==='quiz')renderQuizMenu();
   if(name==='review')renderReview();
   if(name==='stats')renderStats();
+  if(name==='ai')renderAI();
+  if(name==='aiset')renderAISet();
+  if(name==='backup')renderBackup();
 }
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>go(t.dataset.go));
 
@@ -2027,6 +2107,13 @@ function renderQuizMenu(){
     <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
       正答率の低いユニットから優先的に出題します。</div>
     <button class="btn ghost" onclick="startQuiz('weak')">弱点10問を始める</button>
+  </div>
+  <div class="card" style="margin-bottom:10px;border-left:3px solid var(--clause-out)">
+    <div style="font-weight:500;margin-bottom:4px">AIで問題を追加する
+      ${genTotal()?`<span class="note-lv">+${genTotal()}問 追加済み</span>`:''}</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
+      物足りなくなった単元は、Gemini に新しい問題を作らせて追加できます。追加した問題は通常の演習にそのまま出題されます。</div>
+    <button class="btn ghost" onclick="go('ai')">問題を作る</button>
   </div>
   <div class="h2">ユニット別</div>
   ${unitListHTML('startUnitQuiz',true)}
@@ -2183,7 +2270,17 @@ function check(){
 }
 function record(it,ok){
   S.stats.total++;if(ok){S.stats.correct++;R.correct++;}
-  const d=today();S.stats.days[d]=(S.stats.days[d]||0)+1;
+  const d=today();
+  const day=S.stats.days[d];
+  const e=(day&&typeof day==='object')?day:{n:(typeof day==='number'?day:0),c:0};
+  e.n++;if(ok)e.c=(e.c||0)+1;
+  S.stats.days[d]=e;
+  const un=U(it.u), q=un&&un.quiz[it.i];
+  S.cat=S.cat||{}; S.type=S.type||{};
+  if(un)bump(S.cat,un.tag,ok);
+  if(q)bump(S.type,q.t,ok);
+  const us=S.units[it.u]||(S.units[it.u]={});
+  us.n=(us.n||0)+1; if(ok)us.c=(us.c||0)+1;
   const w=S.wrong.findIndex(x=>x.u===it.u&&x.i===it.i);
   if(ok){if(w>-1){S.wrong[w].n=(S.wrong[w].n||0)+1;if(S.wrong[w].n>=2)S.wrong.splice(w,1);}}
   else{if(w>-1)S.wrong[w].n=0;else S.wrong.push({u:it.u,i:it.i,n:0});}
@@ -2266,7 +2363,8 @@ function clearWrong(){S.wrong=[];save();renderReview();renderLearn();toast('復�
 function streak(){
   let n=0;const d=new Date();
   for(;;){const k=d.toLocaleDateString('sv-SE');
-    if(S.stats.days[k]){n++;d.setDate(d.getDate()-1);}
+    const e=S.stats.days[k], v=e?(typeof e==='number'?e:e.n):0;
+    if(v){n++;d.setDate(d.getDate()-1);}
     else if(n===0&&k===today()){d.setDate(d.getDate()-1);}
     else break;
     if(n>999)break;}
@@ -2276,47 +2374,100 @@ function renderStats(){
   const t=S.stats.total,c=S.stats.correct;
   const rate=t?Math.round(c/t*100):0;
   const doneUnits=VU.filter(u=>uStat(u.id).best>=80).length;
+  const d=diagnose(), na=nextAction();
   $('#statsBody').innerHTML=`
-  <div class="grid2" style="margin-bottom:9px">
+  <div class="card next">
+    <div class="nextt">${na.t}</div>
+    <div class="nextb">${na.b}</div>
+    <div class="row" style="margin-top:14px">${na.go}</div>
+  </div>
+
+  <div class="grid2" style="margin:10px 0 0">
     <div class="stat"><b>${streak()}</b><s>連続学習日数</s></div>
     <div class="stat"><b>${rate}<span style="font-size:15px">%</span></b><s>通算 正答率</s></div>
     <div class="stat"><b>${t}</b><s>解いた問題数</s></div>
-    <div class="stat"><b>${doneUnits}<span style="font-size:15px">/${VU.length}</span></b><s>80%以上のユニット</s></div>
+    <div class="stat"><b>${doneUnits}<span style="font-size:15px">/${VU.length}</span></b><s>80%以上の単元</s></div>
     <div class="stat"><b>${S.stats.mockBest||0}<span style="font-size:15px">%</span></b><s>模試 最高スコア</s></div>
     <div class="stat"><b>${S.wrong.length}</b><s>復習待ちの問題</s></div>
   </div>
-  <div class="h2">ユニット別の到達度</div>
-  <div class="card bars">${VU.map(u=>{const p=uStat(u.id).best;
-    return `<div class="bar"><span class="lb">${u.title}</span>
-      <span class="tr"><i style="width:${p}%;background:${p>=80?'#0F8C7E':'#2F4B99'}"></i></span>
-      <span class="pc">${p?p+'%':'–'}</span></div>`;}).join('')}</div>
+
+  <div class="h2">分野別の実力</div>
+  <div class="card" style="padding:14px 10px 8px">
+    ${radar()}
+    <div class="radarnote">${
+      d.cats.length>=2
+        ? `いちばん低いのは <b>${d.cats[0].label}</b>（${d.cats[0].v}%）、高いのは <b>${d.cats[d.cats.length-1].label}</b>（${d.cats[d.cats.length-1].v}%）です。`
+        : '各分野を5問以上解くと、ここに形が現れます。'}</div>
+  </div>
+
+  <div class="h2">学習の記録</div>
+  <div class="card">
+    ${heatmap()}
+    <div class="hmleg"><span>少ない</span>
+      ${[0.2,0.45,0.7,1].map(o=>`<i style="background:rgba(47,75,153,${o})"></i>`).join('')}
+      <span>多い</span></div>
+  </div>
+
+  ${trend()}
+
+  ${d.types.length?`<div class="h2">出題形式ごとの成績</div>
+  <div class="card bars">${d.types.map(x=>`
+    <div class="bar"><span class="lb">${x.label}</span>
+      <span class="tr"><i style="width:${x.v}%;background:${x.v>=80?'#0F8C7E':x.v>=60?'#2F4B99':'#C13B54'}"></i></span>
+      <span class="pc">${x.v}%</span></div>`).join('')}
+    <div class="tnote">${typeNote(d)}</div></div>`:''}
+
+  <div class="h2">単元別の正答率</div>
+  <div class="card bars">${d.rows.map(r=>{
+    const v=r.r, w=v===null?r.best:v;
+    return `<div class="bar" onclick="openLesson('${r.u.id}')" style="cursor:pointer">
+      <span class="lb">${r.u.title}</span>
+      <span class="tr"><i style="width:${w}%;background:${
+        v===null?'var(--line)':v>=80?'#0F8C7E':v>=60?'#2F4B99':'#C13B54'}"></i></span>
+      <span class="pc">${v===null?(r.n?'–':'未'):v+'%'}</span></div>`;}).join('')}
+    <div class="tnote">数字は解いた問題の正答率です。3問未満の単元は「–」と表示されます。</div></div>
+
+  ${d.weak.length?`<div class="h2">重点的に直すところ</div>
+  ${d.weak.slice(0,3).map((w,i)=>`<div class="weak">
+    <div class="wno">${i+1}</div>
+    <div style="flex:1;min-width:0">
+      <div class="wt">${w.u.title}</div>
+      <div class="ws">正答率 ${w.r}%（${w.n}問）${w.wrong?` ・ 復習待ち ${w.wrong}問`:''}</div>
+      <div class="wa">${weakAdvice(w)}</div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost sm" onclick="openLesson('${w.u.id}')">解説</button>
+        <button class="btn sm" onclick="startQuiz('unit','${w.u.id}')">解く</button>
+      </div>
+    </div></div>`).join('')}`:''}
+
   <div class="h2">修了までの距離</div>
   <div class="card">${finishStatus()}</div>
   <div class="h2">つまずきの傾向</div>
   <div class="card"><div style="font-size:13px;line-height:1.9;color:var(--ink-2)">${advice()}</div></div>
   <div style="height:14px"></div>
+  <button class="btn ghost sm" onclick="go('backup')">データの書き出し・読み込み</button>
+  <div style="height:9px"></div>
   <button class="btn ghost sm" onclick="resetAll()">学習データをすべて消去する</button>
   <div style="height:10px"></div>`;
 }
-function finishStatus(){
-  const need=VU.filter(u=>uStat(u.id).best<80);
-  const mock=S.stats.mockBest||0;
-  const spoken=S.units.sp&&S.units.sp.done, written=S.units.wr&&S.units.wr.done;
-  if(!need.length&&mock>=90)
-    return `<div style="text-align:center;padding:8px 0">
-      <div style="font-family:var(--en);font-size:30px;font-weight:700;letter-spacing:-.02em">Complete</div>
-      <div style="font-size:13px;line-height:1.9;color:var(--ink-2);margin-top:8px">
-      全ユニット80%以上、模試90%以上を達成しました。ここまで来れば、TOEIC の文法問題で迷う場面はほとんど残っていません。
-      あとは瞬間英作文を毎日回して、知識を速度に変える段階です。</div></div>`;
-  const items=[
-    ['全ユニットで80%以上',`残り ${need.length} ユニット`,need.length===0],
-    ['模試で90%以上',`現在 ${mock}%`,mock>=90],
-    ['復習リストを空にする',`残り ${S.wrong.length} 問`,S.wrong.length===0]];
-  return `<div style="font-size:13px;line-height:1.9;color:var(--ink-2);margin-bottom:12px">
-    次の3つがそろったら修了です。</div>
-    <ul class="chk" style="margin:0">${items.map(([t,s,ok])=>
-      `<li style="${ok?'color:var(--right)':''}">${t} — ${ok?'達成':s}</li>`).join('')}</ul>`;}
-
+function typeNote(d){
+  const mcq=d.types.find(x=>x.k==='mcq'), sp=d.types.find(x=>x.k==='speak');
+  if(mcq&&sp&&mcq.v-sp.v>=15)
+    return '選べるのに、口からは出てこない状態です。知識より取り出す速さが課題なので、瞬間英作文の回数を増やしましょう。';
+  const ord=d.types.find(x=>x.k==='order');
+  if(mcq&&ord&&mcq.v-ord.v>=15)
+    return '正解は選べても、自分で組み立てると崩れています。並べ替えを重点的に回すと、語順が安定します。';
+  if(sp&&sp.v>=80)return '口から出す練習が効いています。この形式の正答率が高い人は、会話でも文が途切れにくくなります。';
+  return '形式によって差が出るときは、低いほうが実力に近いと考えて練習量を寄せましょう。';
+}
+function weakAdvice(w){
+  const m={main:'時制は「いつの話か」を先に決めてから動詞を選ぶ癖をつけると安定します。',
+    sub:'つなぐ語は、後ろが名詞か文かで決まります。空所の後ろを見る習慣をつけましょう。',
+    rel:'関係詞は「名詞を先に出して後ろから説明する」語順に慣れることが先決です。',
+    word:'空所の前後だけを見て、品詞と単複を機械的に決める練習が効きます。意味から考えると迷います。',
+    out:'型を覚えて口に出す回数がすべてです。解説の例文をそのまま音読しましょう。'};
+  return m[w.u.tag]||'';
+}
 function advice(){
   if(!S.stats.total)return '演習を解くと、ここに苦手の傾向が表示されます。まずはユニット01から進めてみてください。';
   const cnt={main:0,sub:0,rel:0,word:0,out:0};
@@ -2328,8 +2479,781 @@ function advice(){
 }
 function resetAll(){
   if(!confirm('学習データをすべて消去します。よろしいですか？'))return;
-  S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null};save();renderStats();renderLearn();
+  const keep=S.ai;S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null,gen:{},cat:{},type:{},ai:keep};save();mergeGen();renderStats();renderLearn();
   toast('学習データを消去しました');
+}
+
+/* ========== AI 問題生成 (Gemini) ========== */
+const GEM_MODEL='gemini-3.7-flash';
+const THINK_LEVELS=[['high','じっくり考える（推奨）'],['medium','標準'],['low','速く作る']];
+function gemKey(){return S.ai&&S.ai.key||'';}
+function gemModel(){return GEM_MODEL;}
+function gemThink(){return (S.ai&&S.ai.think)||'high';}
+
+const Q_SCHEMA={
+  type:'object',
+  properties:{
+    items:{type:'array',items:{
+      type:'object',
+      properties:{
+        t:{type:'string',enum:['mcq','order','speak']},
+        q:{type:'string'},
+        ja:{type:'string'},
+        c:{type:'array',items:{type:'string'}},
+        a_index:{type:'integer'},
+        a_tokens:{type:'array',items:{type:'string'}},
+        a_text:{type:'string'},
+        full:{type:'string'},
+        why:{type:'string'}
+      },
+      required:['t','ja','why']
+    }}
+  },
+  required:['items']
+};
+
+function genPrompt(u,n,types,level){
+  const ex=u.quiz.slice(0,2).map(q=>{
+    if(q.t==='mcq')return `形式mcq: q="${q.q}" ja="${q.ja}" 選択肢=${JSON.stringify(q.c)} 正解index=${q.a}`;
+    if(q.t==='order')return `形式order: ja="${q.ja}" 正解語順=${JSON.stringify(q.a)}`;
+    if(q.t==='speak')return `形式speak: ja="${q.ja}" 模範解答="${q.a}"`;
+    return '';
+  }).filter(Boolean).join('\n');
+  const pts=u.points.map(p=>p.rule).join(' / ');
+  return `あなたはTOEIC教材の作問者です。日本人ビジネスパーソン（TOEIC${level}点帯、CEFR B1〜B2）向けの英文法問題を${n}問作ってください。
+
+【単元】${u.title}（${u.sub}）
+【この単元で扱う文法規則】${pts}
+
+【既存問題の例】
+${ex}
+
+【厳守事項】
+- 出題形式は次のみ: ${types.join(', ')}
+- 文脈はすべてビジネス実務（会議、メール、契約、出荷、予算、人事、顧客対応など）にすること
+- 上の既存問題と重複しない、新しい例文を作ること
+- 英文は自然でネイティブが実際に使う表現にすること。不自然な作例は禁止
+- 正解は必ず1つに定まること。文法的に2つ以上成立する問題は作らないこと
+- ja は問題文の自然な日本語訳（または指示文）
+
+【誤答選択肢の作り方（mcqで最重要）】
+学習者が実際に犯す誤りを選択肢にすること。次のような観点で作る:
+- 日本語からの直訳による誤り（例: discuss about, look forward to hear）
+- 品詞の取り違え（名詞と形容詞、形容詞と副詞）
+- 時制・態の混同（能動と受動、現在完了と過去）
+- 前置詞と接続詞の取り違え（due to と because）
+ランダムな語や、明らかにその位置に置けない語を並べただけの選択肢は禁止。
+4つとも一見ありえそうに見え、文法規則を理解していれば1つに絞れる状態にすること。
+
+【解説（why）の書き方】
+- 日本語で1〜2文。文法用語は日本語で書く
+- 「なぜ正解か」だけでなく、可能なら「なぜ他が誤りか」の判断基準も一言添える
+- 暗記の指示ではなく、次に同じ形を見たとき自力で判断できる観点を書く
+
+【自己検証】
+出力する前に各問を見直し、正解が本当に一つに定まるか、英文が自然か、
+誤答選択肢が学習者の誤りを反映しているかを確認すること。
+
+【形式ごとの必須フィールド】
+mcq → q（空所を ___ で1箇所だけ含む英文）, ja, c（選択肢4つ、重複なし）, a_index（cの正解位置、0始まり）, why
+order → ja（日本語文）, a_tokens（正解英文を単語ごとに分割した配列。ピリオドやコンマは含めない）, full（句読点つきの完成英文）, why
+speak → ja（日本語文）, a_text（模範解答の英文、句読点つき）, why
+
+必ず ${n} 問返してください。`;
+}
+
+async function callGemini(prompt){
+  const key=gemKey();
+  if(!key)throw new Error('APIキーが設定されていません');
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/${gemModel()}:generateContent?key=${encodeURIComponent(key)}`;
+  // Gemini 3 系では temperature / top_p / top_k は明示指定しない（公式の移行ガイダンス）
+  const cfg={responseMimeType:'application/json',responseSchema:Q_SCHEMA,
+             thinkingConfig:{thinkingLevel:gemThink()}};
+  const send=body=>fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(body)});
+  let res;
+  try{
+    res=await send({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:cfg});
+  }catch(e){throw new Error('通信に失敗しました。オフラインでないか確認してください');}
+  if(!res.ok){
+    let msg='';
+    try{const j=await res.json();msg=j.error&&j.error.message||'';}catch(e){}
+    if(res.status===400&&/API key/i.test(msg))throw new Error('APIキーが正しくありません');
+    if(res.status===403)throw new Error('このAPIキーでは利用できません。Google AI Studio でキーを確認してください');
+    if(res.status===404)throw new Error(`モデル ${GEM_MODEL} を利用できませんでした。APIキーの権限を確認してください`);
+    if(res.status===429)throw new Error('利用制限に達しました。しばらく待ってから再試行してください');
+    throw new Error(`エラー ${res.status}${msg?'：'+msg.slice(0,80):''}`);
+  }
+  const data=await res.json();
+  const cand=data.candidates&&data.candidates[0];
+  if(!cand)throw new Error('生成結果が空でした。もう一度お試しください');
+  if(cand.finishReason&&cand.finishReason!=='STOP'&&!cand.content)
+    throw new Error('生成が途中で止まりました。問題数を減らしてお試しください');
+  const txt=(cand.content&&cand.content.parts||[]).map(p=>p.text||'').join('');
+  let obj;
+  try{obj=JSON.parse(txt);}catch(e){throw new Error('生成結果を読み取れませんでした。もう一度お試しください');}
+  return (obj&&obj.items)||[];
+}
+
+/* 生成結果を検証して内部形式へ */
+function normalize(raw){
+  const out=[];
+  raw.forEach(r=>{
+    if(!r||!r.why||!r.ja)return;
+    if(r.t==='mcq'){
+      if(typeof r.q!=='string'||!r.q.includes('___'))return;
+      if(!Array.isArray(r.c)||r.c.length<3)return;
+      if(new Set(r.c).size!==r.c.length)return;
+      const ai=r.a_index;
+      if(typeof ai!=='number'||ai<0||ai>=r.c.length)return;
+      out.push({t:'mcq',q:r.q.trim(),ja:r.ja.trim(),c:r.c.map(x=>String(x).trim()),a:ai,why:r.why.trim(),ai:1});
+    }else if(r.t==='order'){
+      if(!Array.isArray(r.a_tokens)||r.a_tokens.length<4||r.a_tokens.length>16)return;
+      const toks=r.a_tokens.map(x=>String(x).trim()).filter(Boolean);
+      if(toks.length<4)return;
+      out.push({t:'order',ja:r.ja.trim(),a:toks,full:r.full?String(r.full).trim():'',why:r.why.trim(),ai:1});
+    }else if(r.t==='speak'){
+      if(typeof r.a_text!=='string'||r.a_text.trim().length<8)return;
+      out.push({t:'speak',ja:r.ja.trim(),a:r.a_text.trim(),why:r.why.trim(),ai:1});
+    }
+  });
+  return out;
+}
+
+/* 生成問題の保存とマージ */
+function mergeGen(){
+  UNITS.forEach(u=>{
+    if(u._base===undefined)u._base=u.quiz.length;
+    else u.quiz.length=u._base;
+    const g=(S.gen&&S.gen[u.id])||[];
+    g.forEach(q=>u.quiz.push(q));
+  });
+}
+function genCount(uid){return ((S.gen&&S.gen[uid])||[]).length;}
+function genTotal(){return Object.keys(S.gen||{}).reduce((a,k)=>a+S.gen[k].length,0);}
+
+/* ========== 生成画面 ========== */
+let G={uid:null,n:5,types:['mcq','order'],level:'900',busy:false,result:null};
+function openAI(){go('ai');}
+function renderAI(){
+  const b=$('#aiBody');
+  if(!gemKey()){b.innerHTML=aiSetupHTML();return;}
+  const u=G.uid?U(G.uid):null;
+  b.innerHTML=`
+  <div class="card" style="margin-bottom:10px">
+    <div style="font-weight:500;margin-bottom:10px">どの単元の問題を作りますか</div>
+    <select class="sel" id="aiUnit" onchange="G.uid=this.value">
+      <option value="">単元を選ぶ</option>
+      ${VU.map(x=>`<option value="${x.id}" ${G.uid===x.id?'selected':''}>${x.title}（${x.sub}）</option>`).join('')}
+    </select>
+    <div style="display:flex;gap:9px;margin-top:12px">
+      <div style="flex:1">
+        <div class="lbl">問題数</div>
+        <select class="sel" id="aiN" onchange="G.n=+this.value">
+          ${[3,5,8,10].map(n=>`<option value="${n}" ${G.n===n?'selected':''}>${n}問</option>`).join('')}
+        </select>
+      </div>
+      <div style="flex:1">
+        <div class="lbl">難易度</div>
+        <select class="sel" id="aiLv" onchange="G.level=this.value">
+          <option value="800" ${G.level==='800'?'selected':''}>800点帯</option>
+          <option value="900" ${G.level==='900'?'selected':''}>900点帯</option>
+          <option value="990" ${G.level==='990'?'selected':''}>満点狙い</option>
+        </select>
+      </div>
+    </div>
+    <div class="lbl" style="margin-top:12px">出題形式</div>
+    <div class="pills">
+      ${[['mcq','四択'],['order','並べ替え'],['speak','瞬間英作文']].map(([k,l])=>
+        `<button class="pill ${G.types.includes(k)?'on':''}" onclick="togType('${k}')">${l}</button>`).join('')}
+    </div>
+    <div style="margin-top:16px">
+      <button class="btn" id="aiGo" ${G.uid?'':'disabled'} onclick="runGen()">問題を生成する</button>
+    </div>
+    <div id="aiMsg"></div>
+  </div>
+  <div id="aiResult"></div>
+  ${genTotal()?`<div class="h2">生成済みの問題</div>
+    <div class="card">
+      <div style="font-size:13px;line-height:1.9;color:var(--ink-2);margin-bottom:12px">
+        現在 ${genTotal()} 問がアプリに追加されています。各単元の演習やミックス演習にそのまま出題されます。</div>
+      ${VU.filter(x=>genCount(x.id)).map(x=>
+        `<div class="bar"><span class="lb" style="width:auto;flex:1">${x.title}</span>
+         <span style="font-family:var(--mono);font-size:12px;color:var(--clause-out)">+${genCount(x.id)}問</span>
+         <button class="mini" onclick="delGen('${x.id}')">削除</button></div>`).join('')}
+    </div>`:''}
+  <div style="height:12px"></div>
+  <button class="btn ghost sm" onclick="go('aiset')">APIキーの設定</button>
+  <div style="height:10px"></div>`;
+}
+function togType(k){
+  const i=G.types.indexOf(k);
+  if(i>-1){if(G.types.length>1)G.types.splice(i,1);}else G.types.push(k);
+  renderAI();
+}
+async function runGen(){
+  if(G.busy||!G.uid)return;
+  G.busy=true;
+  const u=U(G.uid);
+  $('#aiGo').disabled=true;
+  $('#aiGo').textContent='生成しています…';
+  $('#aiMsg').innerHTML=`<div class="aimsg">${gemModel()} が ${u.title} の問題を作っています。
+    ${gemThink()==='high'?'じっくり考えるため20〜40秒':'10〜20秒'}ほどかかります。</div>`;
+  try{
+    const raw=await callGemini(genPrompt(u,G.n,G.types,G.level));
+    const items=normalize(raw).filter(q=>G.types.includes(q.t));
+    if(!items.length)throw new Error('使える問題が作れませんでした。条件を変えてお試しください');
+    G.result={uid:G.uid,items:items};
+    $('#aiMsg').innerHTML='';
+    paintResult();
+  }catch(e){
+    $('#aiMsg').innerHTML=`<div class="aimsg err">${e.message}</div>`;
+  }finally{
+    G.busy=false;
+    const btn=$('#aiGo');
+    if(btn){btn.disabled=false;btn.textContent='問題を生成する';}
+  }
+}
+function paintResult(){
+  const r=G.result;if(!r)return;
+  const u=U(r.uid);
+  $('#aiResult').innerHTML=`
+  <div class="card" style="border-left:3px solid var(--clause-out);margin-bottom:10px">
+    <div style="font-weight:500;margin-bottom:4px">${r.items.length}問できました</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
+      内容を確認してから追加してください。AIの生成物なので、不自然な英文が混じることがあります。</div>
+    ${r.items.map((q,i)=>`<div class="gq">
+      <div class="gqt">${i+1}　${q.t==='mcq'?'四択':q.t==='order'?'並べ替え':'瞬間英作文'}</div>
+      ${q.t==='mcq'?`<div class="sent" style="font-size:16px;line-height:1.9">${q.q.replace('___','<span class="blank"></span>')}</div>
+        <div class="gqa">正解：${q.c[q.a]}</div>`:''}
+      ${q.t==='order'?`<div class="sent" style="font-size:16px;line-height:1.7">${q.full||q.a.join(' ')}</div>`:''}
+      ${q.t==='speak'?`<div class="sent" style="font-size:16px;line-height:1.7">${q.a}</div>`:''}
+      <div class="gqj">${q.ja}</div>
+      <div class="gqw">${q.why}</div>
+    </div>`).join('')}
+    <div class="row" style="margin-top:14px">
+      <button class="btn ghost" onclick="G.result=null;renderAI()">破棄</button>
+      <button class="btn" onclick="saveGen()">アプリに追加する</button>
+    </div>
+  </div>`;
+  $('#aiResult').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function saveGen(){
+  const r=G.result;if(!r)return;
+  S.gen=S.gen||{};
+  S.gen[r.uid]=(S.gen[r.uid]||[]).concat(r.items);
+  save();mergeGen();
+  G.result=null;
+  toast(`${r.items.length}問を追加しました`);
+  renderAI();
+}
+function delGen(uid){
+  if(!confirm('この単元の生成問題をすべて削除します。よろしいですか？'))return;
+  const base=U(uid)._base||0;
+  S.wrong=S.wrong.filter(w=>!(w.u===uid&&w.i>=base));
+  delete S.gen[uid];
+  save();mergeGen();updateDot();renderAI();
+  toast('削除しました');
+}
+
+/* ========== APIキー設定 ========== */
+function aiSetupHTML(){
+  return `<div class="card" style="margin-bottom:10px">
+    <div style="font-weight:500;margin-bottom:10px">Gemini APIキーを設定する</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;margin-bottom:14px">
+      Google AI Studio で無料のAPIキーを発行し、下に貼り付けてください。キーはこの端末の中だけに保存され、外部には送信されません。</div>
+    <a class="btn ghost" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio を開く</a>
+    <div style="height:12px"></div>
+    <input class="sel" id="aiKey" type="password" placeholder="AIza… で始まるキー" value="${gemKey()}" autocomplete="off">
+    <div class="lbl" style="margin-top:12px">使用するモデル</div>
+    <div class="fixedval">${GEM_MODEL}</div>
+    <div class="lbl" style="margin-top:12px">思考の深さ</div>
+    <select class="sel" id="aiThink">
+      ${THINK_LEVELS.map(([v,l])=>`<option value="${v}" ${gemThink()===v?'selected':''}>${l}</option>`).join('')}
+    </select>
+    <div style="font-size:11.5px;color:var(--ink-3);line-height:1.7;margin-top:8px">
+      作問は推論が効く作業なので「じっくり考える」を推奨します。選択肢の作り込みと解説の質が上がります。</div>
+    <div style="height:14px"></div>
+    <button class="btn" onclick="saveKey()">保存する</button>
+    ${gemKey()?`<div style="height:9px"></div>
+      <button class="btn ghost sm" onclick="clearKey()">キーを削除する</button>`:''}
+    <div id="keyMsg"></div>
+  </div>
+  <div class="card">
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9">
+      無料枠の範囲で使えますが、上限を超えると生成できなくなります。1回の生成でおよそ2000〜4000トークンを消費します。
+      共有端末では、使い終わったらキーを削除してください。</div>
+  </div>`;
+}
+function renderAISet(){$('#aisetBody').innerHTML=aiSetupHTML();}
+function saveKey(){
+  const k=$('#aiKey').value.trim(),t=$('#aiThink').value;
+  if(!k){$('#keyMsg').innerHTML='<div class="aimsg err">キーを入力してください</div>';return;}
+  S.ai={key:k,think:t};save();
+  toast('保存しました');go('ai');
+}
+function clearKey(){
+  if(!confirm('APIキーを削除します。よろしいですか？'))return;
+  S.ai={key:'',think:gemThink()};save();renderAISet();toast('削除しました');
+}
+
+/* ========== バックアップ（書き出し・読み込み） ========== */
+const BK_FORMAT='syntax-backup';
+const BK_VER=1;
+
+function bkFilename(){
+  const d=new Date(),p=n=>String(n).padStart(2,'0');
+  return `syntax-backup-${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}.json`;
+}
+function buildBackup(withKey){
+  const ai=Object.assign({},S.ai||{});
+  if(!withKey)delete ai.key;
+  return {
+    format:BK_FORMAT, version:BK_VER,
+    exportedAt:new Date().toISOString(),
+    app:'Syntax',
+    summary:{
+      units:Object.keys(S.units||{}).length,
+      answered:(S.stats&&S.stats.total)||0,
+      wrong:(S.wrong||[]).length,
+      generated:genTotal()
+    },
+    data:{units:S.units||{}, wrong:S.wrong||[], stats:S.stats||{}, last:S.last||null,
+          gen:S.gen||{}, cat:S.cat||{}, type:S.type||{}, ai:ai}
+  };
+}
+function doExport(withKey){
+  let blob,url;
+  try{
+    const json=JSON.stringify(buildBackup(withKey),null,2);
+    blob=new Blob([json],{type:'application/json'});
+    url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download=bkFilename();
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),3000);
+    toast('バックアップを保存しました');
+  }catch(e){
+    $('#bkMsg').innerHTML='<div class="aimsg err">書き出しに失敗しました。空き容量を確認してください</div>';
+  }
+}
+/* 端末間でファイル共有しにくい環境向け：クリップボードへ */
+async function copyBackup(withKey){
+  try{
+    await navigator.clipboard.writeText(JSON.stringify(buildBackup(withKey)));
+    toast('クリップボードにコピーしました');
+  }catch(e){
+    $('#bkMsg').innerHTML='<div class="aimsg err">コピーできませんでした。ファイルで書き出してください</div>';
+  }
+}
+
+/* --- 読み込み --- */
+let BK={pending:null,mode:'merge'};
+function pickFile(){$('#bkFile').click();}
+function onFile(input){
+  const f=input.files&&input.files[0];
+  input.value='';
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{readBackup(String(r.result));};
+  r.onerror=()=>{$('#bkMsg').innerHTML='<div class="aimsg err">ファイルを読み取れませんでした</div>';};
+  r.readAsText(f);
+}
+async function pasteBackup(){
+  try{
+    const t=await navigator.clipboard.readText();
+    if(!t)throw new Error();
+    readBackup(t);
+  }catch(e){
+    $('#bkMsg').innerHTML='<div class="aimsg err">クリップボードから読み取れませんでした</div>';
+  }
+}
+function readBackup(text){
+  let obj;
+  try{obj=JSON.parse(text);}
+  catch(e){$('#bkMsg').innerHTML='<div class="aimsg err">バックアップファイルとして読み取れません</div>';return;}
+  const v=validateBackup(obj);
+  if(v.error){$('#bkMsg').innerHTML=`<div class="aimsg err">${v.error}</div>`;return;}
+  BK.pending=v.data;BK.meta=v.meta;
+  $('#bkMsg').innerHTML='';
+  renderBackup();
+  setTimeout(()=>{const el=$('#bkConfirm');if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},50);
+}
+function validateBackup(o){
+  if(!o||typeof o!=='object')return {error:'内容が空です'};
+  if(o.format!==BK_FORMAT)return {error:'このアプリのバックアップではないようです'};
+  if(typeof o.version!=='number'||o.version>BK_VER)
+    return {error:'新しい形式のバックアップです。アプリを最新版に更新してください'};
+  const d=o.data;
+  if(!d||typeof d!=='object')return {error:'データが含まれていません'};
+
+  const out={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null,gen:{},ai:{}};
+  // units
+  if(d.units&&typeof d.units==='object')
+    Object.keys(d.units).forEach(k=>{
+      const u=d.units[k];if(!u||typeof u!=='object')return;
+      out.units[k]={seen:!!u.seen,
+        best:Math.max(0,Math.min(100,+u.best||0)),
+        done:Math.max(0,+u.done||0),
+        n:Math.max(0,+u.n||0), c:Math.max(0,+u.c||0)};
+    });
+  // stats
+  if(d.stats&&typeof d.stats==='object'){
+    out.stats.total=Math.max(0,+d.stats.total||0);
+    out.stats.correct=Math.max(0,+d.stats.correct||0);
+    out.stats.mockBest=Math.max(0,Math.min(100,+d.stats.mockBest||0));
+    if(d.stats.days&&typeof d.stats.days==='object')
+      Object.keys(d.stats.days).forEach(k=>{
+        if(!/^\d{4}-\d{2}-\d{2}$/.test(k))return;
+        const e=d.stats.days[k];
+        if(typeof e==='number')out.stats.days[k]={n:Math.max(0,e),c:null};
+        else if(e&&typeof e==='object')
+          out.stats.days[k]={n:Math.max(0,+e.n||0),c:e.c===null?null:Math.max(0,+e.c||0)};
+      });
+  }
+  out.cat={};out.type={};
+  ['cat','type'].forEach(f=>{
+    if(d[f]&&typeof d[f]==='object')
+      Object.keys(d[f]).forEach(k=>{
+        const e=d[f][k];if(!e||typeof e!=='object')return;
+        out[f][k]={n:Math.max(0,+e.n||0),c:Math.max(0,+e.c||0)};
+      });
+  });
+  // gen（生成問題は形式を検証してから取り込む）
+  let genN=0;
+  if(d.gen&&typeof d.gen==='object')
+    Object.keys(d.gen).forEach(k=>{
+      if(!U(k)||!Array.isArray(d.gen[k]))return;
+      const ok=d.gen[k].filter(q=>{
+        if(!q||!q.why||!q.ja)return false;
+        if(q.t==='mcq')return typeof q.q==='string'&&q.q.includes('___')&&Array.isArray(q.c)&&
+          q.c.length>=3&&typeof q.a==='number'&&q.a>=0&&q.a<q.c.length;
+        if(q.t==='order')return Array.isArray(q.a)&&q.a.length>=4;
+        if(q.t==='speak')return typeof q.a==='string'&&q.a.length>=8;
+        return false;
+      });
+      if(ok.length){out.gen[k]=ok;genN+=ok.length;}
+    });
+  // wrong（存在するユニットのみ）
+  if(Array.isArray(d.wrong))
+    out.wrong=d.wrong.filter(w=>w&&typeof w.u==='string'&&typeof w.i==='number'&&U(w.u))
+      .map(w=>({u:w.u,i:w.i,n:Math.max(0,+w.n||0)}));
+  // last
+  if(d.last&&U(d.last.u))out.last={u:d.last.u,p:Math.max(0,+d.last.p||0)};
+  // ai
+  if(d.ai&&typeof d.ai==='object'){
+    if(typeof d.ai.key==='string')out.ai.key=d.ai.key;
+    if(['high','medium','low'].includes(d.ai.think))out.ai.think=d.ai.think;
+  }
+  return {data:out, meta:{
+    exportedAt:o.exportedAt||'', genN:genN,
+    units:Object.keys(out.units).length,
+    answered:out.stats.total, wrong:out.wrong.length,
+    hasKey:!!out.ai.key
+  }};
+}
+function applyBackup(){
+  const d=BK.pending;if(!d)return;
+  if(BK.mode==='replace'){
+    if(!confirm('この端末の学習データをすべて置き換えます。よろしいですか？'))return;
+    S.units=d.units; S.stats=d.stats; S.wrong=d.wrong;
+    S.gen=d.gen; S.last=d.last; S.cat=d.cat; S.type=d.type;
+  }else{
+    // 統合：良いほうの成績を残し、生成問題と復習リストは重複を避けて足す
+    Object.keys(d.units).forEach(k=>{
+      const cur=S.units[k]||{};
+      S.units[k]={seen:cur.seen||d.units[k].seen,
+        best:Math.max(cur.best||0,d.units[k].best||0),
+        done:(cur.done||0)+(d.units[k].done||0),
+        n:(cur.n||0)+(d.units[k].n||0), c:(cur.c||0)+(d.units[k].c||0)};
+    });
+    S.stats.total=(S.stats.total||0)+d.stats.total;
+    S.stats.correct=(S.stats.correct||0)+d.stats.correct;
+    S.stats.mockBest=Math.max(S.stats.mockBest||0,d.stats.mockBest||0);
+    Object.keys(d.stats.days).forEach(k=>{
+      const a=S.stats.days[k], b=d.stats.days[k];
+      const an=a?(typeof a==='number'?a:a.n):0;
+      if(!a||b.n>an)S.stats.days[k]=b;
+    });
+    S.cat=S.cat||{};S.type=S.type||{};
+    ['cat','type'].forEach(f=>{
+      Object.keys(d[f]||{}).forEach(k=>{
+        const cur=S[f][k]||{n:0,c:0};
+        S[f][k]={n:cur.n+d[f][k].n, c:cur.c+d[f][k].c};
+      });
+    });
+    // 生成問題：同じ本文のものは足さない
+    S.gen=S.gen||{};
+    Object.keys(d.gen).forEach(k=>{
+      const cur=S.gen[k]||[];
+      const key=q=>q.t+'|'+(q.q||q.ja)+'|'+(Array.isArray(q.a)?q.a.join(' '):q.a);
+      const have=new Set(cur.map(key));
+      S.gen[k]=cur.concat(d.gen[k].filter(q=>!have.has(key(q))));
+    });
+    const hv=new Set(S.wrong.map(w=>w.u+':'+w.i));
+    d.wrong.forEach(w=>{if(!hv.has(w.u+':'+w.i))S.wrong.push(w);});
+    if(!S.last&&d.last)S.last=d.last;
+  }
+  // APIキーと思考レベルは、いま未設定のときだけ引き継ぐ
+  S.ai=S.ai||{};
+  if(!S.ai.key&&d.ai.key)S.ai.key=d.ai.key;
+  if(d.ai.think)S.ai.think=S.ai.think||d.ai.think;
+
+  save();mergeGen();updateDot();
+  BK.pending=null;
+  toast('復元しました');
+  renderBackup();
+}
+
+/* ========== 画面 ========== */
+function renderBackup(){
+  const b=$('#bkBody');
+  const m=BK.meta;
+  b.innerHTML=`
+  <div class="card" style="margin-bottom:10px">
+    <div style="font-weight:500;margin-bottom:4px">この端末のデータを書き出す</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;margin-bottom:14px">
+      学習の進捗、正答率、復習リスト、AIで追加した問題をまとめて1つのファイルに保存します。
+      機種変更のときは、このファイルを新しい端末に移してから読み込んでください。</div>
+    <div class="bkstat">
+      <span>学習した単元</span><b>${Object.keys(S.units||{}).length}</b>
+      <span>解いた問題</span><b>${(S.stats&&S.stats.total)||0}</b>
+      <span>復習待ち</span><b>${(S.wrong||[]).length}</b>
+      <span>AIで追加</span><b>${genTotal()}</b>
+    </div>
+    <div style="height:14px"></div>
+    <button class="btn" onclick="doExport(false)">ファイルに書き出す</button>
+    <div style="height:9px"></div>
+    <button class="btn ghost sm" onclick="copyBackup(false)">クリップボードにコピーする</button>
+    ${gemKey()?`<div style="font-size:11.5px;color:var(--ink-3);line-height:1.7;margin-top:12px">
+      APIキーは安全のため含めません。新しい端末で入力し直してください。
+      <button class="linkbtn" onclick="doExport(true)">キーも含めて書き出す</button></div>`:''}
+  </div>
+
+  <div class="card" style="margin-bottom:10px">
+    <div style="font-weight:500;margin-bottom:4px">バックアップを読み込む</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;margin-bottom:14px">
+      書き出したファイルを選ぶと、内容を確認してから復元できます。</div>
+    <input type="file" id="bkFile" accept="application/json,.json" style="display:none" onchange="onFile(this)">
+    <button class="btn ghost" onclick="pickFile()">ファイルを選ぶ</button>
+    <div style="height:9px"></div>
+    <button class="btn ghost sm" onclick="pasteBackup()">クリップボードから読み込む</button>
+    <div id="bkMsg"></div>
+  </div>
+
+  ${BK.pending?`
+  <div class="card" id="bkConfirm" style="border-left:3px solid var(--clause-out)">
+    <div style="font-weight:500;margin-bottom:10px">読み込む内容</div>
+    <div class="bkstat">
+      <span>単元の記録</span><b>${m.units}</b>
+      <span>解いた問題</span><b>${m.answered}</b>
+      <span>復習待ち</span><b>${m.wrong}</b>
+      <span>AIで追加</span><b>${m.genN}</b>
+    </div>
+    ${m.exportedAt?`<div style="font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-top:10px">
+      ${new Date(m.exportedAt).toLocaleString('ja-JP')} に書き出し</div>`:''}
+    ${m.hasKey?`<div style="font-size:11.5px;color:var(--ink-3);margin-top:8px">APIキーが含まれています</div>`:''}
+    <div class="lbl" style="margin-top:16px">復元のしかた</div>
+    <div class="pills">
+      <button class="pill ${BK.mode==='merge'?'on':''}" onclick="BK.mode='merge';renderBackup()">いまのデータに足す</button>
+      <button class="pill ${BK.mode==='replace'?'on':''}" onclick="BK.mode='replace';renderBackup()">すべて置き換える</button>
+    </div>
+    <div style="font-size:12px;color:var(--ink-2);line-height:1.8;margin-top:10px">
+      ${BK.mode==='merge'
+        ?'いまの記録を残したまま統合します。成績は良いほうを採用し、AIで追加した問題は重複を避けて足します。'
+        :'いまの端末の学習データを消して、バックアップの内容に置き換えます。機種変更後の新しい端末にはこちらが適しています。'}</div>
+    <div class="row" style="margin-top:16px">
+      <button class="btn ghost" onclick="BK.pending=null;renderBackup()">やめる</button>
+      <button class="btn" onclick="applyBackup()">復元する</button>
+    </div>
+  </div>`:''}
+  <div style="height:10px"></div>`;
+}
+
+/* ========== 集計の記録 ========== */
+function bump(o,k,ok){const e=o[k]||(o[k]={n:0,c:0});e.n++;if(ok)e.c++;}
+function pc(e){return e&&e.n?Math.round(e.c/e.n*100):null;}
+
+/* 旧形式（days が数値）を新形式へ */
+function migrate(){
+  const d=S.stats.days||{};
+  Object.keys(d).forEach(k=>{
+    if(typeof d[k]==='number')d[k]={n:d[k],c:null};
+  });
+  S.cat=S.cat||{}; S.type=S.type||{};
+}
+
+const CATS=[
+  ['main','時制・態','--clause-main'],
+  ['sub','接続・比較','--clause-sub'],
+  ['rel','関係詞・分詞','--clause-rel'],
+  ['word','品詞・語法','--clause-word'],
+  ['out','会話・作文','--clause-out']
+];
+const TYPES=[['mcq','四択'],['order','並べ替え'],['combine','文の合体'],
+             ['speak','瞬間英作文'],['write','ライティング']];
+
+/* ========== SVG 部品 ========== */
+function heatmap(){
+  const WEEKS=13, CELL=13, GAP=3.5, TOP=16;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const end=new Date(today); end.setDate(end.getDate()+(6-end.getDay()));
+  const cells=[]; let max=1;
+  for(let i=WEEKS*7-1;i>=0;i--){
+    const d=new Date(end); d.setDate(d.getDate()-i);
+    const k=d.toLocaleDateString('sv-SE');
+    const e=S.stats.days[k];
+    const n=e?(typeof e==='number'?e:e.n):0;
+    if(n>max)max=n;
+    cells.push({d:d,k:k,n:n,future:d>today});
+  }
+  const W=WEEKS*(CELL+GAP), H=TOP+7*(CELL+GAP);
+  let months='';
+  let lastM=-1, lastW=-9;
+  for(let w=0;w<WEEKS;w++){
+    const first=cells[w*7];
+    if(first.d.getMonth()!==lastM){
+      lastM=first.d.getMonth();
+      if(w-lastW>=3){ // 直前のラベルと重ならないときだけ描く
+        months+=`<text x="${w*(CELL+GAP)}" y="10" class="hmm">${lastM+1}月</text>`;
+        lastW=w;
+      }
+    }
+  }
+  const rects=cells.map((c,i)=>{
+    const w=Math.floor(i/7), r=i%7;
+    const x=w*(CELL+GAP), y=TOP+r*(CELL+GAP);
+    if(c.future)return '';
+    let fill='var(--line)';
+    if(c.n>0){
+      const t=Math.min(1,c.n/Math.max(6,max));
+      fill=`rgba(47,75,153,${(0.25+t*0.75).toFixed(2)})`;
+    }
+    return `<rect x="${x}" y="${y}" width="${CELL}" height="${CELL}" rx="3" fill="${fill}"><title>${c.k} ${c.n}問</title></rect>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" class="hm" role="img" aria-label="学習カレンダー">
+    <style>.hmm{font-family:var(--mono);font-size:8.5px;fill:var(--ink-3)}</style>
+    ${months}${rects}</svg>`;
+}
+
+function radar(){
+  const R=64, CX=124, CY=88;
+  const vals=CATS.map(([k])=>{const v=pc(S.cat[k]); return {k:k,v:v};});
+  const has=vals.some(v=>v.v!==null);
+  const ang=i=>(-90+i*(360/CATS.length))*Math.PI/180;
+  const pt=(i,r)=>[CX+Math.cos(ang(i))*r, CY+Math.sin(ang(i))*r];
+  let grid='';
+  [0.25,0.5,0.75,1].forEach(f=>{
+    const p=CATS.map((_,i)=>pt(i,R*f).map(n=>n.toFixed(1)).join(',')).join(' ');
+    grid+=`<polygon points="${p}" fill="none" stroke="var(--line)" stroke-width="1"/>`;
+  });
+  CATS.forEach((_,i)=>{
+    const [x,y]=pt(i,R);
+    grid+=`<line x1="${CX}" y1="${CY}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`;
+  });
+  const labels=CATS.map(([k,label],i)=>{
+    const [x,y]=pt(i,R+16);
+    const anchor=Math.abs(x-CX)<6?'middle':(x>CX?'start':'end');
+    const v=vals[i].v;
+    return `<text x="${x.toFixed(1)}" y="${(y+3).toFixed(1)}" text-anchor="${anchor}" class="rl">${label}</text>
+            <text x="${x.toFixed(1)}" y="${(y+14).toFixed(1)}" text-anchor="${anchor}" class="rv">${v===null?'–':v+'%'}</text>`;
+  }).join('');
+  let shape='';
+  if(has){
+    const p=vals.map((v,i)=>pt(i,R*((v.v===null?0:v.v)/100)).map(n=>n.toFixed(1)).join(',')).join(' ');
+    shape=`<polygon points="${p}" fill="rgba(47,75,153,.18)" stroke="var(--clause-main)" stroke-width="2" stroke-linejoin="round"/>`
+      + vals.map((v,i)=>{if(v.v===null)return '';const [x,y]=pt(i,R*(v.v/100));
+        return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="var(--clause-main)"/>`;}).join('');
+  }
+  return `<svg viewBox="0 0 248 186" class="radar" role="img" aria-label="分野別の正答率">
+    <style>.rl{font-family:var(--ja);font-size:9px;fill:var(--ink-2)}
+           .rv{font-family:var(--mono);font-size:10px;font-weight:600;fill:var(--ink)}</style>
+    ${grid}${shape}${labels}</svg>`;
+}
+
+function trend(){
+  const days=[];
+  const t=new Date(); t.setHours(0,0,0,0);
+  for(let i=13;i>=0;i--){
+    const d=new Date(t); d.setDate(d.getDate()-i);
+    const k=d.toLocaleDateString('sv-SE');
+    const e=S.stats.days[k];
+    const n=e?(typeof e==='number'?e:e.n):0;
+    const c=e&&typeof e==='object'&&e.c!==null?e.c:null;
+    days.push({k:k,n:n,r:(n&&c!==null)?Math.round(c/n*100):null});
+  }
+  const pts=days.map((d,i)=>({x:i,r:d.r})).filter(p=>p.r!==null);
+  if(pts.length<2)return '';
+  const W=280,H=90,PL=6,PR=6,PT=8,PB=16;
+  const sx=i=>PL+(i/13)*(W-PL-PR);
+  const sy=r=>PT+(1-r/100)*(H-PT-PB);
+  const line=pts.map((p,i)=>`${i?'L':'M'}${sx(p.x).toFixed(1)},${sy(p.r).toFixed(1)}`).join(' ');
+  const area=`${line} L${sx(pts[pts.length-1].x).toFixed(1)},${H-PB} L${sx(pts[0].x).toFixed(1)},${H-PB} Z`;
+  const dots=pts.map(p=>`<circle cx="${sx(p.x).toFixed(1)}" cy="${sy(p.r).toFixed(1)}" r="2.6" fill="var(--clause-main)"><title>${days[p.x].k} ${p.r}%</title></circle>`).join('');
+  return `<div class="h2">直近2週間の正答率</div><div class="card">
+    <svg viewBox="0 0 ${W} ${H}" class="trend" role="img" aria-label="正答率の推移">
+      <style>.tg{font-family:var(--mono);font-size:8px;fill:var(--ink-3)}</style>
+      ${[0,50,100].map(v=>`<line x1="${PL}" y1="${sy(v).toFixed(1)}" x2="${W-PR}" y2="${sy(v).toFixed(1)}"
+        stroke="var(--line)" stroke-width="1" stroke-dasharray="${v===50?'3 3':'0'}"/>`).join('')}
+      <path d="${area}" fill="rgba(47,75,153,.10)"/>
+      <path d="${line}" fill="none" stroke="var(--clause-main)" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round"/>${dots}
+      <text x="${PL}" y="${H-4}" class="tg">14日前</text>
+      <text x="${W-PR}" y="${H-4}" text-anchor="end" class="tg">今日</text>
+    </svg></div>`;
+}
+
+/* ========== 診断 ========== */
+function diagnose(){
+  // 弱い単元：正答率が低く、かつ一定数解いている
+  const rows=VU.map(u=>{
+    const st=S.units[u.id]||{};
+    const r=(st.n&&st.n>=3)?Math.round(st.c/st.n*100):null;
+    return {u:u,r:r,n:st.n||0,best:st.best||0,wrong:S.wrong.filter(w=>w.u===u.id).length};
+  });
+  const done=rows.filter(r=>r.r!==null);
+  const weak=done.filter(r=>r.r<75).sort((a,b)=>a.r-b.r);
+  const untouched=rows.filter(r=>r.n===0);
+  const cats=CATS.map(([k,label])=>({k:k,label:label,v:pc(S.cat[k]),n:(S.cat[k]||{}).n||0}))
+                 .filter(c=>c.v!==null&&c.n>=5).sort((a,b)=>a.v-b.v);
+  const types=TYPES.map(([k,label])=>({k:k,label:label,v:pc(S.type[k]),n:(S.type[k]||{}).n||0}))
+                   .filter(t=>t.v!==null&&t.n>=3);
+  return {rows:rows,weak:weak,untouched:untouched,cats:cats,types:types,done:done};
+}
+
+function nextAction(){
+  const d=diagnose();
+  if(!S.stats.total)
+    return {t:'まずは1単元やってみましょう',
+      b:'演習を解くと、分野ごとの得意・不得意がここに現れます。ユニット01から順に進めるのがおすすめです。',
+      go:`<button class="btn sm" onclick="go('learn')">学ぶへ</button>`};
+  if(S.wrong.length>=10)
+    return {t:`復習が ${S.wrong.length} 問たまっています`,
+      b:'新しい単元に進むより、まず間違えた問題を消化するほうが伸びます。2回連続で正解すればリストから外れます。',
+      go:`<button class="btn sm" onclick="startQuiz('review')">復習する</button>`};
+  if(d.weak.length){
+    const w=d.weak[0];
+    return {t:`いちばんの弱点は「${w.u.title}」`,
+      b:`正答率 ${w.r}%（${w.n}問中）。解説を読み直してから、この単元だけを続けて解くと定着します。`,
+      go:`<button class="btn sm" onclick="openLesson('${w.u.id}')">解説を読む</button>
+          <button class="btn ghost sm" onclick="startQuiz('unit','${w.u.id}')">この単元を解く</button>`};
+  }
+  const sp=S.type.speak;
+  if(!sp||sp.n<20)
+    return {t:'知識は足りています。次は出す練習を',
+      b:'正答率は安定しています。ここからは瞬間英作文で、覚えた文法を口から出す速さを上げる段階です。',
+      go:`<button class="btn sm" onclick="startQuiz('speak')">瞬間英作文</button>`};
+  if((S.stats.mockBest||0)<90)
+    return {t:'模試で仕上がりを確認しましょう',
+      b:`模試の最高スコアは ${S.stats.mockBest||0}%。1問20秒のペースで解ききれるかが、900点帯の分かれ目です。`,
+      go:`<button class="btn sm" onclick="startQuiz('mock')">模試を受ける</button>`};
+  if(d.untouched.length)
+    return {t:`未着手の単元が ${d.untouched.length} つあります`,
+      b:`「${d.untouched[0].u.title}」から進めてみましょう。`,
+      go:`<button class="btn sm" onclick="openLesson('${d.untouched[0].u.id}')">はじめる</button>`};
+  return {t:'仕上がっています',
+    b:'弱点は見当たりません。瞬間英作文とミックス演習を回して、精度と速さを保ちましょう。',
+    go:`<button class="btn sm" onclick="startQuiz('mix')">ミックス演習</button>`};
 }
 
 /* ========== Service Worker ========== */
@@ -2350,6 +3274,7 @@ function resetAll(){
 
 /* ========== boot ========== */
 load().then(()=>{
+  migrate();mergeGen();
   go('learn');
   const p=new URLSearchParams(location.search).get('go');
   if(p==='speak'||p==='mock'||p==='write'||p==='mix'||p==='review')
