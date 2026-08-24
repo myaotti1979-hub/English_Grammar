@@ -133,6 +133,18 @@ input.sel{background-image:none;padding-right:12px;font-family:var(--mono);font-
 .ws{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-top:3px}
 .wa{font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-top:8px}
 .weak .btn.sm{width:auto;flex:1}
+.src{border-top:1px solid var(--line);padding:13px 0 3px}
+.srct{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);
+  text-transform:uppercase;margin-bottom:6px}
+.srcb{font-size:12.5px;color:var(--ink-2);line-height:1.9}
+.cal{padding:12px 0}
+.cal+.cal{border-top:1px solid var(--line)}
+.calh{display:flex;align-items:center;gap:9px;margin-bottom:9px;font-size:14px}
+.cal .tr{position:relative;height:8px;background:var(--line);border-radius:4px;overflow:visible}
+.cal .tr i{display:block;height:100%;border-radius:4px;position:relative;z-index:1}
+.cal .tr u{position:absolute;top:-3px;height:14px;border-left:2px solid var(--ink-3);
+  border-right:2px solid var(--ink-3);opacity:.55;z-index:2}
+.calb{font-size:11.5px;color:var(--ink-2);line-height:1.75;margin-top:8px}
 .bkstat{display:grid;grid-template-columns:1fr auto;gap:7px 12px;align-items:baseline;
   background:#F4F7FB;border-radius:var(--r-sm);padding:13px 15px}
 .bkstat span{font-size:12.5px;color:var(--ink-2)}
@@ -143,8 +155,21 @@ input.sel{background-image:none;padding-right:12px;font-family:var(--mono);font-
 .aimsg{margin-top:12px;font-size:12.5px;line-height:1.8;color:var(--ink-2);
   background:#F4F7FB;border-radius:var(--r-sm);padding:11px 13px}
 .aimsg.err{background:#FBEDEF;color:var(--wrong)}
+.prog{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:9px}
+.prog i{display:block;height:100%;background:var(--clause-out);border-radius:2px;
+  transition:width .4s ease;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
 .gq{border-top:1px solid var(--line);padding:14px 0 4px}
 .gqt{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);margin-bottom:7px}
+.lvinfo{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);line-height:1.7;margin-top:10px}
+.lvtag{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;padding:2px 7px;border-radius:20px;
+  border:1px solid var(--line);margin-left:7px}
+.lvtag.fit{color:var(--right);border-color:#A8D8D1}
+.lvtag.easy{color:var(--clause-main);border-color:#B9C6E6}
+.lvtag.hard{color:var(--clause-out);border-color:#E8C4B6}
+.metric{display:block;font-family:var(--mono);font-size:9.5px;color:var(--ink-3);margin-top:4px}
+.lvsum{font-size:12px;color:var(--ink-2);line-height:1.8;margin-top:14px;
+  padding-top:12px;border-top:1px solid var(--line)}
 .gqa{font-family:var(--en);font-size:14px;color:var(--right);margin-top:4px}
 .gqj{font-size:12.5px;color:var(--ink-2);margin-top:6px}
 .gqw{font-size:12px;color:var(--ink-3);line-height:1.75;margin-top:5px}
@@ -381,6 +406,16 @@ a.btn{text-decoration:none}
       <div class="tagline">Backup &amp; restore</div>
     </div>
     <div id="bkBody"></div>
+  </section>
+
+  <!-- ===== 難易度の基準 ===== -->
+  <section class="screen" id="s-lvinfo">
+    <button class="navback" onclick="go('ai')">← 戻る</button>
+    <div style="margin-bottom:18px">
+      <div class="wordmark" style="font-size:19px">難易度の基準</div>
+      <div class="tagline">How levels are decided</div>
+    </div>
+    <div id="lvinfoBody"></div>
   </section>
 
   <!-- ===== 記録 ===== -->
@@ -1946,7 +1981,7 @@ const HERO = [
 <script>
 /* ========== storage : artifact / PWA / memory の順に自動選択 ========== */
 const KEY='syntax.v1';
-let S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null,gen:{},cat:{},type:{},ai:{key:'',think:'high'}};
+let S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null,gen:{},cat:{},type:{},calib:{},ai:{key:'',think:'medium'}};
 const mem={};
 const io={
   async get(){
@@ -2015,6 +2050,7 @@ function go(name){
   if(name==='ai')renderAI();
   if(name==='aiset')renderAISet();
   if(name==='backup')renderBackup();
+  if(name==='lvinfo')renderLvInfo();
 }
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>go(t.dataset.go));
 
@@ -2281,6 +2317,8 @@ function record(it,ok){
   if(q)bump(S.type,q.t,ok);
   const us=S.units[it.u]||(S.units[it.u]={});
   us.n=(us.n||0)+1; if(ok)us.c=(us.c||0)+1;
+  // 較正：AIで作った問題は、指定した目標レベルごとに正答率を貯める
+  if(q&&q.lv){S.calib=S.calib||{};bump(S.calib,q.lv,ok);}
   const w=S.wrong.findIndex(x=>x.u===it.u&&x.i===it.i);
   if(ok){if(w>-1){S.wrong[w].n=(S.wrong[w].n||0)+1;if(S.wrong[w].n>=2)S.wrong.splice(w,1);}}
   else{if(w>-1)S.wrong[w].n=0;else S.wrong.push({u:it.u,i:it.i,n:0});}
@@ -2445,6 +2483,11 @@ function renderStats(){
   <div class="h2">つまずきの傾向</div>
   <div class="card"><div style="font-size:13px;line-height:1.9;color:var(--ink-2)">${advice()}</div></div>
   <div style="height:14px"></div>
+  ${S.calib&&Object.keys(S.calib).length?`<div class="h2">出題レベルの妥当性</div>
+  <div class="card">${calibView()}</div>`:''}
+  <div style="height:14px"></div>
+  <button class="btn ghost sm" onclick="go('lvinfo')">難易度の基準について</button>
+  <div style="height:9px"></div>
   <button class="btn ghost sm" onclick="go('backup')">データの書き出し・読み込み</button>
   <div style="height:9px"></div>
   <button class="btn ghost sm" onclick="resetAll()">学習データをすべて消去する</button>
@@ -2479,120 +2522,423 @@ function advice(){
 }
 function resetAll(){
   if(!confirm('学習データをすべて消去します。よろしいですか？'))return;
-  const keep=S.ai;S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null,gen:{},cat:{},type:{},ai:keep};save();mergeGen();renderStats();renderLearn();
+  const keep=S.ai;S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null,gen:{},cat:{},type:{},calib:{},ai:keep};save();mergeGen();renderStats();renderLearn();
   toast('学習データを消去しました');
+}
+
+/* ========== 難易度の基準 ==========
+   出典:
+   - ETS "Mapping the TOEIC Tests on the CEFR"（Tannenbaum & Wylie, 2006）
+     Reading セクション最低スコア: B1=275 / B2=385 / C1=455（満点495）
+     総合スコア帯: B1=550-784 / B2=785-944 / C1=945-990
+   - NGSL/TSL（Browne & Culligan）: NGSL 2,801語で TOEIC の約94%、
+     TSL 1,200語を加えた約4,000語で 98.5〜99% をカバー。
+     → TOEIC の語彙はこの範囲に収まるため、範囲外の語は「TOEIC 圏外」とみなす。
+   - Part 5 出題項目: 品詞、時制・態、前置詞、接続語・副詞節、関係詞、代名詞、語彙・語法
+   - CEFR 文法項目（English Grammar Profile / Cambridge）:
+     B2 = 完了形・過去完了・受動各形・分詞構文・仮定法・whose・前置詞+関係詞
+     C1 = 倒置（否定副詞/条件）・強調構文・混合条件・名詞化・複合前置詞
+*/
+const LEVELS={
+  '800':{
+    id:'800', label:'730〜800点', cefr:'B2 下位', read:'Reading 385前後',
+    words:[10,18], clauses:[1,2], blankPos:[0,1],
+    spec:`【目標レベル：TOEIC 730〜800点（CEFR B2 下位 / Reading 385前後）】
+- 1文の長さ … 10〜18語。節は1〜2。修飾句は多くても1つ
+- 語彙 … NGSL（高頻度2,800語）の範囲。ビジネス語は invoice, deadline, supplier, budget など基本的なものまで
+- 正解の手がかり … 空所の直前か直後にある。離れた語を参照させない
+- 問う文法 … 現在形／過去形／現在完了、基本的な受動態、who・which・that の関係代名詞、
+  because・although・during などの頻出接続語、-ly 副詞と形容詞の区別、基本的な前置詞
+- 誤答選択肢 … 4つのうち1〜2つは形から明らかに除外できるものを混ぜる
+- 使わない … 倒置、強調構文、仮定法過去完了、分詞構文、複合前置詞`
+  },
+  '900':{
+    id:'900', label:'800〜900点', cefr:'B2 上位', read:'Reading 385〜455',
+    words:[16,26], clauses:[2,3], blankPos:[0.15,1],
+    spec:`【目標レベル：TOEIC 800〜900点（CEFR B2 上位 / Reading 385〜455）】
+- 1文の長さ … 16〜26語。節は2〜3。主語と動詞の間に修飾句を挟むこと
+- 語彙 … NGSL＋TSL（TOEIC頻出語 約4,000語）の範囲。
+  quotation, compliance, reimbursement, itinerary, prospective, subsequent などを積極的に使う
+- 正解の手がかり … 空所から離れた位置に置く。
+  例）主語と動詞が修飾句で隔てられた一致、文頭の時の副詞と時制の呼応
+- 問う文法 … 過去完了、完了進行形、進行形の受動態（is being done）、have + 目的語 + 過去分詞、
+  whose、前置詞+関係代名詞、分詞の後置修飾、仮定法過去、
+  a number of / the number of・each of・neither A nor B の一致、動詞ごとの to不定詞/動名詞の型
+- 誤答選択肢 … 4つすべてを同じ語族の派生形（例 significance / significant / significantly / signify）
+  にするか、文法的に一見成立しそうなものにする。形だけで消せる選択肢を入れない
+- 使わない … 倒置、強調構文（これらはC1相当）`
+  },
+  '990':{
+    id:'990', label:'900〜990点', cefr:'B2上位〜C1', read:'Reading 455以上',
+    words:[22,34], clauses:[3,5], blankPos:[0.2,1],
+    spec:`【目標レベル：TOEIC 900〜990点（CEFR B2上位〜C1 / Reading 455以上）】
+- 1文の長さ … 22〜34語。節は3以上。挿入句をコンマで挟む構造を含めること
+- 語彙 … TSL の低頻度域と、契約・法務・財務のビジネス語。
+  stipulate, waive, contingent, discretionary, deem, pursuant to, notwithstanding, forthcoming など
+- 正解の手がかり … 文の離れた位置にあり、複数の要素を同時に検討させる
+  例）挿入句を越えた一致と時制の呼応を同時に判断させる
+- 問う文法（C1相当を積極的に含める） …
+  否定副詞による倒置（Not only did / Never has / Rarely does / Only after ~ did）、
+  条件節の倒置（Had we known / Should you require）、強調構文（It is ~ that ~）、
+  混合条件文、完了形の分詞構文（Having been ~）、名詞化、複合前置詞（in comparison with, with a view to）、
+  仮定法現在（It is essential that he be ~）、認識モダリティ（may well have been）
+- 誤答選択肢 … 4つすべてが同じ語族または同じ構文の変形で、
+  語法と意味の両方を検討しないと絞れない状態にする
+- 注意 … 難しくするために不自然な英文を作ってはならない。
+  実務文書に現れる形の中で、判断に手間のかかるものを選ぶこと`
+  }
+};
+
+/* 高頻度語（NGSL上位相当）。ここに無い語を「低頻度語」として数える。
+   完全なNGSLではないため、判定は目安として扱う。 */
+const HF=new Set(('a able about above accept access according account achieve across act action activity actual add address administration admit adopt advance advantage advertise advise affect afford after again against age agency agenda agree ahead aim air all allow almost alone along already also although always among amount analysis and announce annual another answer any anyone anything appear apply appoint approach appropriate approval approve april area argue around arrange arrive art article as ask aspect assess assign assist associate assume at attach attempt attend attention attract audience august author authority available avoid award aware away back bad balance bank base basic basis be bear because become before begin behalf behind believe below benefit best better between beyond big bill board body book both bottom box branch break brief bring budget build building business busy but buy by call campaign can cancel candidate capable capacity capital car card care career carry case cash catch cause center central century certain chair chairman challenge chance change channel character charge chart check chief choice choose city claim class clean clear client close code collect college color combine come comment commercial commission commit committee common communicate community company compare compete complete complex comply component computer concern condition conduct conference confirm connect consider consist constant construct consult consumer contact contain content continue contract contribute control convenient conversation cooperate copy corner corporate correct cost could count country couple course cover create credit critical cross culture current customer cut daily damage data date day deal december decide decision declare decline decrease deep degree delay deliver demand department depend describe design desk detail determine develop device difference difficult direct direction director discuss display distribute district divide division do document dollar domestic door doubt down draw drive drop due during duty each early earn ease east easy economic edge edit educate effect effective efficient effort either electric electronic else email employ employee employer employment empty enable encourage end energy engage engine engineer enough ensure enter entire entry environment equal equipment error especially essential establish estimate even evening event eventually ever every everyone everything evidence exact examine example exceed excellent except exchange excite executive exercise exhibit exist exit expand expect expense expensive experience expert explain express extend extra extremely face facility fact factor factory fail fair fall familiar family far fast favor feature february fee feedback feel few field figure file fill film final finance find fine finish firm first fiscal fit fix flight floor flow focus follow food foot for force forecast foreign forget form formal former forward found free frequent fresh friday friend from front full fund further future gain game gas general generate get gift give glad global go goal good goods government grant great green gross group grow growth guarantee guest guide half hand handle happen happy hard have head health hear heavy help high hire history hold home hope hospital host hotel hour house how however human idea identify if image immediate impact implement importance important impress improve in include income increase indeed independent indicate individual industry inform information initial initiative inside insist install instance instead institute instruction insurance interest internal international internet interview into introduce invest investment invite invoice involve issue it item itself january job join journal july june just keep key kind know knowledge labor lack land language large last late later latest launch law lawyer lead leader learn lease leave left legal length less let letter level license life light like likely limit line link list listen little live load loan local locate location long look lose loss lot low machine magazine mail main maintain major make manage management manager manner manufacture many march mark market material matter may maybe mean measure media medical meet meeting member memo mention menu message method middle might mile million mind minute miss mission mobile model modern moment monday money monitor month more morning most motor move much museum music must name nation national nature near necessary need negotiate net network never new news newspaper next nice night no none nor normal north not note notice notify november now number object observe obtain obvious occasion occur october of off offer office officer official often oil old on once one online only open operate operation opinion opportunity option or order organization organize origin other otherwise ought our out outline output outside over overall overtime own owner package page paper parking part participate particular partner party pass passenger past pay payment people per percent perfect perform performance period permanent permission permit person personal personnel phase phone photo pick picture piece place plan plant plastic play please point policy political poor popular portion position positive possible post potential power practice prefer premium prepare present president press pressure prevent previous price primary print prior priority private prize probably problem procedure proceed process produce product production professional profit program progress project promise promote prompt proper property proposal propose protect prove provide public publish purchase purpose push put qualify quality quantity quarter question quick quiet quite quote raise range rank rapid rate rather reach react read ready real realize reason receipt receive recent recognize recommend record recover reduce refer reflect refund regard region register regular regulation reject relate relation release relevant reliable rely remain remember remind remove rent repair repeat replace reply report represent request require research reserve residence resource respect respond response responsible rest restaurant result retail retire return revenue review revise reward right rise risk road role room round route rule run safe safety salary sale same sample satisfy save say scale schedule scheme school science score screen search season seat second section sector secure see seek seem select sell send senior sense separate september series serious serve service session set settle several severe shape share sheet shift ship shop short should show side sign signal significant similar simple since single site situation size skill slight slow small so social soft software solution solve some soon sorry sort sound source south space speak special specific speed spend staff stage stand standard start state statement station status stay step stock stop storage store story strategy street strong structure study style subject submit subsequent substantial succeed success such sudden suggest suit summary supervisor supply support suppose sure surface survey system table take talk target task tax team technical technique technology telephone tell temporary term terminal test text than thank that the theater their them then theory there therefore these they thing think third this those though thought through thursday thus ticket time title to today together tomorrow tonight too tool top total touch tour toward town track trade traffic train training transfer transport travel treat trend trip truck true trust try tuesday turn type typical under understand undertake unit unless until up update upon urgent use useful user usual valid value variety various vehicle vendor verify version via video view visit voice volume vote wage wait walk want warehouse warn warranty waste watch water way we wear website wednesday week weight welcome well west what when where whether which while who whole whom whose why wide will win window wish with within without word work worker world worth would write year yesterday yet young').split(' '));
+
+/* TOEIC頻出のビジネス語（TSL相当）。900点帯以上ではこの層が主戦場になる。 */
+const BIZ=new Set(('accommodate acquisition adhere adjacent allocate amend amenity anticipate appraisal apprentice arbitration assemble assess attain attendee attrition audit authorize auditorium bid brochure candid carrier catering certify clarify collateral commence commodity compensate competent compile compliance comprehensive concession confidential consecutive consent consignment consolidate constrain contingent convene courier credential curriculum custody deadline deduct default defer deficit delegate deliberate depict deplete deposit depreciate designate deteriorate deviate diminish disburse discard disclose discontinue discrepancy discretion dispatch dispose disrupt distinguish diversify dividend downturn draft duplicate durable elaborate eligible embark endorse enforce enhance enroll entitle enumerate equity escalate evaluate exempt exhaust expedite expertise expiration explicit extension fabricate facilitate feasible fiscal fluctuate forfeit formulate franchise fulfill glitch grievance hierarchy hospitality implement imply impose inaugurate incentive incidental inclement incur indispensable induct inquiry inspection installment institute integrate intermittent intern inventory itinerary jeopardize jurisdiction latitude layover lease legislation liability liaison litigation lodging lucrative mandatory manuscript margin merchandise merger mitigate modification momentum mortgage negotiable nominal notary obligation obsolete occupancy offset ongoing onsite optimum ordinance outage outlet outsource overdue oversee overhaul patron payroll pending periodic perishable pertinent petition pharmaceutical portfolio postpone practitioner precaution precede preliminary premise prerequisite prestigious prevail prior probation proceeds procurement proficient projection proliferate prominent promptly proponent proprietary prospective provision proximity publicize punctual quota quotation ratify reactivate rebate recipient reciprocal reconcile recruit redeem redundant referral refurbish reimburse reinforce reiterate relinquish relocate remainder remedy remittance remuneration render renovate renowned repercussion replenish reputable rescind reservation residual resolve restrict resume retail retention retrieve revenue revert rigorous roster sanitation scarce scrutiny seasonal secondment secretarial sequence setback severance shareholder shortage simultaneous solicit specification stagnant stationery statute stipulate streamline stringent subcontract subsidiary subsidy substantiate succession supersede supplement surcharge surplus surveillance sustain tariff tenant tentative tenure terminate testimonial threshold thrive tier transaction transcript transit turnover unanimous underscore undergo unveil upcoming utilize vacancy vacate valid validate venue verify versatile viable vicinity voucher waive warrant withdraw workload workshop yield').split(' '));
+
+/* C1 相当の構文マーカー */
+const C1_PAT=[
+  /\bnot only (did|has|have|was|were|is|are|do|does|can|will)\b/i,
+  /\b(never|rarely|seldom|hardly|scarcely|barely|little|no sooner)(\s+(before|again|in|has|have|had))?\s+(has|have|had|did|do|does|was|were|is|are|will|can|could|would)\s+(the|our|their|we|they|he|she|it|you|i|any|such)\b/i,
+  /\bonly (after|when|then|once|if|by|with|in)\b[^,.]{0,50},?\s*(did|do|does|has|have|had|was|were|is|are|will|can)\b/i,
+  // 条件節の倒置：文頭（または節頭）の Had / Should / Were + 主語
+  /(^|[.;]\s*|,\s*)had\s+(the|our|their|his|her|its|no|any|all|both|we|they|he|she|it|you|i)\b[^,.]{0,45}?\b(been|\w+ed|\w+en|known|sent|made|told|kept|left|found|brought|thought|become|begun|chosen|drawn|grown|shown|thrown|held|met|paid|read|said|set|put|lost|built|dealt|felt|meant|spent|understood|withdrawn|undergone|arisen|done|gone|come|run|won|cut|let|shut)\b/i,
+  /(^|[.;]\s*|,\s*)should\s+(the|our|your|their|any|you|we|they|he|she|it)\b[^,.]{0,40}?\b(require|need|have|wish|prefer|find|encounter|experience|be|arise|fail|decide|choose|wetc)\b/i,
+  /(^|[.;]\s*)were\s+(it|we|they|he|she|the|our)\b[^,.]{0,30}\bto\b/i,
+  /\bwere it not for\b/i,
+  /\bit (is|was) [^,.]{2,40} that\b/i,
+  /\bhaving (been|had|completed|received|reviewed|considered|finished|submitted|obtained)\b/i,
+  /\bit is (essential|imperative|crucial|vital|necessary|mandatory) that\s+\w+\s+(be|not be|have)\b/i,
+  /\b(notwithstanding|pursuant to|in lieu of|with a view to|in comparison with|inasmuch as|albeit|whereby|thereby|hereby)\b/i,
+  /\bmay well have\b|\bcould well be\b|\bmight otherwise\b/i
+];
+/* B2 相当の構文マーカー */
+const B2_PAT=[
+  /\b(is|are|was|were) being \w+ed\b/i,
+  /\bhad (already |just |never |not )?\w+(ed|en)\b/i,
+  /\bhas been \w+|\bhave been \w+/i,
+  /\bwhose\b/i,
+  /\b(in|on|at|to|for|with|by|from|of) which\b/i,
+  /\bif .{2,40}\b(had|were)\b/i,
+  /\bwould have \w+/i,
+  /\b(a number of|the number of|each of|neither .{2,20} nor|either .{2,20} or)\b/i,
+  /\b(have|has|had|having) (the |our |your |their |his |her )?\w+ (translated|repaired|delivered|installed|reviewed|checked|renewed|inspected)\b/i,
+  /\b\w+ing\b.{0,30},\s/i
+];
+
+/* ========== 難易度の測定 ========== */
+function analyzeQ(q){
+  const text=q.t==='mcq'?q.q.replace('___',(q.c&&q.c[q.a])||'x')
+            :(q.full||(Array.isArray(q.a)?q.a.join(' '):q.a)||'');
+  const words=text.replace(/[.,;:!?()"]/g,' ').split(/\s+/).filter(Boolean);
+  const n=words.length;
+
+  // 節の数：定形動詞を導く語の数から近似
+  const conn=(text.match(/\b(that|which|who|whom|whose|because|although|though|while|whereas|since|unless|if|when|before|after|until|as|so|but|and|however|therefore|whether)\b/gi)||[]).length;
+  const commas=(text.match(/,/g)||[]).length;
+  const clauses=1+Math.min(conn,4)+(commas>1?1:0);
+
+  // 語彙：高頻度リストにない語
+  const lower=words.map(w=>w.toLowerCase().replace(/[^a-z-]/g,''));
+  const known=w=>{
+    if(!w)return true;
+    const cands=[w];
+    // 語尾変化を戻す（send/sends/sending, postpone/postponed, apply/applied, refer/referred）
+    w.replace(/(ies)$/,'y')!==w&&cands.push(w.replace(/(ies)$/,'y'));
+    [/s$/,/es$/,/ed$/,/ing$/,/ly$/,/er$/,/est$/,/ment$/,/ness$/,/ity$/,/ies$/].forEach(re=>{
+      if(re.test(w)){
+        const base=w.replace(re,'');
+        cands.push(base, base+'e', base+'y');
+        // referred → refer、planned → plan
+        if(/(.)\1$/.test(base))cands.push(base.slice(0,-1));
+      }
+    });
+    // information → inform, expansion → expand
+    if(/tion$/.test(w))cands.push(w.replace(/tion$/,''),w.replace(/ation$/,'e'),w.replace(/ation$/,''));
+    if(/sion$/.test(w))cands.push(w.replace(/sion$/,'d'),w.replace(/sion$/,'de'));
+    if(/(ive|ous|able|ible|al|ic|ary)$/.test(w))
+      cands.push(w.replace(/(ive|ous|able|ible|al|ic|ary)$/,''),w.replace(/(ive|ous|able|ible|al|ic|ary)$/,'e'));
+    return cands.some(c=>c&&(HF.has(c)||BIZ.has(c)));
+  };
+  const isBiz=w=>{
+    if(BIZ.has(w))return true;
+    const c=[w.replace(/s$/,''),w.replace(/ed$/,''),w.replace(/ed$/,'e'),w.replace(/ing$/,''),
+             w.replace(/ing$/,'e'),w.replace(/ly$/,''),w.replace(/ment$/,''),w.replace(/tion$/,'te'),
+             w.replace(/tion$/,''),w.replace(/ies$/,'y')];
+    return c.some(x=>BIZ.has(x));
+  };
+  const cont=lower.filter(w=>w.length>3);
+  const bizN=cont.filter(isBiz).length;
+  const rareN=cont.filter(w=>!known(w)&&!isBiz(w)).length;
+
+  // 構文レベル：mcq は各選択肢を空所に入れて、いずれかで成立する構文を数える
+  let probes=[text];
+  if(q.t==='mcq'&&Array.isArray(q.c))
+    probes=q.c.map(x=>q.q.replace('___',String(x))).concat([text]);
+  const hit=pats=>pats.filter(p=>probes.some(t=>p.test(t))).length;
+  const c1=hit(C1_PAT);
+  const b2=hit(B2_PAT);
+
+  // 空所の位置（前半にあるほど手がかりが後ろにあり難しい場合もあるが、
+  // ここでは「文の奥にあるか」を見る）
+  let blankPos=null;
+  if(q.t==='mcq'){
+    const i=q.q.indexOf('___');
+    blankPos=i<0?null:Math.min(1,i/Math.max(1,q.q.length-3));
+  }
+
+  // 誤答選択肢の紛らわしさ：同一語族の割合
+  let distract=null;
+  if(q.t==='mcq'&&Array.isArray(q.c)&&q.c.length){
+    const cs=q.c.map(x=>String(x).toLowerCase().trim());
+    const base=cs[q.a]||'';
+    const pref=(x,y)=>{let i=0;while(i<x.length&&i<y.length&&x[i]===y[i])i++;return i;};
+    const others=cs.filter((x,i)=>i!==q.a);
+    // 同一語族（共通接頭辞が語長の半分以上）
+    const fam=others.filter(x=>pref(x,base)>=Math.min(4,Math.floor(base.length*0.5))).length;
+    // 前置詞・接続詞など機能語だけが並ぶ four-way（形では消せないので難しい）
+    const FUNC=new Set(['to','with','for','on','in','at','by','of','from','into','over','under',
+      'about','after','before','during','while','since','until','through','within','without',
+      'because','although','though','however','therefore','despite','unless','whereas','moreover',
+      'that','which','who','whom','whose','what','when','where','why','how',
+      'a','an','the','some','any','each','every','either','neither','both','all','most','much','many']);
+    const funcAll=cs.every(x=>FUNC.has(x))?1:0;
+    // 同じ語の活用形が並ぶ（時制・態を問う形）
+    const sameHead=others.filter(x=>{
+      const h=x.split(' ')[0], bh=base.split(' ')[0];
+      return h.length>2&&bh.length>2&&pref(h,bh)>=3;
+    }).length;
+    // 語数がそろっている（句で問う形）
+    const sameLen=others.filter(x=>x.split(' ').length===base.split(' ').length).length;
+    distract=Math.min(1,(fam*2+sameHead+sameLen*0.5+funcAll*3)/9);
+  }
+
+  return {text:text,words:n,clauses:clauses,rare:rareN,biz:bizN,c1:c1,b2:b2,
+          blankPos:blankPos,distract:distract};
+}
+
+/* 測定値から推定レベルを出す */
+function estimateLevel(q){
+  const a=analyzeQ(q);
+  let s=0;
+  // 文長（Part 5 の処理負荷に直結）
+  if(a.words>=22)s+=2; else if(a.words>=16)s+=1;
+  // 節の数
+  if(a.clauses>=3)s+=2; else if(a.clauses>=2)s+=1;
+  // 語彙層（TSL 相当のビジネス語が主戦場になるのが 900 帯）
+  if(a.rare>=2)s+=2; else if(a.rare===1)s+=1;
+  if(a.biz>=2)s+=1;
+  // 構文レベル（C1 構文は単独で 990 帯に押し上げる）
+  if(a.c1>=1)s+=4; else if(a.b2>=2)s+=2; else if(a.b2===1)s+=1;
+  // 誤答の紛らわしさ
+  if(a.distract!==null){ if(a.distract>=0.6)s+=2; else if(a.distract>=0.35)s+=1; }
+  /* CEFR の C1 は「倒置・強調構文・混合条件・完了分詞構文」といった構文で定義される。
+     語彙と文長だけで最上位に上げないため、990 帯には C1 構文の存在を必須とする。 */
+  let lv;
+  if(a.c1>=1)      lv = s>=7 ? '990' : '900';
+  else if(s>=5)    lv = '900';
+  else             lv = '800';
+  return {level:lv,score:s,a:a};
+}
+
+/* 指定レベルとのずれを判定 */
+function judgeLevel(q,want){
+  const e=estimateLevel(q);
+  const order={'800':0,'900':1,'990':2};
+  const diff=order[e.level]-order[want];
+  return {level:e.level,score:e.score,a:e.a,diff:diff,
+    ok:diff===0,
+    msg:diff===0?'':diff<0?'指定より易しめ':'指定より難しめ'};
 }
 
 /* ========== AI 問題生成 (Gemini) ========== */
 const GEM_MODEL='gemini-3.7-flash';
-const THINK_LEVELS=[['high','じっくり考える（推奨）'],['medium','標準'],['low','速く作る']];
+const THINK_LEVELS=[['medium','標準（推奨）'],['high','じっくり考える'],['low','速く作る']];
 function gemKey(){return S.ai&&S.ai.key||'';}
 function gemModel(){return GEM_MODEL;}
-function gemThink(){return (S.ai&&S.ai.think)||'high';}
+function gemThink(){return (S.ai&&S.ai.think)||'medium';}
 
-const Q_SCHEMA={
-  type:'object',
-  properties:{
-    items:{type:'array',items:{
+/* 形式ごとに専用スキーマを使う。
+   JSONスキーマは「t が mcq のときだけ c を必須」という条件分岐を書けないため、
+   1リクエスト1形式に分けて required を厳密に指定する。 */
+const SCHEMAS={
+  mcq:{
+    type:'object',
+    properties:{items:{type:'array',minItems:1,items:{
       type:'object',
       properties:{
-        t:{type:'string',enum:['mcq','order','speak']},
-        q:{type:'string'},
-        ja:{type:'string'},
-        c:{type:'array',items:{type:'string'}},
-        a_index:{type:'integer'},
-        a_tokens:{type:'array',items:{type:'string'}},
-        a_text:{type:'string'},
-        full:{type:'string'},
-        why:{type:'string'}
+        q:{type:'string',description:'空所を ___ で1箇所だけ含む英文'},
+        ja:{type:'string',description:'日本語訳'},
+        c:{type:'array',minItems:4,maxItems:4,items:{type:'string'},description:'選択肢4つ'},
+        a_index:{type:'integer',description:'c の中の正解の位置。0,1,2,3 のいずれか'},
+        why:{type:'string',description:'日本語の解説'}
       },
-      required:['t','ja','why']
-    }}
+      required:['q','ja','c','a_index','why'],
+      propertyOrdering:['q','ja','c','a_index','why']
+    }}},
+    required:['items']
   },
-  required:['items']
+  order:{
+    type:'object',
+    properties:{items:{type:'array',minItems:1,items:{
+      type:'object',
+      properties:{
+        ja:{type:'string',description:'日本語文'},
+        a_tokens:{type:'array',minItems:4,items:{type:'string'},description:'正解英文を単語ごとに分割。句読点は含めない'},
+        full:{type:'string',description:'句読点つきの完成英文'},
+        why:{type:'string',description:'日本語の解説'}
+      },
+      required:['ja','a_tokens','full','why'],
+      propertyOrdering:['ja','a_tokens','full','why']
+    }}},
+    required:['items']
+  },
+  speak:{
+    type:'object',
+    properties:{items:{type:'array',minItems:1,items:{
+      type:'object',
+      properties:{
+        ja:{type:'string',description:'日本語文'},
+        a_text:{type:'string',description:'模範解答の英文'},
+        why:{type:'string',description:'日本語の解説'}
+      },
+      required:['ja','a_text','why'],
+      propertyOrdering:['ja','a_text','why']
+    }}},
+    required:['items']
+  }
 };
 
-function genPrompt(u,n,types,level){
-  const ex=u.quiz.slice(0,2).map(q=>{
-    if(q.t==='mcq')return `形式mcq: q="${q.q}" ja="${q.ja}" 選択肢=${JSON.stringify(q.c)} 正解index=${q.a}`;
-    if(q.t==='order')return `形式order: ja="${q.ja}" 正解語順=${JSON.stringify(q.a)}`;
-    if(q.t==='speak')return `形式speak: ja="${q.ja}" 模範解答="${q.a}"`;
-    return '';
-  }).filter(Boolean).join('\n');
-  const pts=u.points.map(p=>p.rule).join(' / ');
-  return `あなたはTOEIC教材の作問者です。日本人ビジネスパーソン（TOEIC${level}点帯、CEFR B1〜B2）向けの英文法問題を${n}問作ってください。
+const FORM_RULES={
+  mcq:`【この回で作る形式：四択】
+各問に必ず次をすべて含めること:
+- q … 空所を ___ で「1箇所だけ」含む英文。___ は半角アンダースコア3つ
+- ja … その英文の自然な日本語訳
+- c … 選択肢を「必ず4つ」。重複禁止
+- a_index … c の中で正解が何番目か（0, 1, 2, 3 のいずれか）
+- why … 日本語の解説
 
-【単元】${u.title}（${u.sub}）
-【この単元で扱う文法規則】${pts}
-
-【既存問題の例】
-${ex}
-
-【厳守事項】
-- 出題形式は次のみ: ${types.join(', ')}
-- 文脈はすべてビジネス実務（会議、メール、契約、出荷、予算、人事、顧客対応など）にすること
-- 上の既存問題と重複しない、新しい例文を作ること
-- 英文は自然でネイティブが実際に使う表現にすること。不自然な作例は禁止
-- 正解は必ず1つに定まること。文法的に2つ以上成立する問題は作らないこと
-- ja は問題文の自然な日本語訳（または指示文）
-
-【誤答選択肢の作り方（mcqで最重要）】
-学習者が実際に犯す誤りを選択肢にすること。次のような観点で作る:
-- 日本語からの直訳による誤り（例: discuss about, look forward to hear）
+【誤答選択肢の作り方】
+学習者が実際に犯す誤りを選択肢にすること:
+- 日本語からの直訳による誤り（discuss about, look forward to hear など）
 - 品詞の取り違え（名詞と形容詞、形容詞と副詞）
 - 時制・態の混同（能動と受動、現在完了と過去）
-- 前置詞と接続詞の取り違え（due to と because）
+- 前置詞と接続詞の取り違え（due to と because など）
 ランダムな語や、明らかにその位置に置けない語を並べただけの選択肢は禁止。
-4つとも一見ありえそうに見え、文法規則を理解していれば1つに絞れる状態にすること。
+4つとも一見ありえそうに見え、文法規則を理解していれば1つに絞れる状態にすること。`,
+  order:`【この回で作る形式：並べ替え】
+各問に必ず次をすべて含めること:
+- ja … 日本語文
+- a_tokens … 正解の英文を単語ごとに分割した配列。ピリオドやコンマは含めない。4〜14語
+- full … 句読点をつけた完成英文
+- why … 日本語の解説
+同じ単語が2回出る文は避けること（並べ替えの答えが一意に定まらなくなるため）。`,
+  speak:`【この回で作る形式：瞬間英作文】
+各問に必ず次をすべて含めること:
+- ja … 日本語文
+- a_text … 模範解答の英文（句読点つき）
+- why … 日本語の解説
+声に出して言える長さ（8〜18語程度）にすること。`
+};
 
-【解説（why）の書き方】
-- 日本語で1〜2文。文法用語は日本語で書く
-- 「なぜ正解か」だけでなく、可能なら「なぜ他が誤りか」の判断基準も一言添える
-- 暗記の指示ではなく、次に同じ形を見たとき自力で判断できる観点を書く
+function genPrompt(u,n,type,level){
+  const L=LEVELS[level]||LEVELS['900'];
+  const same=u.quiz.filter(q=>q.t===type).slice(0,2);
+  const ex=same.map(q=>{
+    if(q.t==='mcq')return `q="${q.q}" ja="${q.ja}" c=${JSON.stringify(q.c)} a_index=${q.a}`;
+    if(q.t==='order')return `ja="${q.ja}" a_tokens=${JSON.stringify(q.a)}`;
+    return `ja="${q.ja}" a_text="${q.a}"`;
+  }).join('\n');
+  const pts=u.points.map(p=>p.rule).join(' / ');
+  return `あなたはTOEIC Listening & Reading テストの作問者です。
+TOEIC Part 5（Incomplete Sentences）と同じ形式・同じ難度の問題を、ちょうど${n}問作ってください。
+解答者は日本人ビジネスパーソンです。
 
-【自己検証】
-出力する前に各問を見直し、正解が本当に一つに定まるか、英文が自然か、
-誤答選択肢が学習者の誤りを反映しているかを確認すること。
+${L.spec}
 
-【形式ごとの必須フィールド】
-mcq → q（空所を ___ で1箇所だけ含む英文）, ja, c（選択肢4つ、重複なし）, a_index（cの正解位置、0始まり）, why
-order → ja（日本語文）, a_tokens（正解英文を単語ごとに分割した配列。ピリオドやコンマは含めない）, full（句読点つきの完成英文）, why
-speak → ja（日本語文）, a_text（模範解答の英文、句読点つき）, why
+【単元】${u.title}（${u.sub}）
+【この単元で扱う文法規則】${pts||u.sub}
 
-必ず ${n} 問返してください。`;
+${FORM_RULES[type]}
+
+${ex?`【既存問題の例（この形式）】\n${ex}\n`:''}
+【厳守事項】
+- 文脈はすべてビジネス実務（会議、メール、契約、出荷、予算、人事、顧客対応など）にすること
+- 上の既存問題と重複しない、新しい例文を作ること
+- 英文は自然でネイティブが実際に使う表現にすること
+- 正解は必ず1つに定まること。文法的に2つ以上成立する問題は作らないこと
+- why は日本語で1〜2文。文法用語は日本語で書き、次に同じ形を見たとき自力で判断できる観点を示すこと
+
+【出力前の自己点検】
+各問について次を確認してから返すこと:
+1. 必須項目がすべて埋まっているか
+2. 正解が文法的に一つに定まるか（2つ以上成立する問題は作り直す）
+3. 語数が指定範囲（${L.words[0]}〜${L.words[1]}語）に入っているか
+4. 節の数が指定範囲（${L.clauses[0]}〜${L.clauses[1]}）に入っているか
+5. 英文が実務文書として自然か
+
+ちょうど${n}問返してください。`;
 }
 
-async function callGemini(prompt){
+/* タイムアウト付きで1形式ぶんを取得 */
+async function callGemini(prompt,type,timeoutMs){
   const key=gemKey();
   if(!key)throw new Error('APIキーが設定されていません');
   const url=`https://generativelanguage.googleapis.com/v1beta/models/${gemModel()}:generateContent?key=${encodeURIComponent(key)}`;
   // Gemini 3 系では temperature / top_p / top_k は明示指定しない（公式の移行ガイダンス）
-  const cfg={responseMimeType:'application/json',responseSchema:Q_SCHEMA,
-             thinkingConfig:{thinkingLevel:gemThink()}};
-  const send=body=>fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(body)});
+  const cfg={
+    responseMimeType:'application/json',
+    responseSchema:SCHEMAS[type],
+    thinkingConfig:{thinkingLevel:gemThink()},
+    // 思考にもトークンを使うため、出力が途中で切れないよう十分に確保する
+    maxOutputTokens:16384
+  };
+  const ctl=new AbortController();
+  const timer=setTimeout(()=>ctl.abort(),timeoutMs||120000);
   let res;
   try{
-    res=await send({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:cfg});
-  }catch(e){throw new Error('通信に失敗しました。オフラインでないか確認してください');}
+    res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},
+      signal:ctl.signal,
+      body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:cfg})});
+  }catch(e){
+    if(e&&e.name==='AbortError')
+      throw new Error('時間内に応答がありませんでした。問題数を減らすか、思考の深さを「標準」にしてお試しください');
+    throw new Error('通信に失敗しました。電波の状況を確認してください');
+  }finally{clearTimeout(timer);}
+
   if(!res.ok){
     let msg='';
-    try{const j=await res.json();msg=j.error&&j.error.message||'';}catch(e){}
-    if(res.status===400&&/API key/i.test(msg))throw new Error('APIキーが正しくありません');
+    try{const j=await res.json();msg=(j.error&&j.error.message)||'';}catch(e){}
+    if(res.status===400&&/API key|api_key/i.test(msg))throw new Error('APIキーが正しくありません');
+    if(res.status===400)throw new Error(`リクエストが受け付けられませんでした${msg?'：'+msg.slice(0,90):''}`);
     if(res.status===403)throw new Error('このAPIキーでは利用できません。Google AI Studio でキーを確認してください');
     if(res.status===404)throw new Error(`モデル ${GEM_MODEL} を利用できませんでした。APIキーの権限を確認してください`);
     if(res.status===429)throw new Error('利用制限に達しました。しばらく待ってから再試行してください');
+    if(res.status>=500)throw new Error('Google側が混み合っています。少し待ってからもう一度お試しください');
     throw new Error(`エラー ${res.status}${msg?'：'+msg.slice(0,80):''}`);
   }
+
   const data=await res.json();
-  const cand=data.candidates&&data.candidates[0];
+  if(data.promptFeedback&&data.promptFeedback.blockReason)
+    throw new Error('内容が受け付けられませんでした。単元を変えてお試しください');
+  const cand=(data.candidates||[])[0];
   if(!cand)throw new Error('生成結果が空でした。もう一度お試しください');
-  if(cand.finishReason&&cand.finishReason!=='STOP'&&!cand.content)
-    throw new Error('生成が途中で止まりました。問題数を減らしてお試しください');
-  const txt=(cand.content&&cand.content.parts||[]).map(p=>p.text||'').join('');
+  const txt=((cand.content&&cand.content.parts)||[]).map(p=>p.text||'').join('').trim();
+  if(!txt){
+    if(cand.finishReason==='MAX_TOKENS')
+      throw new Error('考えている途中で上限に達しました。問題数を減らすか、思考の深さを「標準」にしてお試しください');
+    throw new Error(`生成結果が空でした（${cand.finishReason||'原因不明'}）。もう一度お試しください`);
+  }
   let obj;
-  try{obj=JSON.parse(txt);}catch(e){throw new Error('生成結果を読み取れませんでした。もう一度お試しください');}
-  return (obj&&obj.items)||[];
+  try{obj=JSON.parse(txt);}
+  catch(e){
+    if(cand.finishReason==='MAX_TOKENS')
+      throw new Error('出力が途中で切れました。問題数を減らしてお試しください');
+    throw new Error('生成結果を読み取れませんでした。もう一度お試しください');
+  }
+  const items=(obj&&obj.items)||[];
+  // 形式タグを補って内部形式にそろえる
+  return items.map(x=>Object.assign({t:type},x));
 }
 
 /* 生成結果を検証して内部形式へ */
@@ -2654,14 +3000,14 @@ function renderAI(){
         </select>
       </div>
       <div style="flex:1">
-        <div class="lbl">難易度</div>
-        <select class="sel" id="aiLv" onchange="G.level=this.value">
-          <option value="800" ${G.level==='800'?'selected':''}>800点帯</option>
-          <option value="900" ${G.level==='900'?'selected':''}>900点帯</option>
-          <option value="990" ${G.level==='990'?'selected':''}>満点狙い</option>
+        <div class="lbl">目標レベル</div>
+        <select class="sel" id="aiLv" onchange="G.level=this.value;renderAI()">
+          ${Object.keys(LEVELS).map(k=>`<option value="${k}" ${G.level===k?'selected':''}>${LEVELS[k].label}</option>`).join('')}
         </select>
       </div>
     </div>
+    <div class="lvinfo">${LEVELS[G.level].cefr}　${LEVELS[G.level].read}　文長 ${LEVELS[G.level].words[0]}〜${LEVELS[G.level].words[1]}語
+      <button class="linkbtn" onclick="go('lvinfo')">基準について</button></div>
     <div class="lbl" style="margin-top:12px">出題形式</div>
     <div class="pills">
       ${[['mcq','四択'],['order','並べ替え'],['speak','瞬間英作文']].map(([k,l])=>
@@ -2695,24 +3041,47 @@ async function runGen(){
   if(G.busy||!G.uid)return;
   G.busy=true;
   const u=U(G.uid);
-  $('#aiGo').disabled=true;
-  $('#aiGo').textContent='生成しています…';
-  $('#aiMsg').innerHTML=`<div class="aimsg">${gemModel()} が ${u.title} の問題を作っています。
-    ${gemThink()==='high'?'じっくり考えるため20〜40秒':'10〜20秒'}ほどかかります。</div>`;
-  try{
-    const raw=await callGemini(genPrompt(u,G.n,G.types,G.level));
-    const items=normalize(raw).filter(q=>G.types.includes(q.t));
-    if(!items.length)throw new Error('使える問題が作れませんでした。条件を変えてお試しください');
-    G.result={uid:G.uid,items:items};
-    $('#aiMsg').innerHTML='';
-    paintResult();
-  }catch(e){
-    $('#aiMsg').innerHTML=`<div class="aimsg err">${e.message}</div>`;
-  }finally{
-    G.busy=false;
-    const btn=$('#aiGo');
-    if(btn){btn.disabled=false;btn.textContent='問題を生成する';}
+  const btn=$('#aiGo');
+  if(btn){btn.disabled=true;btn.textContent='生成しています…';}
+
+  // 選んだ形式ごとに分けて依頼する（1回のリクエストで形式を混ぜると必須項目が欠けやすいため）
+  const types=G.types.slice();
+  const per=Math.max(1,Math.round(G.n/types.length));
+  const label={mcq:'四択',order:'並べ替え',speak:'瞬間英作文'};
+  const all=[], errs=[];
+  const wait=gemThink()==='high'?'1問あたり10秒ほど':'数秒';
+
+  for(let i=0;i<types.length;i++){
+    const ty=types[i];
+    const n=(i===types.length-1)?Math.max(1,G.n-per*(types.length-1)):per;
+    $('#aiMsg').innerHTML=`<div class="aimsg">
+      ${types.length>1?`${i+1}/${types.length}　`:''}${label[ty]}を ${n}問 作っています。${wait}かかります。
+      <div class="prog"><i style="width:${Math.round(i/types.length*100)}%"></i></div></div>`;
+    try{
+      let raw=await callGemini(genPrompt(u,n,ty,G.level),ty,150000);
+      let items=normalize(raw);
+      // 1件も通らなかったときだけ、一度だけ作り直す
+      if(!items.length){
+        raw=await callGemini(genPrompt(u,n,ty,G.level),ty,150000);
+        items=normalize(raw);
+      }
+      if(items.length)all.push(...items);
+      else errs.push(`${label[ty]}は作れませんでした`);
+    }catch(e){
+      errs.push(`${label[ty]}：${e.message}`);
+    }
   }
+
+  G.busy=false;
+  if(btn){btn.disabled=false;btn.textContent='問題を生成する';}
+
+  if(!all.length){
+    $('#aiMsg').innerHTML=`<div class="aimsg err">${errs.join('<br>')||'問題を作れませんでした。もう一度お試しください'}</div>`;
+    return;
+  }
+  G.result={uid:G.uid,items:all,level:G.level};
+  $('#aiMsg').innerHTML=errs.length?`<div class="aimsg err">${errs.join('<br>')}</div>`:'';
+  paintResult();
 }
 function paintResult(){
   const r=G.result;if(!r)return;
@@ -2722,30 +3091,53 @@ function paintResult(){
     <div style="font-weight:500;margin-bottom:4px">${r.items.length}問できました</div>
     <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
       内容を確認してから追加してください。AIの生成物なので、不自然な英文が混じることがあります。</div>
-    ${r.items.map((q,i)=>`<div class="gq">
-      <div class="gqt">${i+1}　${q.t==='mcq'?'四択':q.t==='order'?'並べ替え':'瞬間英作文'}</div>
+    ${r.items.map((q,i)=>{const j=judgeLevel(q,r.level||G.level);return `<div class="gq">
+      <div class="gqt">${i+1}　${q.t==='mcq'?'四択':q.t==='order'?'並べ替え':'瞬間英作文'}
+        <span class="lvtag ${j.diff===0?'fit':j.diff<0?'easy':'hard'}">${LEVELS[j.level].label}${j.msg?' ・'+j.msg:''}</span>
+        <span class="metric">${j.a.words}語 / ${j.a.clauses}節${j.a.c1?' / C1構文':''}${j.a.rare?' / 低頻度語'+j.a.rare:''}</span>
+      </div>
       ${q.t==='mcq'?`<div class="sent" style="font-size:16px;line-height:1.9">${q.q.replace('___','<span class="blank"></span>')}</div>
         <div class="gqa">正解：${q.c[q.a]}</div>`:''}
       ${q.t==='order'?`<div class="sent" style="font-size:16px;line-height:1.7">${q.full||q.a.join(' ')}</div>`:''}
       ${q.t==='speak'?`<div class="sent" style="font-size:16px;line-height:1.7">${q.a}</div>`:''}
       <div class="gqj">${q.ja}</div>
       <div class="gqw">${q.why}</div>
-    </div>`).join('')}
+    </div>`;}).join('')}
+    <div class="lvsum">${levelSummary(r)}</div>
     <div class="row" style="margin-top:14px">
       <button class="btn ghost" onclick="G.result=null;renderAI()">破棄</button>
-      <button class="btn" onclick="saveGen()">アプリに追加する</button>
+      <button class="btn" onclick="saveGen()">${r.items.length}問すべて追加</button>
     </div>
+    ${(()=>{const fit=r.items.filter(q=>judgeLevel(q,r.level||G.level).ok).length;
+      return (fit&&fit<r.items.length)?`<div style="height:9px"></div>
+        <button class="btn ghost sm" onclick="saveGen(true)">レベルが一致した ${fit}問だけ追加</button>`:'';})()}
   </div>`;
   $('#aiResult').scrollIntoView({behavior:'smooth',block:'start'});
 }
-function saveGen(){
+function saveGen(onlyFit){
   const r=G.result;if(!r)return;
+  const want=r.level||'900';
+  let items=r.items;
+  if(onlyFit)items=items.filter(q=>judgeLevel(q,want).ok);
+  if(!items.length){toast('追加できる問題がありません');return;}
+  // 各問に「指定レベル」と「推定レベル」を刻む（あとで較正に使う）
+  items=items.map(q=>Object.assign({},q,{lv:want,lvEst:judgeLevel(q,want).level}));
   S.gen=S.gen||{};
-  S.gen[r.uid]=(S.gen[r.uid]||[]).concat(r.items);
+  S.gen[r.uid]=(S.gen[r.uid]||[]).concat(items);
   save();mergeGen();
   G.result=null;
-  toast(`${r.items.length}問を追加しました`);
+  toast(`${items.length}問を追加しました`);
   renderAI();
+}
+function levelSummary(r){
+  const want=r.level||'900';
+  const c={fit:0,easy:0,hard:0};
+  r.items.forEach(q=>{const j=judgeLevel(q,want);c[j.diff===0?'fit':j.diff<0?'easy':'hard']++;});
+  const parts=[`指定どおり ${c.fit}問`];
+  if(c.easy)parts.push(`易しめ ${c.easy}問`);
+  if(c.hard)parts.push(`難しめ ${c.hard}問`);
+  return `<b>${LEVELS[want].label}</b> として作成 — ${parts.join(' / ')}。
+    判定は語数・節の数・語彙層・構文（CEFR基準）・誤答の紛らわしさから推定した目安です。`;
 }
 function delGen(uid){
   if(!confirm('この単元の生成問題をすべて削除します。よろしいですか？'))return;
@@ -2772,7 +3164,8 @@ function aiSetupHTML(){
       ${THINK_LEVELS.map(([v,l])=>`<option value="${v}" ${gemThink()===v?'selected':''}>${l}</option>`).join('')}
     </select>
     <div style="font-size:11.5px;color:var(--ink-3);line-height:1.7;margin-top:8px">
-      作問は推論が効く作業なので「じっくり考える」を推奨します。選択肢の作り込みと解説の質が上がります。</div>
+      「じっくり考える」は選択肢の作り込みが良くなりますが、時間がかかり途中で止まることがあります。
+      うまく作れないときは「標準」に戻してください。</div>
     <div style="height:14px"></div>
     <button class="btn" onclick="saveKey()">保存する</button>
     ${gemKey()?`<div style="height:9px"></div>
@@ -2819,7 +3212,7 @@ function buildBackup(withKey){
       generated:genTotal()
     },
     data:{units:S.units||{}, wrong:S.wrong||[], stats:S.stats||{}, last:S.last||null,
-          gen:S.gen||{}, cat:S.cat||{}, type:S.type||{}, ai:ai}
+          gen:S.gen||{}, cat:S.cat||{}, type:S.type||{}, calib:S.calib||{}, ai:ai}
   };
 }
 function doExport(withKey){
@@ -2911,8 +3304,8 @@ function validateBackup(o){
           out.stats.days[k]={n:Math.max(0,+e.n||0),c:e.c===null?null:Math.max(0,+e.c||0)};
       });
   }
-  out.cat={};out.type={};
-  ['cat','type'].forEach(f=>{
+  out.cat={};out.type={};out.calib={};
+  ['cat','type','calib'].forEach(f=>{
     if(d[f]&&typeof d[f]==='object')
       Object.keys(d[f]).forEach(k=>{
         const e=d[f][k];if(!e||typeof e!=='object')return;
@@ -2957,7 +3350,7 @@ function applyBackup(){
   if(BK.mode==='replace'){
     if(!confirm('この端末の学習データをすべて置き換えます。よろしいですか？'))return;
     S.units=d.units; S.stats=d.stats; S.wrong=d.wrong;
-    S.gen=d.gen; S.last=d.last; S.cat=d.cat; S.type=d.type;
+    S.gen=d.gen; S.last=d.last; S.cat=d.cat; S.type=d.type; S.calib=d.calib;
   }else{
     // 統合：良いほうの成績を残し、生成問題と復習リストは重複を避けて足す
     Object.keys(d.units).forEach(k=>{
@@ -2975,8 +3368,8 @@ function applyBackup(){
       const an=a?(typeof a==='number'?a:a.n):0;
       if(!a||b.n>an)S.stats.days[k]=b;
     });
-    S.cat=S.cat||{};S.type=S.type||{};
-    ['cat','type'].forEach(f=>{
+    S.cat=S.cat||{};S.type=S.type||{};S.calib=S.calib||{};
+    ['cat','type','calib'].forEach(f=>{
       Object.keys(d[f]||{}).forEach(k=>{
         const cur=S[f][k]||{n:0,c:0};
         S[f][k]={n:cur.n+d[f][k].n, c:cur.c+d[f][k].c};
@@ -3254,6 +3647,102 @@ function nextAction(){
   return {t:'仕上がっています',
     b:'弱点は見当たりません。瞬間英作文とミックス演習を回して、精度と速さを保ちましょう。',
     go:`<button class="btn sm" onclick="startQuiz('mix')">ミックス演習</button>`};
+}
+
+/* ========== 基準の説明画面 ========== */
+function renderLvInfo(){
+  $('#lvinfoBody').innerHTML=`
+  <div class="card" style="margin-bottom:10px">
+    <div style="font-weight:500;margin-bottom:10px">レベルの根拠</div>
+    <div class="src">
+      <div class="srct">CEFR との対応</div>
+      <div class="srcb">ETS の標準設定研究（Tannenbaum &amp; Wylie, 2006「Mapping the TOEIC Tests on the CEFR」）による公式対応。
+        Reading セクション（満点495）の最低スコアは <b>B1 = 275 / B2 = 385 / C1 = 455</b>。
+        総合スコアでは <b>550〜784 = B1、785〜944 = B2、945〜990 = C1</b>。</div>
+    </div>
+    <div class="src">
+      <div class="srct">語彙の範囲</div>
+      <div class="srcb">NGSL（高頻度2,801語）だけで TOEIC の約94%、
+        TOEIC Service List（1,200語）を加えた約4,000語で 98.5〜99% をカバーするという研究
+        （Browne &amp; Culligan）に基づき、この範囲を TOEIC の語彙圏として扱います。
+        900点帯では TSL 層のビジネス語（quotation, compliance, reimbursement など）が主戦場になります。</div>
+    </div>
+    <div class="src">
+      <div class="srct">問う文法項目</div>
+      <div class="srcb">Part 5 の出題項目（品詞、時制・態、前置詞、接続語・副詞節、関係詞、代名詞、語法）に限定。
+        CEFR の文法段階に従い、<b>B2</b> は完了形・過去完了・進行形の受動態・分詞構文・仮定法・whose・前置詞＋関係詞、
+        <b>C1</b> は倒置（否定副詞・条件）・強調構文・混合条件・完了分詞構文・仮定法現在・複合前置詞としています。</div>
+    </div>
+  </div>
+
+  <div class="h2">3つのレベル</div>
+  ${Object.keys(LEVELS).map(k=>{const L=LEVELS[k];
+    return `<div class="card" style="margin-bottom:9px">
+      <div style="font-weight:500">${L.label}
+        <span class="lvtag fit">${L.cefr}</span></div>
+      <div style="font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-top:5px">
+        ${L.read}　文長 ${L.words[0]}〜${L.words[1]}語　節 ${L.clauses[0]}〜${L.clauses[1]}</div>
+    </div>`;}).join('')}
+
+  <div class="h2">判定のしくみ</div>
+  <div class="card">
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9">
+      生成された問題は、次の5点を測って推定レベルを出します。</div>
+    <ul class="chk" style="margin-top:11px">
+      <li>語数（Part 5 の処理負荷に直結）</li>
+      <li>節の数（接続詞・関係詞・挿入句から算出）</li>
+      <li>語彙層（NGSL 圏内か、TSL のビジネス語か、それ以外か）</li>
+      <li>構文（B2 相当か、C1 相当の倒置・強調構文を含むか）</li>
+      <li>誤答選択肢の紛らわしさ（同一語族か、機能語だけが並ぶか）</li>
+    </ul>
+    <div class="tnote">C1 の構文を含まない問題は、語彙や文長がどれだけ重くても最上位には判定しません。
+      CEFR の C1 は構文で定義されるためです。</div>
+  </div>
+
+  <div class="h2">この判定の限界</div>
+  <div class="card">
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9">
+      本来 TOEIC の難易度は、多数の受験者データから項目応答理論で推定される統計値です。
+      個人アプリでその再現は原理的にできません。ここで行っているのは、
+      <b>公式の対応表と語彙研究、CEFR の文法段階にもとづく近似</b>です。
+      最終的にあてになるのは、下の「実際の正答率」です。</div>
+  </div>
+
+  <div class="h2">実際の正答率による較正</div>
+  <div class="card">${calibView()}</div>
+  <div style="height:12px"></div>`;
+}
+
+/* ========== 較正：生成問題を実際に解いた結果でレベルを検証 ========== */
+function calibTargets(){
+  // 目標正答率の目安。
+  // その帯を「ちょうど狙える」なら 65〜85% 付近に落ち着くはず。
+  return {'800':[70,90],'900':[60,85],'990':[45,75]};
+}
+function calibView(){
+  const cal=S.calib||{};
+  const keys=Object.keys(LEVELS).filter(k=>cal[k]&&cal[k].n>=5);
+  if(!keys.length)
+    return `<div style="font-size:12.5px;color:var(--ink-2);line-height:1.9">
+      AIで追加した問題を5問以上解くと、レベルごとの実際の正答率が出ます。
+      指定したレベルが自分に合っていたかを、ここで確かめられます。</div>`;
+  const tg=calibTargets();
+  return keys.map(k=>{
+    const e=cal[k], r=Math.round(e.c/e.n*100), [lo,hi]=tg[k];
+    const verdict=r>hi?'この帯は易しすぎます。ひとつ上のレベルで作りましょう。'
+      :r<lo?'この帯は難しすぎます。ひとつ下のレベルで土台を固めてから戻りましょう。'
+      :'このレベルが今の実力にちょうど合っています。';
+    const cls=r>hi?'easy':r<lo?'hard':'fit';
+    return `<div class="cal">
+      <div class="calh"><b>${LEVELS[k].label}</b>
+        <span class="lvtag ${cls}">正答率 ${r}%</span></div>
+      <div class="tr"><i style="width:${r}%;background:${
+        cls==='fit'?'#0F8C7E':cls==='easy'?'#2F4B99':'#C13B54'}"></i>
+        <u style="left:${lo}%;width:${hi-lo}%"></u></div>
+      <div class="calb">${e.n}問を解答 ・ 目安 ${lo}〜${hi}%　${verdict}</div>
+    </div>`;
+  }).join('')+`<div class="tnote">帯の外に出たら、生成時の目標レベルを上げ下げしてください。
+    これが最も信頼できる基準です。実際にあなたが解いた結果だからです。</div>`;
 }
 
 /* ========== Service Worker ========== */
