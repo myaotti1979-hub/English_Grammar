@@ -183,6 +183,22 @@ input.sel{background-image:none;padding-right:12px;font-family:var(--mono);font-
   stroke-linecap:round;stroke-linejoin:round}
 .spk:active{background:#D8E3F2}
 .prompt .spk{margin-left:10px}
+.dg{margin-top:13px;padding-top:14px;border-top:1px solid var(--line)}
+.dgh{font-size:15px;font-weight:700;line-height:1.55;margin-bottom:8px;color:var(--clause-out)}
+.dgp{font-size:12.5px;color:var(--ink);line-height:1.9}
+.dga{display:flex;gap:11px;margin-bottom:11px}
+.dgn{font-family:var(--mono);font-size:12px;font-weight:600;color:#fff;background:var(--ink);
+  width:19px;height:19px;border-radius:50%;display:grid;place-items:center;flex:none;margin-top:2px}
+.dgw{font-size:13px;line-height:1.75;font-weight:500}
+.dgy{font-size:11.5px;color:var(--ink-2);line-height:1.75;margin-top:3px}
+.dge{font-size:12.5px;color:var(--right);line-height:1.85;margin-top:13px;
+  padding-top:12px;border-top:1px dashed var(--line)}
+.causeh{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin:14px 0 7px;padding-top:12px;border-top:1px dashed var(--line)}
+.causet{font-size:13.5px;font-weight:600;color:var(--clause-out)}
+.causet::before{content:'原因';font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
+  color:var(--ink-3);font-weight:400;display:block;margin-bottom:2px}
+.causea{font-size:12.5px;color:var(--ink-2);line-height:1.85}
 .mistitle{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);
   text-transform:uppercase;margin:14px 0 8px;padding-top:12px;border-top:1px dashed var(--line)}
 .mistags{display:flex;flex-wrap:wrap;gap:6px}
@@ -2400,7 +2416,7 @@ function paintQ(){
   $('#runTitle').textContent=R.title;
   $('#runCount').textContent=`${R.idx+1} / ${R.list.length}`;
   $('#runBar').style.width=(R.idx/R.list.length*100)+'%';
-  R.graded=false;
+  R.graded=false;R.t0=Date.now();
   if(q.t==='speak'){
     $('#runBody').innerHTML=`
       <div class="qja">日本語を見て、英語で声に出してみましょう</div>
@@ -2489,7 +2505,10 @@ function reveal(){
 function grade(ok){
   R.graded=true;record(R.list[R.idx],!!ok);
   if(!ok){const v=$('#verdict');
-    if(v&&!v.querySelector('#missBox'))v.insertAdjacentHTML('beforeend',missPicker());}
+    if(v&&!v.querySelector('#missBox'))
+      v.insertAdjacentHTML('beforeend',`<div id="missBox"><div class="mistitle">なぜ言えませんでしたか（任意）</div>
+        <div class="mistags">${['tense','form','conj','prep','rel','vform','word','other'].map(k=>
+          `<button class="mistag" onclick="pickCause('${k}')">${CAUSES[k].label}</button>`).join('')}</div></div>`);}
   paintFoot();
 }
 function pick(n){
@@ -2522,7 +2541,7 @@ function check(){
       <div class="vt">${ok?'正解':'もう一度確認'}</div>
       <div class="ans">${q.c[q.a]}</div>
       <div class="why">${q.why}</div>
-      ${ok?'':missPicker()}</div>`;
+      ${ok?'':causeBox(recordMiss(q,R.order[R.pick].c,q.c[q.a],Date.now()-(R.t0||Date.now())))}</div>`;
     R.answered=true;record(it,ok);paintFoot();
     if(!ok)$('#verdict').scrollIntoView({behavior:'smooth',block:'center'});
     return;
@@ -2538,6 +2557,10 @@ function check(){
   }else{
     mine=R.built.map(n=>R.bank[n].w);
     ok=mine.join(' ')===q.a.join(' ');
+    if(!ok){S.miss=S.miss||{};S.miss.order=(S.miss.order||0)+1;
+      S.missLog=S.missLog||[];
+      S.missLog.push({d:today(),u:it.u,i:it.i,c:'order',
+        ch:mine.join(' ').slice(0,60),co:q.a.join(' ').slice(0,60)});}
     $('#slot').classList.add('done');
     $('#slot').querySelectorAll('.chip').forEach((c,k)=>{
       c.classList.remove('in');c.classList.add(mine[k]===q.a[k]?'ok':'ng');});
@@ -2550,7 +2573,7 @@ function check(){
     <div class="vt">${ok?'正解':'もう一度確認'}</div>
     <div class="ans">${answer}${speakBtn(plain,'en')}</div>
     <div class="why">${q.why}</div>
-    ${ok?'':missPicker()}</div>`;
+    ${ok?'':causeBox(recordMiss(q,R.order[R.pick].c,q.c[q.a],Date.now()-(R.t0||Date.now())))}</div>`;
   R.answered=true;record(it,ok);paintFoot();
   if(TTS.auto&&TTS.on)speak(plain,'en');
   if(!ok)$('#verdict').scrollIntoView({behavior:'smooth',block:'center'});
@@ -2767,7 +2790,14 @@ function renderStats(){
       return rows.slice(0,6).map(r=>`<div class="bar"><span class="lb" style="width:120px">${r.l}</span>
         <span class="tr"><i style="width:${Math.round(r.n/max*100)}%;background:var(--clause-out)"></i></span>
         <span class="pc">${r.n}</span></div>`).join('');})()}
-    <div class="tnote">${MISS_ADVICE[missTop()[0].k]||''}</div>
+    <div class="tnote">${(CAUSES[missTop()[0].k]||{}).advice||''}</div>
+  </div>
+  <div class="card" style="margin-top:9px">
+    <div style="font-weight:500;margin-bottom:4px">AIに傾向を診断させる</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.85;margin-bottom:13px">
+      分類だけでは見えない「間違い方の癖」を、直近の誤答からまとめて分析します。</div>
+    <button class="btn ghost sm" id="dgBtn" onclick="runDiagnosis()">${S.lastDiag?'もう一度診断する':'診断する'}</button>
+    <div id="dgBox"></div>
   </div>`:''}
 
   ${S.calib&&Object.keys(S.calib).length?`<div class="h2">出題レベルの妥当性</div>
@@ -2784,7 +2814,9 @@ function renderStats(){
   <div style="height:9px"></div>
   <button class="btn ghost sm" onclick="resetAll()">学習データをすべて消去する</button>
   <div style="height:10px"></div>`;
+  afterStats();
 }
+function afterStats(){if(S.lastDiag)setTimeout(paintDiag,0);}
 function typeNote(d){
   const mcq=d.types.find(x=>x.k==='mcq'), sp=d.types.find(x=>x.k==='speak');
   if(mcq&&sp&&mcq.v-sp.v>=15)
@@ -4170,50 +4202,314 @@ function srsMastered(){
 }
 
 /* ========== 3. 誤答の理由 ========== */
-const MISS_TAGS=[
-  ['tense','時制を取り違えた'],
-  ['form','品詞を取り違えた'],
-  ['conj','つなぐ語を選び間違えた'],
-  ['prep','前置詞を間違えた'],
-  ['agree','単複・一致を落とした'],
-  ['rel','関係詞がわからなかった'],
-  ['word','単語の意味を知らなかった'],
-  ['rush','急いで読み飛ばした'],
-  ['guess','根拠なく選んだ']
+/* ========== 誤答の原因を自動で判定する ==========
+   正解と、実際に選んだ誤答を比べれば、原因はほぼ一意に決まる。
+   自己申告より確実なので、まずここで機械的に分類する。 */
+
+const CAUSES={
+  tense:   {label:'時制・態の選択',      advice:'「いつの話か」を先に決めてから動詞を選びます。時を表す語（last week / since / by Friday）を先に探す癖をつけてください。'},
+  voice:   {label:'能動と受動の取り違え', advice:'主語が「する側」か「される側」かを必ず確認します。物が主語なら受動態を疑ってください。'},
+  form:    {label:'品詞の取り違え',      advice:'品詞は意味ではなく位置で決まります。名詞の前なら形容詞、文が完成しているなら副詞、と機械的に判断してください。'},
+  vform:   {label:'動詞の形',            advice:'to不定詞か動名詞かは動詞ごとに決まっています。前置詞の後ろは必ず -ing です。'},
+  agree:   {label:'主語と動詞の一致',    advice:'主語と動詞の間の修飾語に惑わされています。主語だけを指で押さえて動詞を選ぶ練習をしてください。'},
+  conj:    {label:'つなぐ語の選択',      advice:'後ろが名詞のかたまりか文かで決まります。because / due to、although / despite の対で覚え直しましょう。'},
+  prep:    {label:'前置詞の選択',        advice:'前置詞は動詞とセットで覚えます。comply with、refrain from のように、かたまりで音読すると定着します。'},
+  rel:     {label:'関係詞の選択',        advice:'後ろが不完全な文か完全な文かで決まります。名詞を先に出して後ろから説明する語順に慣れましょう。'},
+  compar:  {label:'比較の形',            advice:'than があれば比較級、as ~ as なら原級。比較級を強めるのは much / far で、very は使えません。'},
+  article: {label:'冠詞・可算不可算',    advice:'information / advice / equipment / staff は数えられません。a も複数形もつけず、量を示すなら some を使います。'},
+  word:    {label:'語彙・語法の知識',    advice:'文法ではなく語の意味が原因です。TOEIC頻出のビジネス語を別途増やす段階に来ています。'},
+  context: {label:'文脈のつかみ方',      advice:'前後の文とのつながりで決まる問題です。空所の前後だけでなく、段落全体の流れを追ってください。'},
+  rush:    {label:'急いで読み飛ばした',  advice:'知識ではなく処理の問題です。手がかりの語を見つけてから選択肢を見る順番を徹底してください。'},
+  order:   {label:'語順の組み立て',      advice:'選ぶことはできても自分で並べると崩れています。解説の例文を音読して、語順を音で覚えるのが近道です。'},
+  other:   {label:'その他',              advice:'解説を読み、なぜ他が誤りかまで説明できるようにしてから次へ進みましょう。'}
+};
+
+/* 判定に使う語群 */
+const W_PREP=new Set('about above across after against along among around at before behind below beneath beside besides between beyond by despite down during except for from in inside into like near of off on onto out outside over past since through throughout to toward towards under underneath until up upon with within without'.split(' '));
+const W_CONJ=new Set('although though because since unless while whereas whenever wherever if once when as so but and or nor yet whether'.split(' '));
+// 前置詞にも接続詞にもなる語。両方に登場しうるので、相手側を見て判断する
+const W_BOTH=new Set('until after before since as for'.split(' '));
+const W_CONJADV=new Set('however therefore moreover furthermore nevertheless nonetheless otherwise consequently meanwhile instead besides accordingly thus hence'.split(' '));
+const W_REL=new Set('who whom whose which that what where when why'.split(' '));
+const W_AUX=new Set('is are was were be been being am do does did have has had will would can could shall should may might must'.split(' '));
+const PHRASE_PREP=['due to','because of','owing to','thanks to','in spite of','instead of','as well as','according to','in addition to','prior to','on behalf of','in accordance with','in response to','regardless of','along with','apart from'];
+// つなぎ方を問う定型句（後ろに何が来るかで正誤が決まる仲間）
+const PHRASE_LINK=['in response','in addition','in advance','in place','in contrast','in short','in fact','on behalf','as a result','for example','that said','even so','in particular'];
+function isLink(x){return PHRASE_LINK.includes(lc(x));}
+// 複数語からなる接続表現
+const PHRASE_CONJ=['in case','as long as','so that','even if','even though','as soon as',
+  'provided that','now that','given that','in order that','so as to','rather than','as if'];
+function isConjPhrase(x){return PHRASE_CONJ.includes(lc(x));}
+// 未来を表す言い方（形が大きく違うので表で扱う）
+const FUTURE=['will','would','shall','be going to','are going to','is going to','am going to',
+  'was going to','were going to','be about to','is about to'];
+function isFuture(x){const y=lc(x);return FUTURE.includes(y)||/^(will|would|shall)\s/.test(y)||/going to$/.test(y);}
+
+/* 不規則動詞と be 動詞の活用。語尾が似ていないため、表で同一語族と判定する */
+const IRREG=[
+ ['be','am','is','are','was','were','been','being'],
+ ['have','has','had','having'],['do','does','did','done','doing'],
+ ['go','goes','went','gone','going'],['take','takes','took','taken','taking'],
+ ['make','makes','made','making'],['know','knows','knew','known','knowing'],
+ ['see','sees','saw','seen','seeing'],['send','sends','sent','sending'],
+ ['spend','spends','spent','spending'],['build','builds','built','building'],
+ ['buy','buys','bought','buying'],['bring','brings','brought','bringing'],
+ ['think','thinks','thought','thinking'],['find','finds','found','finding'],
+ ['hold','holds','held','holding'],['keep','keeps','kept','keeping'],
+ ['leave','leaves','left','leaving'],['lose','loses','lost','losing'],
+ ['meet','meets','met','meeting'],['pay','pays','paid','paying'],
+ ['run','runs','ran','running'],['say','says','said','saying'],
+ ['sell','sells','sold','selling'],['set','sets','setting'],
+ ['show','shows','showed','shown','showing'],['sit','sits','sat','sitting'],
+ ['speak','speaks','spoke','spoken','speaking'],['stand','stands','stood','standing'],
+ ['teach','teaches','taught','teaching'],['tell','tells','told','telling'],
+ ['understand','understands','understood','understanding'],
+ ['win','wins','won','winning'],['write','writes','wrote','written','writing'],
+ ['give','gives','gave','given','giving'],['get','gets','got','gotten','getting'],
+ ['begin','begins','began','begun','beginning'],['choose','chooses','chose','chosen','choosing'],
+ ['come','comes','came','coming'],['cost','costs','costing'],
+ ['cut','cuts','cutting'],['deal','deals','dealt','dealing'],
+ ['draw','draws','drew','drawn','drawing'],['drive','drives','drove','driven','driving'],
+ ['fall','falls','fell','fallen','falling'],['feel','feels','felt','feeling'],
+ ['grow','grows','grew','grown','growing'],['hear','hears','heard','hearing'],
+ ['lead','leads','led','leading'],['mean','means','meant','meaning'],
+ ['put','puts','putting'],['read','reads','reading'],
+ ['rise','rises','rose','risen','rising'],['seek','seeks','sought','seeking'],
+ ['sign','signs','signed','signing'],['strike','strikes','struck','striking'],
+ ['wear','wears','wore','worn','wearing'],['withdraw','withdraws','withdrew','withdrawn','withdrawing']
 ];
-function logMiss(tag){
-  const it=R.list[R.idx];
+const IRREG_MAP=(()=>{const m={};IRREG.forEach(g=>g.forEach(w=>{m[w]=g[0];}));return m;})();
+function lemma(w){
+  const x=lc(w).replace(/^to\s+/,'');
+  return IRREG_MAP[x]||null;
+}
+function lc(x){return String(x||'').toLowerCase().trim();}
+function isPhrase(x){return PHRASE_PREP.includes(lc(x));}
+function head(x){return lc(x).split(/\s+/)[0];}
+function tail(x){const p=lc(x).split(/\s+/);return p[p.length-1];}
+
+/* 語尾から品詞を推定 */
+function posOf(w){
+  const x=lc(w);
+  if(/ly$/.test(x)&&x.length>4)return 'adv';
+  if(/(tion|sion|ment|ness|ance|ence|ity|ship|ism|ist|ure|age|al|er|or|ee)$/.test(x)&&x.length>4)return 'noun';
+  if(/(able|ible|ive|ous|ful|less|ic|al|ary|ant|ent)$/.test(x)&&x.length>4)return 'adj';
+  if(/(ize|ise|ify|ate|en)$/.test(x)&&x.length>4)return 'verb';
+  if(/ing$/.test(x))return 'ing';
+  if(/ed$/.test(x))return 'ed';
+  if(/^to\s/.test(lc(w)))return 'to';
+  return '';
+}
+/* 同じ語族か（共通の語幹が長いか） */
+function sameFamily(a,b){
+  const x=lc(a).replace(/^to\s+/,''),y=lc(b).replace(/^to\s+/,'');
+  const la=lemma(x),lb=lemma(y);
+  if(la&&lb)return la===lb;         // 不規則動詞は表で判定
+  if(la||lb)return false;
+  let i=0;while(i<x.length&&i<y.length&&x[i]===y[i])i++;
+  return i>=4||(i>=3&&Math.min(x.length,y.length)<=5);
+}
+/* 動詞の形を分類（不規則動詞にも対応） */
+function vShape(w){
+  const x=lc(w).replace(/^to\s+/,'');
+  if(/^to\s/.test(lc(w)))return 'to';
+  if(/ing$/.test(x))return 'ing';
+  const g=IRREG_MAP[x]?IRREG.find(gr=>gr[0]===IRREG_MAP[x]):null;
+  if(g){
+    if(x===g[0])return 'base';
+    const i=g.indexOf(x);
+    if(/s$/.test(x)&&i===1)return 's';
+    return 'past';
+  }
+  if(/(ed|en)$/.test(x))return 'past';
+  if(/s$/.test(x))return 's';
+  return 'base';
+}
+/* 動詞の活用ちがいか */
+function verbFormPair(a,b){
+  const x=lc(a).replace(/^to\s+/,''),y=lc(b).replace(/^to\s+/,'');
+  if(!sameFamily(x,y))return false;
+  const f=s=>/ing$/.test(s)?'ing':/(ed|en)$/.test(s)?'ed':/^to /.test(lc(s))?'to':/s$/.test(s)?'s':'base';
+  return f(a)!==f(b);
+}
+
+/* 本体：正解 correct と誤選択 chosen から原因を返す */
+function diagnoseMiss(q,chosen,correct,elapsed){
+  const ch=lc(chosen), co=lc(correct);
+  if(!ch||!co)return 'other';
+
+  // Part 6 の文挿入は文脈判断
+  if(q&&q.t==='p6'&&String(correct).trim().split(/\s+/).length>4)return 'context';
+
+  // 関係詞のあとに代名詞を重ねる誤り（which it / who him）
+  if(/^(who|whom|which|that)\s+(it|he|she|they|him|her|them)$/.test(ch))return 'rel';
+  if(lc(chosen)==='what'&&W_REL.has(co))return 'rel';
+
+  const chW=ch.split(/\s+/), coW=co.split(/\s+/);
+  const chS=chW.length===1, coS=coW.length===1;   // それぞれ1語か
+  const single=chS&&coS;                          // 両方1語か
+
+  // 1) つなぎ方の定型句どうし（in response / in addition、in case / unless）
+  if(isLink(chosen)&&isLink(correct))return 'conj';
+  if(isConjPhrase(chosen)||isConjPhrase(correct)){
+    const other=isConjPhrase(chosen)?correct:chosen;
+    const o=lc(other);
+    if(isConjPhrase(other)||W_CONJ.has(o)||W_BOTH.has(o)||isPhrase(other)||W_CONJADV.has(o))
+      return 'conj';
+  }
+  // 未来の言い分け（will / be going to / be about to）
+  if(isFuture(chosen)&&isFuture(correct))return 'tense';
+
+  // 2) 前置詞句 ↔ 接続詞（due to / because）
+  const chPhr=isPhrase(chosen), coPhr=isPhrase(correct);
+  const chBoth=chS&&W_BOTH.has(ch), coBoth=coS&&W_BOTH.has(co);
+  const chPrep=chPhr||(chS&&W_PREP.has(ch));
+  const coPrep=coPhr||(coS&&W_PREP.has(co));
+  const chConj=chS&&W_CONJ.has(ch);
+  const coConj=coS&&W_CONJ.has(co);
+  const chAdv=(chS&&W_CONJADV.has(ch))||isLink(chosen);
+  const coAdv=(coS&&W_CONJADV.has(co))||isLink(correct);
+
+  // 句 ↔ 接続詞は「つなぐ語の選択」
+  if((chPhr&&(coConj||coAdv))||(coPhr&&(chConj||chAdv)))return 'conj';
+  if((chPrep&&coConj)||(chConj&&coPrep))return 'conj';
+  if((chAdv&&(coConj||coPrep))||((chConj||chPrep)&&coAdv))return 'conj';
+  if((chConj&&coConj)||(chAdv&&coAdv))return 'conj';
+
+  // until / by のように前置詞どうしなら「前置詞の選択」
+  if((chBoth||chPrep)&&(coBoth||coPrep)&&!chConj&&!coConj)return 'prep';
+  if(chPrep&&coPrep)return 'prep';
+  // 両用語が接続詞として問われている場合
+  if((chBoth&&coConj)||(chConj&&coBoth))return 'conj';
+
+  // 3) 関係詞
+  if(single&&W_REL.has(ch)&&W_REL.has(co))return 'rel';
+
+  // 4) 比較
+  const cmp=/(er|est)$/.test(ch)||/(er|est)$/.test(co)||
+    ['more','most','less','least','as','than','very','much','far'].some(w=>chW.includes(w)||coW.includes(w));
+  if(cmp&&sameFamily(ch.replace(/(er|est)$/,''),co.replace(/(er|est)$/,'')))return 'compar';
+  if(['very','much','far','more','most','as','than'].includes(ch)&&
+     ['very','much','far','more','most','as','than'].includes(co))return 'compar';
+
+  // 5) 受動と能動（be + 過去分詞かどうかで割れる）
+  const isPassive=s=>/\b(is|are|was|were|be|been|being)\s+\w+(ed|en|n|t)\b/.test(s)||/^(be|been|being)\s/.test(s);
+  if(isPassive(co)!==isPassive(ch)&&sameFamily(tail(ch),tail(co)))return 'voice';
+
+  // 6) 主語と動詞の一致（is/are、has/have、単複だけの違い）
+  const agreePairs=[['is','are'],['was','were'],['has','have'],['does','do'],['is','was'],['are','were']];
+  if(agreePairs.some(([a,b])=>(ch===a&&co===b)||(ch===b&&co===a)))return 'agree';
+  if(single&&sameFamily(ch,co)&&/s$/.test(ch)!==/s$/.test(co)&&
+     Math.abs(ch.length-co.length)<=2)return 'agree';
+
+  // 7) 時制（助動詞や活用の違いで、同じ語族）
+  const hasAux=s=>s.split(/\s+/).some(w=>W_AUX.has(w));
+  if(sameFamily(tail(ch),tail(co))&&(hasAux(ch)||hasAux(co))&&chW.length+coW.length>2)return 'tense';
+  if(single&&sameFamily(ch,co)&&/(ed|s)$/.test(ch)!==/(ed|s)$/.test(co)&&
+     !/ing$/.test(ch)&&!/ing$/.test(co))return 'tense';
+
+  // 8) 動詞の形（to不定詞 / 動名詞 / 原形）
+  if(verbFormPair(ch,co)){
+    const set=[ch,co].map(x=>/^to /.test(x)?'to':/ing$/.test(x)?'ing':'other');
+    if(set.includes('to')||set.includes('ing'))return 'vform';
+    return 'tense';
+  }
+
+  // 8.5) 不規則動詞・be動詞の活用ちがい
+  if(sameFamily(tail(ch),tail(co))||sameFamily(ch,co)){
+    const sc=vShape(chW[chW.length-1]),sk=vShape(coW[coW.length-1]);
+    if(sc!==sk){
+      if(sc==='to'||sk==='to'||sc==='ing'||sk==='ing')return 'vform';
+      if(sc==='s'||sk==='s')return 'agree';
+      return 'tense';
+    }
+    if(chW.length!==coW.length)return 'tense';   // 助動詞の有無
+    if(lemma(ch)==='be'&&lemma(co)==='be')return 'agree';
+  }
+
+  // 9) 品詞（同じ語族で語尾だけ違う）
+  if(sameFamily(ch,co)){
+    const pc=posOf(ch),pk=posOf(co);
+    if(pc&&pk&&pc!==pk)return 'form';
+    return 'form';
+  }
+
+  // 9.5) 冠詞・可算不可算（a advice / an advice / some advice）
+  const artStrip=s=>lc(s).replace(/^(a|an|the|some|any|much|many)\s+/,'');
+  if(artStrip(ch)===artStrip(co)&&artStrip(ch).length>1)return 'article';
+  if(/^(a|an|the|some)$/.test(ch)&&/^(a|an|the|some)$/.test(co))return 'article';
+  if(sameFamily(artStrip(ch).replace(/s$/,''),artStrip(co).replace(/s$/,''))&&
+     /^(a|an|some|the)\s/.test(ch+' ')!==/^(a|an|some|the)\s/.test(co+' '))return 'article';
+
+  // 10) 語族が違う＝語の意味を知らなかった
+  if(single)return 'word';
+  return 'other';
+}
+
+/* 極端に速い解答は読み飛ばしとみなす */
+function tooFast(q,ms){
+  if(!ms)return false;
+  const text=q.t==='mcq'?String(q.q||''):'';
+  const n=(text.match(/[A-Za-z]+/g)||[]).length;
+  // 1語あたり0.25秒＋選択肢を読む1.5秒を下回ったら速すぎる
+  return ms < Math.max(2200, n*250+1500);
+}
+
+
+/* ========== 誤答の記録 ========== */
+function recordMiss(q,chosen,correct,ms){
+  let cause=diagnoseMiss(q,chosen,correct,ms);
+  if(tooFast(q,ms)&&cause!=='word')cause='rush';
   S.miss=S.miss||{};
-  S.miss[tag]=(S.miss[tag]||0)+1;
+  S.miss[cause]=(S.miss[cause]||0)+1;
   S.missLog=S.missLog||[];
-  S.missLog.push({d:today(),u:it.u,i:it.i,t:tag});
-  if(S.missLog.length>400)S.missLog=S.missLog.slice(-400);
+  const it=R.list[R.idx];
+  S.missLog.push({d:today(),u:it.u,i:it.i,c:cause,
+    ch:String(chosen).slice(0,40),co:String(correct).slice(0,40),ms:ms||0});
+  if(S.missLog.length>300)S.missLog=S.missLog.slice(-300);
+  save();
+  return cause;
+}
+function causeBox(cause){
+  const c=CAUSES[cause]||CAUSES.other;
+  return `<div id="missBox"><div class="causeh">
+      <span class="causet">${c.label}</span>
+      <button class="linkbtn" onclick="showCausePick()">違う</button></div>
+    <div class="causea">${c.advice}</div></div>`;
+}
+function showCausePick(){
+  const box=$('#missBox');if(!box)return;
+  box.innerHTML=`<div class="mistitle">実際の原因を選んでください</div>
+    <div class="mistags">${Object.keys(CAUSES).filter(k=>k!=='other').map(k=>
+      `<button class="mistag" onclick="fixCause('${k}')">${CAUSES[k].label}</button>`).join('')}</div>`;
+}
+function fixCause(k){
+  const log=S.missLog||[], last=log[log.length-1];
+  if(last){
+    if(S.miss[last.c])S.miss[last.c]=Math.max(0,S.miss[last.c]-1);
+    last.c=k; last.manual=1;
+  }
+  S.miss[k]=(S.miss[k]||0)+1;save();
+  const box=$('#missBox');
+  if(box)box.innerHTML=`<div class="causeh"><span class="causet">${CAUSES[k].label}</span></div>
+    <div class="causea">${CAUSES[k].advice}</div>`;
+}
+function pickCause(k){
+  S.miss=S.miss||{};S.miss[k]=(S.miss[k]||0)+1;
+  S.missLog=S.missLog||[];
+  const it=R.list[R.idx];
+  S.missLog.push({d:today(),u:it.u,i:it.i,c:k,manual:1});
   save();
   const box=$('#missBox');
-  if(box)box.innerHTML=`<div class="misdone">記録しました — ${MISS_TAGS.find(x=>x[0]===tag)[1]}</div>`;
-}
-function missPicker(){
-  return `<div id="missBox"><div class="mistitle">なぜ間違えましたか（任意）</div>
-    <div class="mistags">${MISS_TAGS.map(([k,l])=>
-      `<button class="mistag" onclick="logMiss('${k}')">${l}</button>`).join('')}</div></div>`;
+  if(box)box.innerHTML=`<div class="causeh"><span class="causet">${CAUSES[k].label}</span></div>
+    <div class="causea">${CAUSES[k].advice}</div>`;
 }
 function missTop(){
   const m=S.miss||{};
-  const rows=MISS_TAGS.map(([k,l])=>({k:k,l:l,n:m[k]||0})).filter(r=>r.n>0)
-    .sort((a,b)=>b.n-a.n);
-  return rows;
+  return Object.keys(CAUSES).map(k=>({k:k,l:CAUSES[k].label,n:m[k]||0}))
+    .filter(r=>r.n>0).sort((a,b)=>b.n-a.n);
 }
-const MISS_ADVICE={
-  tense:'時制は「いつの話か」を先に決めてから動詞を選びます。時を表す語（last week / since / by Friday）を先に探す癖をつけましょう。',
-  form:'品詞は意味ではなく位置で決まります。空所の前後だけを見て、名詞の前なら形容詞、文が完成しているなら副詞、と機械的に判断してください。',
-  conj:'つなぐ語は、後ろが名詞のかたまりか文かで決まります。because / due to、although / despite の対で覚え直しましょう。',
-  prep:'前置詞は動詞とセットで覚えます。comply with、refrain from のように、かたまりで音読すると定着します。',
-  agree:'主語と動詞の間の修飾語に惑わされています。主語だけを指で押さえて動詞を選ぶ練習をしてください。',
-  rel:'関係詞は「後ろが不完全な文か、完全な文か」で決まります。名詞を先に出して後ろから説明する語順に慣れましょう。',
-  word:'語彙が原因なら文法の問題ではありません。TOEIC頻出のビジネス語（TSL層）を別途増やす段階です。',
-  rush:'知識ではなく処理の問題です。模試モードで時間感覚を作り、1問20秒のペースを体に入れましょう。',
-  guess:'根拠のない正解は本番で再現しません。解説を読み、なぜ他が誤りかまで言えるようにしてから次へ進んでください。'
-};
+
 
 /* ========== 4. Part 6 の出題 ==========
    文書ごとの定義を、空所1つ＝1問に展開して通常の出題エンジンに載せる。
@@ -4405,6 +4701,112 @@ async function runFeedback(){
     const b=$('#fbBtn');
     if(b){b.disabled=false;b.textContent='AIに添削してもらう';}
   }
+}
+
+/* ========== 誤答の俯瞰診断（Gemini） ========== */
+const DIAG_SCHEMA={
+  type:'object',
+  properties:{
+    headline:{type:'string',description:'いま最も直すべきことを一言で。日本語'},
+    pattern:{type:'string',description:'誤答に共通する傾向。日本語で2〜3文'},
+    actions:{type:'array',items:{
+      type:'object',
+      properties:{
+        what:{type:'string',description:'具体的にやること。日本語で1文'},
+        why:{type:'string',description:'なぜそれが効くか。日本語で1文'}
+      },required:['what','why'],propertyOrdering:['what','why']}},
+    encourage:{type:'string',description:'できている点。日本語で1〜2文'}
+  },
+  required:['headline','pattern','actions','encourage'],
+  propertyOrdering:['headline','pattern','actions','encourage']
+};
+function diagPrompt(){
+  const log=(S.missLog||[]).slice(-60);
+  const lines=log.map(x=>{
+    const u=U(x.u);
+    return `[${CAUSES[x.c]?CAUSES[x.c].label:x.c}] 単元:${u?u.title:'-'} 選んだ:${x.ch||'-'} 正解:${x.co||'-'}`;
+  }).join('\n');
+  const tally=missTop().map(r=>`${r.l} ${r.n}件`).join(' / ');
+  const cats=CATS.map(([k,l])=>{const e=(S.cat||{})[k];
+    return e&&e.n?`${l} ${Math.round(e.c/e.n*100)}%`:null;}).filter(Boolean).join(' / ');
+  const types=TYPES.map(([k,l])=>{const e=(S.type||{})[k];
+    return e&&e.n>=3?`${l} ${Math.round(e.c/e.n*100)}%`:null;}).filter(Boolean).join(' / ');
+  return `あなたはTOEIC指導の講師です。学習者（TOEIC 800点台、900点が目標、会話で文が途切れやすいのが悩み）の
+誤答データを見て、本人が気づいていない傾向を指摘してください。
+
+【誤答の分類（自動判定の集計）】
+${tally||'データなし'}
+
+【分野別の正答率】
+${cats||'データなし'}
+
+【出題形式別の正答率】
+${types||'データなし'}
+
+【直近の誤答（最大60件）】
+${lines||'データなし'}
+
+【求めること】
+- 分類の件数をなぞるだけの説明はしないこと。複数の誤答に共通する「根っこ」を探すこと
+- 例えば「前置詞と接続詞の誤りが多い」ではなく
+  「空所の後ろが名詞か文かを確認せずに、意味だけで選んでいる」のように、
+  行動レベルの原因まで踏み込むこと
+- actions は3つまで。今日から実行できる具体的な行動にすること
+- 精神論や一般論（毎日続けましょう等）は書かないこと
+- すべて日本語で書くこと`;
+}
+async function runDiagnosis(){
+  if(!gemKey()){
+    $('#dgBox').innerHTML=`<div class="aimsg">診断にはGemini APIキーが必要です。
+      <button class="linkbtn" onclick="go('aiset')">設定する</button></div>`;return;
+  }
+  const n=(S.missLog||[]).length;
+  if(n<10){$('#dgBox').innerHTML=`<div class="aimsg">誤答が10件たまると診断できます（現在 ${n}件）。</div>`;return;}
+  const btn=$('#dgBtn');
+  if(btn){btn.disabled=true;btn.textContent='診断しています…';}
+  $('#dgBox').innerHTML=`<div class="aimsg">直近の誤答 ${Math.min(60,n)}件を読んでいます。20秒ほどかかります。
+    <div class="prog"><i style="width:45%"></i></div></div>`;
+  try{
+    const key=gemKey();
+    const url=`https://generativelanguage.googleapis.com/v1beta/models/${gemModel()}:generateContent?key=${encodeURIComponent(key)}`;
+    const ctl=new AbortController();
+    const timer=setTimeout(()=>ctl.abort(),90000);
+    let res;
+    try{
+      res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},signal:ctl.signal,
+        body:JSON.stringify({contents:[{role:'user',parts:[{text:diagPrompt()}]}],
+          generationConfig:{responseMimeType:'application/json',responseSchema:DIAG_SCHEMA,
+            thinkingConfig:{thinkingLevel:gemThink()},maxOutputTokens:8192}})});
+    }finally{clearTimeout(timer);}
+    if(!res.ok)throw new Error(`診断できませんでした（${res.status}）`);
+    const data=await res.json();
+    const cand=(data.candidates||[])[0];
+    const txt=((cand&&cand.content&&cand.content.parts)||[]).map(p=>p.text||'').join('').trim();
+    if(!txt)throw new Error('診断結果が空でした');
+    const r=JSON.parse(txt);
+    S.lastDiag={at:new Date().toISOString(),r:r,n:Math.min(60,n)};save();
+    paintDiag();
+  }catch(e){
+    $('#dgBox').innerHTML=`<div class="aimsg err">${e&&e.name==='AbortError'?'時間内に応答がありませんでした':(e.message||'診断できませんでした')}</div>`;
+  }finally{
+    const b=$('#dgBtn');if(b){b.disabled=false;b.textContent='もう一度診断する';}
+  }
+}
+function paintDiag(){
+  const d=S.lastDiag;if(!d)return;
+  const r=d.r;
+  const box=$('#dgBox');if(!box)return;
+  box.innerHTML=`<div class="dg">
+    <div class="dgh">${String(r.headline).replace(/</g,'&lt;')}</div>
+    <div class="dgp">${String(r.pattern).replace(/</g,'&lt;')}</div>
+    ${(r.actions||[]).length?`<div class="fbsec">今日からやること</div>
+      ${r.actions.slice(0,3).map((a,i)=>`<div class="dga">
+        <div class="dgn">${i+1}</div>
+        <div><div class="dgw">${String(a.what).replace(/</g,'&lt;')}</div>
+        <div class="dgy">${String(a.why).replace(/</g,'&lt;')}</div></div></div>`).join('')}`:''}
+    <div class="dge">${String(r.encourage||'').replace(/</g,'&lt;')}</div>
+    <div class="tnote">${new Date(d.at).toLocaleString('ja-JP')} に ${d.n}件の誤答から診断</div>
+  </div>`;
 }
 
 /* ========== Service Worker ========== */
