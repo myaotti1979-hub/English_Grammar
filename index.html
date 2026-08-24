@@ -133,6 +133,76 @@ input.sel{background-image:none;padding-right:12px;font-family:var(--mono);font-
 .ws{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-top:3px}
 .wa{font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-top:8px}
 .weak .btn.sm{width:auto;flex:1}
+.p6doc{background:var(--card);border-radius:var(--r-md);padding:17px 18px;margin-bottom:16px;
+  box-shadow:0 1px 2px rgba(23,37,63,.05);font-family:var(--en);font-size:15.5px;line-height:2.05}
+.p6doc p{margin:0 0 11px}
+.p6doc p:last-child{margin-bottom:0}
+.p6head{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);
+  text-transform:uppercase;margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.p6blank,.p6cur,.p6fill{display:inline-block;border-radius:4px;padding:1px 9px;
+  font-family:var(--mono);font-size:12px;vertical-align:baseline}
+.p6blank{background:#EAEEF4;color:var(--ink-3)}
+.p6cur{background:var(--clause-sub);color:#fff;font-weight:600;animation:blink 1.6s ease-in-out infinite}
+.p6cur.done{background:#E9F5F2;color:var(--right);font-family:var(--en);font-size:15px;
+  font-weight:600;animation:none;padding:0 6px}
+.p6fill{background:#F0F4F9;color:var(--ink-2);font-family:var(--en);font-size:15px;padding:0 5px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.62}}
+.opt.long{font-size:14.5px;line-height:1.65;font-family:var(--en)}
+.p6list{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.p6pick{border:1.5px solid var(--line);border-radius:20px;padding:6px 12px;
+  font-size:11.5px;color:var(--ink-2)}
+.p6pick:active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.hintline{font-size:11.5px;color:var(--clause-out);background:#FBF3EE;border-radius:var(--r-sm);
+  padding:9px 12px;margin-bottom:12px;line-height:1.7}
+.note{background:var(--card);border-radius:var(--r-md);padding:13px 15px;margin-bottom:8px;
+  box-shadow:0 1px 2px rgba(23,37,63,.05)}
+.noted{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3);
+  margin-bottom:6px;display:flex;align-items:center}
+.notet{font-size:13px;line-height:1.85;color:var(--ink)}
+.fb{background:var(--card);border-radius:var(--r-md);padding:16px;margin-top:12px;
+  border-left:3px solid var(--clause-out);box-shadow:0 1px 2px rgba(23,37,63,.05)}
+.fbh{display:flex;align-items:flex-start;gap:14px;margin-bottom:4px}
+.fbs{font-family:var(--mono);font-size:30px;font-weight:600;line-height:1;flex:none}
+.fbs i{font-size:12px;font-style:normal;font-weight:400;color:var(--ink-3);margin-left:2px}
+.fbg{font-size:12.5px;color:var(--ink-2);line-height:1.8;padding-top:3px}
+.fbsec{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);
+  text-transform:uppercase;margin:16px 0 9px;padding-top:12px;border-top:1px solid var(--line)}
+.fbi{margin-bottom:12px}
+.fbfix{font-family:var(--en);font-size:15px;line-height:1.7}
+.fbfix s{color:var(--wrong);text-decoration:line-through;opacity:.75}
+.fbfix span{color:var(--ink-3);margin:0 7px;font-family:var(--mono);font-size:11px}
+.fbfix b{color:var(--right)}
+.fbw{font-size:12px;color:var(--ink-2);line-height:1.8;margin-top:4px}
+.fbc{font-family:var(--en);font-size:15.5px;line-height:1.8;background:#F4F7FB;
+  border-radius:var(--r-sm);padding:12px 14px}
+.fbadv{font-size:12.5px;color:var(--ink-2);line-height:1.85;margin-top:12px;
+  padding-top:12px;border-top:1px dashed var(--line)}
+.spk{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;
+  border-radius:50%;background:#EAF0F8;margin-left:8px;vertical-align:middle;flex:none}
+.spk svg{width:14px;height:14px;stroke:var(--clause-main);fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+.spk:active{background:#D8E3F2}
+.prompt .spk{margin-left:10px}
+.mistitle{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);
+  text-transform:uppercase;margin:14px 0 8px;padding-top:12px;border-top:1px dashed var(--line)}
+.mistags{display:flex;flex-wrap:wrap;gap:6px}
+.mistag{border:1.5px solid var(--line);background:var(--card);border-radius:20px;
+  padding:6px 12px;font-size:11.5px;color:var(--ink-2)}
+.mistag:active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.misdone{font-size:12px;color:var(--right);margin-top:14px;padding-top:12px;
+  border-top:1px dashed var(--line)}
+.tglrow{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 0}
+.tglrow+.tglrow{border-top:1px solid var(--line)}
+.tgl{width:46px;height:27px;border-radius:14px;background:var(--line);flex:none;
+  position:relative;transition:background .2s}
+.tgl i{position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;
+  background:#fff;box-shadow:0 1px 3px rgba(23,37,63,.3);transition:transform .2s}
+.tgl.on{background:var(--right)}
+.tgl.on i{transform:translateX(19px)}
+.srsrow{display:flex;gap:9px;margin-top:10px}
+.srsbox{flex:1;background:#F4F7FB;border-radius:var(--r-sm);padding:11px;text-align:center}
+.srsbox b{display:block;font-family:var(--mono);font-size:19px;font-weight:600}
+.srsbox s{display:block;text-decoration:none;font-size:10.5px;color:var(--ink-3);margin-top:2px}
 .src{border-top:1px solid var(--line);padding:13px 0 3px}
 .srct{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);
   text-transform:uppercase;margin-bottom:6px}
@@ -416,6 +486,16 @@ a.btn{text-decoration:none}
       <div class="tagline">How levels are decided</div>
     </div>
     <div id="lvinfoBody"></div>
+  </section>
+
+  <!-- ===== 振り返りメモ ===== -->
+  <section class="screen" id="s-notes">
+    <button class="navback" onclick="go('stats')">← 記録にもどる</button>
+    <div style="margin-bottom:18px">
+      <div class="wordmark" style="font-size:19px">振り返り</div>
+      <div class="tagline">Daily notes</div>
+    </div>
+    <div id="notesBody"></div>
   </section>
 
   <!-- ===== 記録 ===== -->
@@ -1954,6 +2034,109 @@ const UNITS = [
 
 ];
 
+/* ========== Part 6：長文穴埋め ==========
+   実際の Part 6 は1つの文書に空所4つ（うち1つは文挿入）。16問＝4文書。
+   ここでは文書単位で保持し、出題時に空所ごとの設問へ展開する。 */
+const P6=[
+{
+ id:'p6a', title:'納期遅延のお詫び', tag:'メール',
+ intro:'次のメールを読み、各空所に最も適切なものを選んでください。',
+ body:[
+  'Dear Ms. Reynolds,',
+  'Thank you for your order of 200 units of the RX-40 sensor. I am writing to inform you that the shipment {1} by approximately one week.',
+  'The delay {2} a temporary shortage of components at our supplier in Malaysia. Our production team has already secured an alternative source, and assembly resumed yesterday.',
+  '{3} We will send you the updated tracking number as soon as the units leave our warehouse.',
+  'We apologize for the inconvenience and appreciate your {4}.',
+  'Sincerely,\nDaniel Okafor\nCustomer Operations'
+ ],
+ blanks:[
+  {c:['delays','has delayed','will be delayed','delaying'],a:2,
+   why:'shipment は「遅らされる」側なので受動態。まだ起きていない予定を伝えているので will be delayed です。'},
+  {c:['resulted from','resulted in','led to','brought about'],a:0,
+   why:'result from ～ は「～が原因で起こる」。result in は逆に「～という結果になる」なので、原因を示すこの文脈では from です。'},
+  {c:['Please disregard our previous invoice.',
+      'We now expect to complete the order by March 14.',
+      'The new sensor model will be released next quarter.',
+      'Your account has been suspended until further notice.'],a:1,
+   why:'前段で生産再開に触れ、後段で追跡番号の連絡に続きます。間に入るのは新しい完了見込みを示す文です。'},
+  {c:['patience','patient','patiently','patiently understanding'],a:0,
+   why:'your の後ろは名詞なので patience。appreciate your patience は謝罪メールの定型です。'}
+ ]
+},
+{
+ id:'p6b', title:'社内オフィス移転の通知', tag:'社内通知',
+ intro:'次の社内通知を読み、各空所に最も適切なものを選んでください。',
+ body:[
+  'To: All Staff\nFrom: Facilities Management\nSubject: Office Relocation',
+  'As you may already know, our headquarters {1} to the Nakameguro district in early September.',
+  'The new building offers significantly more meeting space and is located within a five-minute walk of the station. {2}',
+  'Each department will receive packing materials by August 20. Please label all boxes {3} the floor plan distributed last week.',
+  'If you have questions about the schedule, contact the Facilities team {4} extension 4120.'
+ ],
+ blanks:[
+  {c:['relocates','will be relocating','has relocated','was relocated'],a:1,
+   why:'早ければ9月という未来の予定なので will be relocating。すでに決まっている計画を伝える言い方です。'},
+  {c:['Commuting times for most employees are therefore expected to decrease.',
+      'The current lease was signed more than ten years ago.',
+      'Parking permits will no longer be issued to visitors.',
+      'Sales figures for the third quarter exceeded expectations.'],a:0,
+   why:'直前が駅から徒歩5分という利点なので、その帰結である通勤時間の短縮が自然につながります。'},
+  {c:['according to','because of','instead of','regardless of'],a:0,
+   why:'according to ～ は「～に従って」。配布された図面に従ってラベルを貼る、という指示になります。'},
+  {c:['in','at','on','to'],a:1,
+   why:'内線番号を示すときは at extension ～。電話番号にも at を使います。'}
+ ]
+},
+{
+ id:'p6c', title:'求人への応募連絡', tag:'ビジネス文書',
+ intro:'次の文書を読み、各空所に最も適切なものを選んでください。',
+ body:[
+  'Dear Hiring Committee,',
+  'I am writing to apply for the position of Logistics Coordinator {1} on your company website last Friday.',
+  'For the past six years I have managed international shipping operations at Kanto Trading, where I {2} a team of eight staff members.',
+  '{3} I believe this experience would allow me to contribute to your operations from the first week.',
+  'I have attached my résumé and would welcome the opportunity {4} my qualifications in person.'
+ ],
+ blanks:[
+  {c:['advertise','advertising','advertised','advertisement'],a:2,
+   why:'position は「掲載された」側なので過去分詞 advertised。which was advertised の短縮形です。'},
+  {c:['supervise','supervised','have supervised','was supervising'],a:2,
+   why:'for the past six years と現在まで続く期間なので現在完了。前半の have managed と時制をそろえます。'},
+  {c:['During that time, I reduced delivery costs by nearly fifteen percent.',
+      'Unfortunately, I have no experience in the logistics field.',
+      'The company was founded in Osaka more than fifty years ago.',
+      'Please let me know when the position becomes available again.'],a:0,
+   why:'前段の実務経験を受け、後段の「初週から貢献できる」につなぐので、具体的な実績を示す文が入ります。'},
+  {c:['discuss','to discuss','discussing','discussed'],a:1,
+   why:'the opportunity to do ～ で「～する機会」。chance / ability も同じ型をとります。'}
+ ]
+},
+{
+ id:'p6d', title:'サービス変更の案内', tag:'顧客向け案内',
+ intro:'次の案内文を読み、各空所に最も適切なものを選んでください。',
+ body:[
+  'Notice to All Subscribers',
+  'Beginning on July 1, our customer support hours {1} from 9:00 A.M. to 8:00 P.M. on weekdays.',
+  'This change comes {2} to numerous requests from customers who work during standard business hours.',
+  'Weekend support will remain unchanged. {3}',
+  '{4} the extended hours require additional staffing, subscription fees will not increase this year.'
+ ],
+ blanks:[
+  {c:['extend','will be extended','have extended','extending'],a:1,
+   why:'営業時間は「延長される」側なので受動態。7月1日からの予定なので will be extended です。'},
+  {c:['in response','in addition','in advance','in place'],a:0,
+   why:'in response to ～ で「～に応えて」。顧客の要望に応じた変更であることを示します。'},
+  {c:['Saturday and Sunday inquiries will continue to be handled by email only.',
+      'All subscriptions will be canceled at the end of the month.',
+      'The company plans to open three new branches overseas.',
+      'Please submit your payment information again to continue service.'],a:0,
+   why:'直前が「週末は変更なし」なので、その具体的な内容を補足する文が続きます。'},
+  {c:['Because','Although','Whether','Unless'],a:1,
+   why:'人員増が必要「にもかかわらず」料金は上げない、という譲歩の関係なので Although です。'}
+ ]
+}
+];
+
 const HERO = [
  {en:'[[The supplier|main]] [[whose quotation we received yesterday|rel]] [[has revised its terms|main]].',
   ja:'昨日見積もりを受け取った仕入先が、条件を修正しました。'},
@@ -1981,7 +2164,7 @@ const HERO = [
 <script>
 /* ========== storage : artifact / PWA / memory の順に自動選択 ========== */
 const KEY='syntax.v1';
-let S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null,gen:{},cat:{},type:{},calib:{},ai:{key:'',think:'medium'}};
+let S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null,gen:{},cat:{},type:{},calib:{},srs:{},miss:{},missLog:[],tts:null,notes:[],ai:{key:'',think:'medium'}};
 const mem={};
 const io={
   async get(){
@@ -2010,10 +2193,13 @@ const el=(h)=>{const d=document.createElement('div');d.innerHTML=h.trim();return
 function mark(t){return t.replace(/\[\[(.+?)\|(main|sub|rel|key)\]\]/g,(m,a,b)=>`<span class="cl ${b}">${a}</span>`);}
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('on');
   clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),1800);}
-function updateDot(){const n=S.wrong.length,d=$('#reviewDot');
-  if(!d)return;d.hidden=n===0;d.textContent=n>99?'99+':n;}
+function updateDot(){
+  const d=$('#reviewDot');if(!d)return;
+  const n=(typeof srsDue==='function'?srsDue().length:0)||S.wrong.length;
+  d.hidden=n===0;d.textContent=n>99?'99+':n;}
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
 const U=id=>UNITS.find(u=>u.id===id);
+UNITS.push(buildP6Unit());
 const VU=UNITS.filter(u=>!u.hidden);
 function unitRow(u,i,fn,sub){const st=uStat(u.id);
   return `<button class="unit" onclick="${fn}('${u.id}')">
@@ -2039,6 +2225,7 @@ function uStat(id){const s=S.units[id]||{};return {seen:!!s.seen,best:s.best||0,
 let cur='learn';
 function go(name){
   if(typeof stopTimer==='function'&&name!=='run')stopTimer();
+  if(typeof speakStop==='function')speakStop();
   cur=name;
   document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id==='s-'+name));
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.go===name));
@@ -2051,6 +2238,7 @@ function go(name){
   if(name==='aiset')renderAISet();
   if(name==='backup')renderBackup();
   if(name==='lvinfo')renderLvInfo();
+  if(name==='notes')renderNotes();
 }
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>go(t.dataset.go));
 
@@ -2113,6 +2301,12 @@ function stepLesson(d){
 /* ========== 演習メニュー ========== */
 function renderQuizMenu(){
   $('#quizMenu').innerHTML=`
+  ${srsDue().length?`<div class="card" style="margin-bottom:10px;border-left:3px solid var(--wrong)">
+    <div style="font-weight:500;margin-bottom:4px">今日の復習 <span class="note-lv">${srsDue().length}問</span></div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
+      忘れかけたころの問題が待っています。新しい演習より先に、ここを空にしてください。</div>
+    <button class="btn" onclick="startQuiz('srs')">はじめる</button>
+  </div>`:''}
   <div class="card" style="margin-bottom:10px;border-left:3px solid var(--clause-out)">
     <div style="font-weight:500;margin-bottom:4px">瞬間英作文 <span class="note-lv">12問 / 声に出す</span></div>
     <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
@@ -2124,6 +2318,14 @@ function renderQuizMenu(){
     <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
       メールや報告を実際に書いてから、模範解答とチェック項目で自己採点します。書ける型は、そのまま会話でも使えます。</div>
     <button class="btn ghost" onclick="startQuiz('write')">書いて始める</button>
+  </div>
+  <div class="card" style="margin-bottom:10px;border-left:3px solid var(--clause-sub)">
+    <div style="font-weight:500;margin-bottom:4px">Part 6 長文穴埋め <span class="note-lv">4問 / 文書1つ</span></div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
+      メールや通知を読み、文脈に合う語や一文を選びます。前後のつながりから判断する力が問われるので、
+      接続表現の理解がそのまま点数になります。</div>
+    <button class="btn ghost" onclick="startQuiz('p6')">1文書を解く</button>
+    <div class="p6list">${P6.map(d=>`<button class="p6pick" onclick="startQuiz('p6','${d.id}')">${d.title}</button>`).join('')}</div>
   </div>
   <div class="card" style="margin-bottom:10px;border-left:3px solid var(--clause-word)">
     <div style="font-weight:500;margin-bottom:4px">Part 5 模試 <span class="note-lv">20問 / 6分40秒</span></div>
@@ -2170,6 +2372,10 @@ function startQuiz(mode,uid){
   else if(mode==='write'){title='ライティング';
     UNITS.forEach(u=>u.quiz.forEach((q,i)=>{if(q.t==='write')list.push(qref(u.id,i));}));
     list=shuffle(list).slice(0,3);}
+  else if(mode==='p6'){title='Part 6 長文穴埋め';
+    const u=U('p6');
+    const target=uid||shuffle(P6)[0].id;
+    u.quiz.forEach((q,i)=>{if(q.doc===target)list.push(qref('p6',i));});}
   else if(mode==='mock'){title='Part 5 模試';
     UNITS.forEach(u=>u.quiz.forEach((q,i)=>{if(q.t==='mcq')list.push(qref(u.id,i));}));
     list=shuffle(list).slice(0,20);}
@@ -2179,6 +2385,8 @@ function startQuiz(mode,uid){
     list=shuffle(list).slice(0,10);}
   else if(mode==='review'){title='復習';
     list=shuffle(S.wrong.map(w=>qref(w.u,w.i)).filter(x=>x.q)).slice(0,12);}
+  else if(mode==='srs'){title='今日の復習';
+    list=srsDue().map(x=>qref(x.u,x.i)).filter(x=>x.q).slice(0,20);}
   if(!list.length){toast('出題できる問題がありません');return;}
   R={mode,uid,title,list,idx:0,correct:0,answered:false,pick:null,built:[]};
   go('run');paintQ();
@@ -2196,8 +2404,9 @@ function paintQ(){
   if(q.t==='speak'){
     $('#runBody').innerHTML=`
       <div class="qja">日本語を見て、英語で声に出してみましょう</div>
-      <div class="prompt">${q.ja}</div>
+      <div class="prompt">${q.ja}${speakBtn(q.ja,'ja')}</div>
       <div id="verdict"></div>`;
+    if(TTS.auto&&TTS.on)speak(q.ja,'ja');
     paintFoot();return;
   }
   if(q.t==='write'){
@@ -2205,6 +2414,20 @@ function paintQ(){
       <div class="qja" style="font-size:14px;color:var(--ink);line-height:1.8">${q.ja}</div>
       ${q.src?`<div class="srcbox">${q.src}</div>`:''}
       <textarea class="wtext" id="wtext" placeholder="ここに英文を書いてみましょう"></textarea>
+      <div style="height:10px"></div>
+      <button class="btn ghost sm" id="fbBtn" onclick="runFeedback()">AIに添削してもらう</button>
+      <div id="fbBox"></div>
+      <div id="verdict"></div>`;
+    paintFoot();return;
+  }
+  if(q.t==='p6'){
+    R.order=q.c.map((c,i)=>({c,i}));   // 文挿入は順序に意味があるので並べ替えない
+    const doc=p6doc(q.doc);
+    $('#runBody').innerHTML=`
+      ${p6render(doc,q.bi,null)}
+      <div class="qja">${q.ja}</div>
+      <div id="opts">${R.order.map((o,n)=>
+        `<button class="opt ${q.sent?'long':''}" data-n="${n}" onclick="pick(${n})">${o.c}</button>`).join('')}</div>
       <div id="verdict"></div>`;
     paintFoot();return;
   }
@@ -2248,7 +2471,7 @@ function paintFoot(){
     return;
   }
   if(!R.answered){
-    const ready=q.t==='mcq'?R.pick!==null:R.built.length===q.a.length;
+    const ready=(q.t==='mcq'||q.t==='p6')?R.pick!==null:R.built.length===q.a.length;
     $('#runFoot').innerHTML=`<button class="btn" id="chk" ${ready?'':'disabled'} onclick="check()">答え合わせ</button>`;
   }else{$('#runFoot').innerHTML=nextBtn;}
 }
@@ -2256,13 +2479,19 @@ function reveal(){
   const q=R.list[R.idx].q;
   $('#verdict').innerHTML=`<div class="verdict ok">
     <div class="vt">模範解答</div>
-    <div class="ans sent" style="line-height:1.75">${mark(q.a)}</div>
+    <div class="ans sent" style="line-height:1.75">${mark(q.a)}${speakBtn(q.a,'en')}</div>
     ${q.check?`<ul class="chk">${q.check.map(c=>`<li>${c}</li>`).join('')}</ul>`:''}
     <div class="why" style="margin-top:10px">${q.why}</div></div>`;
   R.answered=true;R.graded=false;paintFoot();
+  if(q.t==='speak'&&TTS.on)speak(q.a,'en');
   $('#verdict').scrollIntoView({behavior:'smooth',block:'center'});
 }
-function grade(ok){R.graded=true;record(R.list[R.idx],!!ok);paintFoot();}
+function grade(ok){
+  R.graded=true;record(R.list[R.idx],!!ok);
+  if(!ok){const v=$('#verdict');
+    if(v&&!v.querySelector('#missBox'))v.insertAdjacentHTML('beforeend',missPicker());}
+  paintFoot();
+}
 function pick(n){
   if(R.answered)return;R.pick=n;
   document.querySelectorAll('#opts .opt').forEach(b=>b.classList.toggle('pick',+b.dataset.n===n));
@@ -2279,6 +2508,25 @@ function unTap(k){if(R.answered)return;R.built.splice(k,1);paintSlot();paintFoot
 
 function check(){
   const it=R.list[R.idx],q=it.q;let ok=false,mine='';
+  if(q.t==='p6'){
+    ok=R.order[R.pick].i===q.a;
+    document.querySelectorAll('#opts .opt').forEach(b=>{
+      const n=+b.dataset.n,isA=R.order[n].i===q.a;
+      b.classList.remove('pick');
+      if(isA){b.classList.add('ok');b.insertAdjacentHTML('afterbegin','<span class="mk">正解</span>');}
+      else if(n===R.pick){b.classList.add('ng');b.insertAdjacentHTML('afterbegin','<span class="mk">選択</span>');}
+    });
+    const dv=$('#runBody').querySelector('.p6doc');
+    if(dv)dv.outerHTML=p6render(p6doc(q.doc),q.bi,1);
+    $('#verdict').innerHTML=`<div class="verdict ${ok?'ok':'ng'}">
+      <div class="vt">${ok?'正解':'もう一度確認'}</div>
+      <div class="ans">${q.c[q.a]}</div>
+      <div class="why">${q.why}</div>
+      ${ok?'':missPicker()}</div>`;
+    R.answered=true;record(it,ok);paintFoot();
+    if(!ok)$('#verdict').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
   if(q.t==='mcq'){
     ok=R.order[R.pick].i===q.a;
     document.querySelectorAll('#opts .opt').forEach(b=>{
@@ -2297,11 +2545,14 @@ function check(){
   const answer=q.t==='mcq'
     ? q.q.replace('___',`<b style="color:var(--clause-sub)">${q.c[q.a]}</b>`)
     : (q.full||q.a.join(' ')+'.');
+  const plain=q.t==='mcq'?q.q.replace('___',q.c[q.a]):(q.full||q.a.join(' ')+'.');
   $('#verdict').innerHTML=`<div class="verdict ${ok?'ok':'ng'}">
     <div class="vt">${ok?'正解':'もう一度確認'}</div>
-    <div class="ans">${answer}</div>
-    <div class="why">${q.why}</div></div>`;
+    <div class="ans">${answer}${speakBtn(plain,'en')}</div>
+    <div class="why">${q.why}</div>
+    ${ok?'':missPicker()}</div>`;
   R.answered=true;record(it,ok);paintFoot();
+  if(TTS.auto&&TTS.on)speak(plain,'en');
   if(!ok)$('#verdict').scrollIntoView({behavior:'smooth',block:'center'});
 }
 function record(it,ok){
@@ -2319,6 +2570,7 @@ function record(it,ok){
   us.n=(us.n||0)+1; if(ok)us.c=(us.c||0)+1;
   // 較正：AIで作った問題は、指定した目標レベルごとに正答率を貯める
   if(q&&q.lv){S.calib=S.calib||{};bump(S.calib,q.lv,ok);}
+  srsUpdate(it.u,it.i,ok);
   const w=S.wrong.findIndex(x=>x.u===it.u&&x.i===it.i);
   if(ok){if(w>-1){S.wrong[w].n=(S.wrong[w].n||0)+1;if(S.wrong[w].n>=2)S.wrong.splice(w,1);}}
   else{if(w>-1)S.wrong[w].n=0;else S.wrong.push({u:it.u,i:it.i,n:0});}
@@ -2373,18 +2625,42 @@ function mockComment(pc){
 /* ========== 復習 ========== */
 function renderReview(){
   const b=$('#reviewBody');
-  if(!S.wrong.length){
-    b.innerHTML=`<div class="card"><div class="empty"><span class="big">◎</span>
-      復習リストは空です。<br>演習で間違えた問題が自動でここに集まります。</div>
-      <button class="btn" onclick="go('quiz')">演習に進む</button></div>`;return;
-  }
+  const due=srsDue(), soon=srsSoon(), mastered=srsMastered();
+  const tracked=Object.keys(S.srs||{}).length;
+
+  const srsCard=tracked?`
+  <div class="card" style="margin-bottom:10px;border-left:3px solid ${due.length?'var(--clause-out)':'var(--right)'}">
+    <div style="font-weight:500;margin-bottom:4px">${due.length?`今日の復習 ${due.length}問`:'今日の復習は終わりました'}</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;margin-bottom:12px">
+      ${due.length
+        ?'一度解いた問題を、忘れかけたころに出し直します。ここを毎日空にするのがいちばん効率の良い進め方です。'
+        :'また間隔をあけて出題します。新しい単元に進むか、演習を足してください。'}</div>
+    <div class="srsrow">
+      <div class="srsbox"><b>${due.length}</b><s>今日</s></div>
+      <div class="srsbox"><b>${soon.tomorrow}</b><s>明日</s></div>
+      <div class="srsbox"><b>${soon.week}</b><s>7日以内</s></div>
+      <div class="srsbox"><b>${mastered}</b><s>定着</s></div>
+    </div>
+    <div style="height:14px"></div>
+    ${due.length?`<button class="btn" onclick="startQuiz('srs')">今日の復習を始める</button>`
+      :`<button class="btn ghost" onclick="go('quiz')">演習に進む</button>`}
+    <div class="tnote">正解するたびに 1日 → 3日 → 1週間 → 2週間 → 1か月 と間隔が伸びます。
+      間違えると翌日に戻ります。</div>
+  </div>`:`
+  <div class="card" style="margin-bottom:10px">
+    <div class="empty"><span class="big">◎</span>
+      演習を解くと、忘れかけたころに自動で出し直します。<br>まずは1単元やってみましょう。</div>
+    <button class="btn" onclick="go('learn')">学ぶへ</button>
+  </div>`;
+
+  if(!S.wrong.length){b.innerHTML=srsCard;return;}
   const byU={};S.wrong.forEach(w=>{(byU[w.u]=byU[w.u]||[]).push(w);});
-  b.innerHTML=`<div class="card" style="margin-bottom:10px">
-    <div style="font-weight:500;margin-bottom:4px">${S.wrong.length}問が復習待ちです</div>
-    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-bottom:14px">
-      2回連続で正解するとリストから外れます。1日1回まわすのが効率的です。</div>
-    <button class="btn" onclick="startQuiz('review')">復習を始める</button></div>
-  <div class="h2">内訳</div>
+  b.innerHTML=srsCard+`
+  <div class="h2">間違えたままの問題</div>
+  <div class="card" style="margin-bottom:10px">
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;margin-bottom:14px">
+      ${S.wrong.length}問が未消化です。2回連続で正解するとこのリストから外れます。</div>
+    <button class="btn ghost" onclick="startQuiz('review')">まとめて解く</button></div>
   ${Object.keys(byU).map(uid=>{const u=U(uid);
     return `<button class="unit" ${u.hidden?'':`onclick="openLesson('${uid}')"`}>
       <span class="no">${u.hidden?'--':String(VU.indexOf(u)+1).padStart(2,'0')}</span>
@@ -2393,7 +2669,8 @@ function renderReview(){
       <span style="font-family:var(--mono);font-size:17px;color:var(--wrong)">${byU[uid].length}</span>
     </button>`;}).join('')}
   <div style="height:10px"></div>
-  <button class="btn ghost sm" onclick="clearWrong()">復習リストを空にする</button>`;
+  <button class="btn ghost sm" onclick="clearWrong()">このリストを空にする</button>
+  <div style="height:10px"></div>`;
 }
 function clearWrong(){S.wrong=[];save();renderReview();renderLearn();toast('復習リストを空にしました');}
 
@@ -2426,7 +2703,8 @@ function renderStats(){
     <div class="stat"><b>${t}</b><s>解いた問題数</s></div>
     <div class="stat"><b>${doneUnits}<span style="font-size:15px">/${VU.length}</span></b><s>80%以上の単元</s></div>
     <div class="stat"><b>${S.stats.mockBest||0}<span style="font-size:15px">%</span></b><s>模試 最高スコア</s></div>
-    <div class="stat"><b>${S.wrong.length}</b><s>復習待ちの問題</s></div>
+    <div class="stat"><b>${srsDue().length}</b><s>今日の復習</s></div>
+    <div class="stat"><b>${srsMastered()}</b><s>定着した問題</s></div>
   </div>
 
   <div class="h2">分野別の実力</div>
@@ -2483,9 +2761,23 @@ function renderStats(){
   <div class="h2">つまずきの傾向</div>
   <div class="card"><div style="font-size:13px;line-height:1.9;color:var(--ink-2)">${advice()}</div></div>
   <div style="height:14px"></div>
+  ${missTop().length?`<div class="h2">間違いの原因</div>
+  <div class="card bars">
+    ${(()=>{const rows=missTop(),max=rows[0].n;
+      return rows.slice(0,6).map(r=>`<div class="bar"><span class="lb" style="width:120px">${r.l}</span>
+        <span class="tr"><i style="width:${Math.round(r.n/max*100)}%;background:var(--clause-out)"></i></span>
+        <span class="pc">${r.n}</span></div>`).join('');})()}
+    <div class="tnote">${MISS_ADVICE[missTop()[0].k]||''}</div>
+  </div>`:''}
+
   ${S.calib&&Object.keys(S.calib).length?`<div class="h2">出題レベルの妥当性</div>
   <div class="card">${calibView()}</div>`:''}
   <div style="height:14px"></div>
+  <div class="h2">読み上げの設定</div>
+  <div class="card" id="ttsCard">${ttsPanel()}</div>
+  <div style="height:14px"></div>
+  <button class="btn ghost sm" onclick="go('notes')">振り返りメモ${(S.notes||[]).length?`（${S.notes.length}）`:''}</button>
+  <div style="height:9px"></div>
   <button class="btn ghost sm" onclick="go('lvinfo')">難易度の基準について</button>
   <div style="height:9px"></div>
   <button class="btn ghost sm" onclick="go('backup')">データの書き出し・読み込み</button>
@@ -2522,7 +2814,7 @@ function advice(){
 }
 function resetAll(){
   if(!confirm('学習データをすべて消去します。よろしいですか？'))return;
-  const keep=S.ai;S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null,gen:{},cat:{},type:{},calib:{},ai:keep};save();mergeGen();renderStats();renderLearn();
+  const keep=S.ai;S={units:{},wrong:[],stats:{total:0,correct:0,days:{}},last:null,gen:{},cat:{},type:{},calib:{},srs:{},miss:{},missLog:[],tts:S.tts,notes:[],ai:keep};save();mergeGen();renderStats();renderLearn();
   toast('学習データを消去しました');
 }
 
@@ -3620,6 +3912,11 @@ function nextAction(){
     return {t:'まずは1単元やってみましょう',
       b:'演習を解くと、分野ごとの得意・不得意がここに現れます。ユニット01から順に進めるのがおすすめです。',
       go:`<button class="btn sm" onclick="go('learn')">学ぶへ</button>`};
+  const dueN=srsDue().length;
+  if(dueN>=5)
+    return {t:`今日の復習が ${dueN} 問あります`,
+      b:'忘れかけたころに出し直す仕組みです。新しい単元より、まずここを空にするほうが定着します。',
+      go:`<button class="btn sm" onclick="startQuiz('srs')">今日の復習</button>`};
   if(S.wrong.length>=10)
     return {t:`復習が ${S.wrong.length} 問たまっています`,
       b:'新しい単元に進むより、まず間違えた問題を消化するほうが伸びます。2回連続で正解すればリストから外れます。',
@@ -3745,6 +4042,371 @@ function calibView(){
     これが最も信頼できる基準です。実際にあなたが解いた結果だからです。</div>`;
 }
 
+/* ========== 1. 音声読み上げ ========== */
+const TTS={ready:false,en:null,ja:null,on:true,rate:0.95,auto:false};
+function ttsInit(){
+  if(!('speechSynthesis' in window))return;
+  const pick=()=>{
+    const vs=speechSynthesis.getVoices();
+    if(!vs.length)return;
+    // 英語は米国英語を優先。ローカル合成のほうが途切れにくい
+    const en=vs.filter(v=>/^en(-|_)?/i.test(v.lang));
+    TTS.en=en.find(v=>/en[-_]US/i.test(v.lang)&&v.localService)||
+           en.find(v=>/en[-_]US/i.test(v.lang))||
+           en.find(v=>v.localService)||en[0]||null;
+    const ja=vs.filter(v=>/^ja/i.test(v.lang));
+    TTS.ja=ja.find(v=>v.localService)||ja[0]||null;
+    TTS.ready=!!TTS.en;
+  };
+  pick();
+  speechSynthesis.onvoiceschanged=pick;
+  if(S.tts){TTS.on=S.tts.on!==false;TTS.rate=S.tts.rate||0.95;TTS.auto=!!S.tts.auto;}
+}
+function ttsSave(){S.tts={on:TTS.on,rate:TTS.rate,auto:TTS.auto};save();}
+function stripTags(s){return String(s||'').replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();}
+function speak(text,lang,cb){
+  if(!TTS.on||!('speechSynthesis' in window)){if(cb)cb();return;}
+  const t=stripTags(text).replace(/___/g,' blank ');
+  if(!t){if(cb)cb();return;}
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(t);
+    const v=lang==='ja'?TTS.ja:TTS.en;
+    if(v)u.voice=v;
+    u.lang=lang==='ja'?'ja-JP':'en-US';
+    u.rate=lang==='ja'?1.0:TTS.rate;
+    u.onend=()=>{if(cb)cb();};
+    u.onerror=()=>{if(cb)cb();};
+    speechSynthesis.speak(u);
+  }catch(e){if(cb)cb();}
+}
+function speakStop(){try{speechSynthesis.cancel();}catch(e){}}
+function speakBtn(text,lang){
+  const id='sp'+Math.random().toString(36).slice(2,8);
+  window[id]=()=>speak(text,lang||'en');
+  return `<button class="spk" onclick="${id}()" aria-label="読み上げ">
+    <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 010 7"/><path d="M19 6a8 8 0 010 12"/></svg></button>`;
+}
+/* 瞬間英作文の自動再生：日本語 → 待つ → 英語 */
+function autoDrill(ja,en){
+  speak(ja,'ja',()=>{
+    setTimeout(()=>{},0);
+  });
+}
+
+function ttsPanel(){
+  if(!('speechSynthesis' in window))
+    return `<div style="font-size:12.5px;color:var(--ink-3);line-height:1.9">
+      この端末では読み上げを利用できません。</div>`;
+  return `
+  <div class="tglrow">
+    <div><div style="font-size:14px">読み上げを使う</div>
+      <div style="font-size:11.5px;color:var(--ink-3);margin-top:2px">解答の英文を音声で確認できます</div></div>
+    <button class="tgl ${TTS.on?'on':''}" onclick="TTS.on=!TTS.on;ttsSave();renderStats()"><i></i></button>
+  </div>
+  <div class="tglrow">
+    <div><div style="font-size:14px">自動で再生する</div>
+      <div style="font-size:11.5px;color:var(--ink-3);margin-top:2px">瞬間英作文の日本語と、答え合わせの英文を自動で読みます</div></div>
+    <button class="tgl ${TTS.auto?'on':''}" onclick="TTS.auto=!TTS.auto;ttsSave();renderStats()"><i></i></button>
+  </div>
+  <div class="lbl" style="margin-top:14px">英語の速さ</div>
+  <div class="pills">
+    ${[[0.75,'ゆっくり'],[0.95,'標準'],[1.15,'速め']].map(([v,l])=>
+      `<button class="pill ${Math.abs(TTS.rate-v)<0.01?'on':''}"
+        onclick="TTS.rate=${v};ttsSave();renderStats();speak('The contract is due to expire at the end of next month.','en')">${l}</button>`).join('')}
+  </div>
+  <div class="tnote">速さを選ぶと、その速度で例文を読み上げます。</div>`;
+}
+
+/* ========== 2. 間隔反復 ========== */
+/* 間隔（日）。正解を重ねるほど間隔が伸びる。
+   1回目=翌日, 2回目=3日後, 3回目=1週間後, 4回目=2週間後, 5回目=1か月後 */
+const SRS_STEPS=[1,3,7,14,30,60];
+function dayNum(d){return Math.floor((d||Date.now())/86400000);}
+function srsKey(u,i){return u+':'+i;}
+function srsGet(u,i){return (S.srs||{})[srsKey(u,i)]||null;}
+function srsUpdate(u,i,ok){
+  S.srs=S.srs||{};
+  const k=srsKey(u,i);
+  const cur=S.srs[k]||{s:0,due:0,seen:0};
+  cur.seen=(cur.seen||0)+1;
+  if(ok){
+    cur.s=Math.min(SRS_STEPS.length-1,(cur.s||0)+1);
+  }else{
+    cur.s=0; // 間違えたら最初の間隔に戻す
+  }
+  cur.due=dayNum()+SRS_STEPS[cur.s];
+  cur.last=dayNum();
+  S.srs[k]=cur;
+}
+/* 今日復習すべき問題 */
+function srsDue(){
+  const t=dayNum(), out=[];
+  Object.keys(S.srs||{}).forEach(k=>{
+    const e=S.srs[k];
+    if(!e||e.due>t)return;
+    const p=k.split(':'), u=p[0], i=+p[1];
+    const un=U(u);
+    if(!un||!un.quiz[i])return;
+    out.push({u:u,i:i,due:e.due,s:e.s});
+  });
+  // 期限を過ぎているものから順に
+  out.sort((a,b)=>a.due-b.due);
+  return out;
+}
+function srsSoon(){
+  const t=dayNum();
+  let d1=0,d7=0;
+  Object.keys(S.srs||{}).forEach(k=>{
+    const e=S.srs[k];if(!e)return;
+    const diff=e.due-t;
+    if(diff>0&&diff<=1)d1++;
+    if(diff>0&&diff<=7)d7++;
+  });
+  return {tomorrow:d1,week:d7};
+}
+function srsMastered(){
+  return Object.keys(S.srs||{}).filter(k=>(S.srs[k].s||0)>=4).length;
+}
+
+/* ========== 3. 誤答の理由 ========== */
+const MISS_TAGS=[
+  ['tense','時制を取り違えた'],
+  ['form','品詞を取り違えた'],
+  ['conj','つなぐ語を選び間違えた'],
+  ['prep','前置詞を間違えた'],
+  ['agree','単複・一致を落とした'],
+  ['rel','関係詞がわからなかった'],
+  ['word','単語の意味を知らなかった'],
+  ['rush','急いで読み飛ばした'],
+  ['guess','根拠なく選んだ']
+];
+function logMiss(tag){
+  const it=R.list[R.idx];
+  S.miss=S.miss||{};
+  S.miss[tag]=(S.miss[tag]||0)+1;
+  S.missLog=S.missLog||[];
+  S.missLog.push({d:today(),u:it.u,i:it.i,t:tag});
+  if(S.missLog.length>400)S.missLog=S.missLog.slice(-400);
+  save();
+  const box=$('#missBox');
+  if(box)box.innerHTML=`<div class="misdone">記録しました — ${MISS_TAGS.find(x=>x[0]===tag)[1]}</div>`;
+}
+function missPicker(){
+  return `<div id="missBox"><div class="mistitle">なぜ間違えましたか（任意）</div>
+    <div class="mistags">${MISS_TAGS.map(([k,l])=>
+      `<button class="mistag" onclick="logMiss('${k}')">${l}</button>`).join('')}</div></div>`;
+}
+function missTop(){
+  const m=S.miss||{};
+  const rows=MISS_TAGS.map(([k,l])=>({k:k,l:l,n:m[k]||0})).filter(r=>r.n>0)
+    .sort((a,b)=>b.n-a.n);
+  return rows;
+}
+const MISS_ADVICE={
+  tense:'時制は「いつの話か」を先に決めてから動詞を選びます。時を表す語（last week / since / by Friday）を先に探す癖をつけましょう。',
+  form:'品詞は意味ではなく位置で決まります。空所の前後だけを見て、名詞の前なら形容詞、文が完成しているなら副詞、と機械的に判断してください。',
+  conj:'つなぐ語は、後ろが名詞のかたまりか文かで決まります。because / due to、although / despite の対で覚え直しましょう。',
+  prep:'前置詞は動詞とセットで覚えます。comply with、refrain from のように、かたまりで音読すると定着します。',
+  agree:'主語と動詞の間の修飾語に惑わされています。主語だけを指で押さえて動詞を選ぶ練習をしてください。',
+  rel:'関係詞は「後ろが不完全な文か、完全な文か」で決まります。名詞を先に出して後ろから説明する語順に慣れましょう。',
+  word:'語彙が原因なら文法の問題ではありません。TOEIC頻出のビジネス語（TSL層）を別途増やす段階です。',
+  rush:'知識ではなく処理の問題です。模試モードで時間感覚を作り、1問20秒のペースを体に入れましょう。',
+  guess:'根拠のない正解は本番で再現しません。解説を読み、なぜ他が誤りかまで言えるようにしてから次へ進んでください。'
+};
+
+/* ========== 4. Part 6 の出題 ==========
+   文書ごとの定義を、空所1つ＝1問に展開して通常の出題エンジンに載せる。
+   これにより記録・間隔反復・復習の仕組みがそのまま使える。 */
+function buildP6Unit(){
+  const quiz=[];
+  P6.forEach(doc=>{
+    doc.blanks.forEach((bl,k)=>{
+      const isSent=bl.c.some(x=>/[.!?]$/.test(String(x).trim())&&String(x).trim().split(' ').length>4);
+      quiz.push({t:'p6',doc:doc.id,bi:k,
+        c:bl.c,a:bl.a,why:bl.why,
+        ja:isSent?'文脈に合う一文を選んでください':'空所に入る語を選んでください',
+        sent:isSent});
+    });
+  });
+  return {id:'p6',hidden:true,tag:'sub',tagLabel:'PART 6',sec:2,
+    title:'Part 6 長文穴埋め',sub:'文脈から選ぶ',points:[],quiz:quiz};
+}
+function p6doc(id){return P6.find(d=>d.id===id);}
+/* 文書を描く。解答済みの空所には正解を埋め、いま解く空所を強調する */
+function p6render(doc,cur,revealed){
+  const html=doc.body.map(par=>{
+    let t=par.replace(/\n/g,'<br>');
+    t=t.replace(/\{(\d)\}/g,(m,n)=>{
+      const i=+n-1, bl=doc.blanks[i];
+      if(i===cur){
+        if(revealed!=null)
+          return `<span class="p6cur done">${bl.c[bl.a]}</span>`;
+        return `<span class="p6cur">${i+1}</span>`;
+      }
+      if(i<cur)return `<span class="p6fill">${bl.c[bl.a]}</span>`;
+      return `<span class="p6blank">${i+1}</span>`;
+    });
+    return `<p>${t}</p>`;
+  }).join('');
+  return `<div class="p6doc"><div class="p6head">${doc.tag}　${doc.title}</div>${html}</div>`;
+}
+
+/* ========== 5. 振り返りメモ ========== */
+function noteToday(){
+  return (S.notes||[]).find(n=>n.d===today());
+}
+function saveNote(){
+  const t=$('#noteText');if(!t)return;
+  const v=t.value.trim();
+  S.notes=S.notes||[];
+  const i=S.notes.findIndex(n=>n.d===today());
+  if(!v){if(i>-1)S.notes.splice(i,1);}
+  else if(i>-1)S.notes[i].t=v;
+  else S.notes.push({d:today(),t:v});
+  if(S.notes.length>200)S.notes=S.notes.slice(-200);
+  save();toast('保存しました');renderNotes();
+}
+function delNote(d){
+  if(!confirm('このメモを削除します。よろしいですか？'))return;
+  S.notes=(S.notes||[]).filter(n=>n.d!==d);save();renderNotes();
+}
+function renderNotes(){
+  const cur=noteToday();
+  const past=(S.notes||[]).filter(n=>n.d!==today()).sort((a,b)=>b.d.localeCompare(a.d));
+  const miss=missTop();
+  $('#notesBody').innerHTML=`
+  <div class="card" style="margin-bottom:10px">
+    <div style="font-weight:500;margin-bottom:4px">${new Date().toLocaleDateString('ja-JP',{month:'long',day:'numeric',weekday:'short'})}</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;margin-bottom:12px">
+      今日つまずいたこと、気づいたことを1行だけ残しておきましょう。
+      数字では見えないことが、言葉にすると定着します。</div>
+    ${miss.length?`<div class="hintline">今日の傾向：${miss[0].l}が最も多くなっています</div>`:''}
+    <textarea class="wtext" id="noteText" style="min-height:92px"
+      placeholder="例：due to のあとに文を続けてしまった。名詞句だけと覚え直す。">${cur?cur.t.replace(/</g,'&lt;'):''}</textarea>
+    <div style="height:10px"></div>
+    <button class="btn" onclick="saveNote()">保存する</button>
+  </div>
+  ${past.length?`<div class="h2">これまでのメモ</div>
+    ${past.slice(0,40).map(n=>`<div class="note">
+      <div class="noted">${n.d.slice(5).replace('-','/')}
+        <button class="mini" onclick="delNote('${n.d}')">削除</button></div>
+      <div class="notet">${n.t.replace(/</g,'&lt;').replace(/\n/g,'<br>')}</div>
+    </div>`).join('')}`:''}
+  <div style="height:10px"></div>`;
+}
+
+/* ========== 6. AI 添削 ========== */
+const FB_SCHEMA={
+  type:'object',
+  properties:{
+    score:{type:'integer',description:'100点満点の評価'},
+    corrected:{type:'string',description:'自然な英文に直したもの'},
+    good:{type:'string',description:'できている点。日本語で1〜2文'},
+    issues:{type:'array',items:{
+      type:'object',
+      properties:{
+        part:{type:'string',description:'問題のある箇所（原文からの短い引用）'},
+        fix:{type:'string',description:'直した形'},
+        why:{type:'string',description:'なぜそう直すのか。日本語で1〜2文'}
+      },
+      required:['part','fix','why'],
+      propertyOrdering:['part','fix','why']
+    }},
+    advice:{type:'string',description:'次に気をつけること。日本語で1〜2文'}
+  },
+  required:['score','corrected','good','issues','advice'],
+  propertyOrdering:['score','corrected','good','issues','advice']
+};
+function fbPrompt(q,text){
+  return `あなたは日本人ビジネスパーソン向けの英語ライティング講師です。
+学習者（TOEIC 800点台、CEFR B2）が書いた英文を添削してください。
+
+【課題】${q.ja}
+${q.src?`【与えられた条件】${q.src}`:''}
+【模範解答の一例】${q.a}
+
+【学習者の答案】
+${text}
+
+【添削の方針】
+- 文法の誤りだけでなく、ビジネス英語として不自然な表現も指摘すること
+- 模範解答と違っていても、英語として自然で課題を満たしていれば減点しない
+- 指摘は多くても4点まで。重要な順に挙げること
+- 些細な好みの違いは指摘しない
+- 説明はすべて日本語で書くこと
+- corrected には、学習者の書いた内容と構成をできるだけ残したまま、
+  自然な英語に直したものを入れること（模範解答をそのまま返さない）
+- score は 100点満点。文法の正確さ、語法の自然さ、課題への適合で判断する
+
+日本語で、厳しすぎず、次にどうすればよいかが分かるように書いてください。`;
+}
+async function askFeedback(prompt){
+  const key=gemKey();
+  if(!key)throw new Error('APIキーが設定されていません');
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/${gemModel()}:generateContent?key=${encodeURIComponent(key)}`;
+  const ctl=new AbortController();
+  const timer=setTimeout(()=>ctl.abort(),90000);
+  let res;
+  try{
+    res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},signal:ctl.signal,
+      body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],
+        generationConfig:{responseMimeType:'application/json',responseSchema:FB_SCHEMA,
+          thinkingConfig:{thinkingLevel:gemThink()},maxOutputTokens:8192}})});
+  }catch(e){
+    if(e&&e.name==='AbortError')throw new Error('時間内に応答がありませんでした');
+    throw new Error('通信に失敗しました');
+  }finally{clearTimeout(timer);}
+  if(!res.ok){
+    let msg='';try{const j=await res.json();msg=(j.error&&j.error.message)||'';}catch(e){}
+    if(res.status===400&&/API key/i.test(msg))throw new Error('APIキーが正しくありません');
+    if(res.status===429)throw new Error('利用制限に達しました。しばらく待ってからお試しください');
+    throw new Error(`添削できませんでした（${res.status}）`);
+  }
+  const data=await res.json();
+  const cand=(data.candidates||[])[0];
+  const txt=((cand&&cand.content&&cand.content.parts)||[]).map(p=>p.text||'').join('').trim();
+  if(!txt)throw new Error('添削結果が空でした。もう一度お試しください');
+  try{return JSON.parse(txt);}catch(e){throw new Error('添削結果を読み取れませんでした');}
+}
+async function runFeedback(){
+  const ta=$('#wtext');
+  const text=ta?ta.value.trim():'';
+  if(!text){toast('先に英文を書いてください');return;}
+  if(!gemKey()){
+    $('#fbBox').innerHTML=`<div class="aimsg">添削にはGemini APIキーが必要です。
+      <button class="linkbtn" onclick="go('aiset')">設定する</button></div>`;return;
+  }
+  const btn=$('#fbBtn');
+  if(btn){btn.disabled=true;btn.textContent='添削しています…';}
+  $('#fbBox').innerHTML=`<div class="aimsg">あなたの英文を読んでいます。20秒ほどかかります。
+    <div class="prog"><i style="width:40%"></i></div></div>`;
+  try{
+    const q=R.list[R.idx].q;
+    const fb=await askFeedback(fbPrompt(q,text));
+    $('#fbBox').innerHTML=`
+    <div class="fb">
+      <div class="fbh"><span class="fbs">${Math.max(0,Math.min(100,fb.score))}<i>点</i></span>
+        <span class="fbg">${fb.good||''}</span></div>
+      ${(fb.issues||[]).length?`<div class="fbsec">直すとよい点</div>
+        ${fb.issues.slice(0,4).map(x=>`<div class="fbi">
+          <div class="fbfix"><s>${String(x.part).replace(/</g,'&lt;')}</s>
+            <span>→</span><b>${String(x.fix).replace(/</g,'&lt;')}</b></div>
+          <div class="fbw">${String(x.why).replace(/</g,'&lt;')}</div>
+        </div>`).join('')}`:'<div class="fbsec">大きな誤りはありません</div>'}
+      <div class="fbsec">自然な形に直すと</div>
+      <div class="fbc">${String(fb.corrected).replace(/</g,'&lt;')}${speakBtn(fb.corrected,'en')}</div>
+      <div class="fbadv">${String(fb.advice||'').replace(/</g,'&lt;')}</div>
+    </div>`;
+    S.fbCount=(S.fbCount||0)+1;save();
+  }catch(e){
+    $('#fbBox').innerHTML=`<div class="aimsg err">${e.message}</div>`;
+  }finally{
+    const b=$('#fbBtn');
+    if(b){b.disabled=false;b.textContent='AIに添削してもらう';}
+  }
+}
+
 /* ========== Service Worker ========== */
 (function(){
   if(!('serviceWorker' in navigator))return;
@@ -3763,7 +4425,7 @@ function calibView(){
 
 /* ========== boot ========== */
 load().then(()=>{
-  migrate();mergeGen();
+  migrate();mergeGen();ttsInit();
   go('learn');
   const p=new URLSearchParams(location.search).get('go');
   if(p==='speak'||p==='mock'||p==='write'||p==='mix'||p==='review')
