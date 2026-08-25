@@ -196,6 +196,9 @@ input.sel{background-image:none;padding-right:12px;font-family:var(--mono);font-
 .causeh{display:flex;align-items:center;justify-content:space-between;gap:10px;
   margin:14px 0 7px;padding-top:12px;border-top:1px dashed var(--line)}
 .causet{font-size:13.5px;font-weight:600;color:var(--clause-out)}
+.causet em{font-style:normal;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;
+  color:var(--wrong);background:#FBEDEF;border-radius:20px;padding:2px 8px;margin-left:8px;
+  font-weight:400;vertical-align:middle}
 .causet::before{content:'原因';font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
   color:var(--ink-3);font-weight:400;display:block;margin-bottom:2px}
 .causea{font-size:12.5px;color:var(--ink-2);line-height:1.85}
@@ -2790,7 +2793,8 @@ function renderStats(){
       return rows.slice(0,6).map(r=>`<div class="bar"><span class="lb" style="width:120px">${r.l}</span>
         <span class="tr"><i style="width:${Math.round(r.n/max*100)}%;background:var(--clause-out)"></i></span>
         <span class="pc">${r.n}</span></div>`).join('');})()}
-    <div class="tnote">${(CAUSES[missTop()[0].k]||{}).advice||''}</div>
+    <div class="tnote">${(CAUSES[missTop()[0].k]||{}).advice||''}
+      ${S.rushN?`<br><br>このうち <b>${S.rushN}問</b> は解答が速すぎました。読み切る前に選んでいる可能性があります。`:''}</div>
   </div>
   <div class="card" style="margin-top:9px">
     <div style="font-weight:500;margin-bottom:4px">AIに傾向を診断させる</div>
@@ -2835,6 +2839,25 @@ function weakAdvice(w){
     out:'型を覚えて口に出す回数がすべてです。解説の例文をそのまま音読しましょう。'};
   return m[w.u.tag]||'';
 }
+function finishStatus(){
+  const need=VU.filter(u=>uStat(u.id).best<80);
+  const mock=S.stats.mockBest||0;
+  if(!need.length&&mock>=90)
+    return `<div style="text-align:center;padding:8px 0">
+      <div style="font-family:var(--en);font-size:30px;font-weight:700;letter-spacing:-.02em">Complete</div>
+      <div style="font-size:13px;line-height:1.9;color:var(--ink-2);margin-top:8px">
+      全単元80%以上、模試90%以上を達成しました。ここまで来れば、TOEICの文法問題で迷う場面はほとんど残っていません。
+      あとは瞬間英作文と今日の復習を回して、知識を速度に変える段階です。</div></div>`;
+  const items=[
+    ['全単元で80%以上',`残り ${need.length} 単元`,need.length===0],
+    ['模試で90%以上',`現在 ${mock}%`,mock>=90],
+    ['今日の復習を空にする',`残り ${srsDue().length} 問`,srsDue().length===0]];
+  return `<div style="font-size:13px;line-height:1.9;color:var(--ink-2);margin-bottom:12px">
+    次の3つがそろったら修了です。</div>
+    <ul class="chk" style="margin:0">${items.map(([t,s,ok])=>
+      `<li style="${ok?'color:var(--right)':''}">${t} — ${ok?'達成':s}</li>`).join('')}</ul>`;
+}
+
 function advice(){
   if(!S.stats.total)return '演習を解くと、ここに苦手の傾向が表示されます。まずはユニット01から進めてみてください。';
   const cnt={main:0,sub:0,rel:0,word:0,out:0};
@@ -4219,7 +4242,7 @@ const CAUSES={
   article: {label:'冠詞・可算不可算',    advice:'information / advice / equipment / staff は数えられません。a も複数形もつけず、量を示すなら some を使います。'},
   word:    {label:'語彙・語法の知識',    advice:'文法ではなく語の意味が原因です。TOEIC頻出のビジネス語を別途増やす段階に来ています。'},
   context: {label:'文脈のつかみ方',      advice:'前後の文とのつながりで決まる問題です。空所の前後だけでなく、段落全体の流れを追ってください。'},
-  rush:    {label:'急いで読み飛ばした',  advice:'知識ではなく処理の問題です。手がかりの語を見つけてから選択肢を見る順番を徹底してください。'},
+  rush:    {label:'急いで読み飛ばした',  advice:'手がかりの語を見つけてから選択肢を見る順番を徹底してください。'},
   order:   {label:'語順の組み立て',      advice:'選ぶことはできても自分で並べると崩れています。解説の例文を音読して、語順を音で覚えるのが近道です。'},
   other:   {label:'その他',              advice:'解説を読み、なぜ他が誤りかまで説明できるようにしてから次へ進みましょう。'}
 };
@@ -4458,24 +4481,28 @@ function tooFast(q,ms){
 
 /* ========== 誤答の記録 ========== */
 function recordMiss(q,chosen,correct,ms){
-  let cause=diagnoseMiss(q,chosen,correct,ms);
-  if(tooFast(q,ms)&&cause!=='word')cause='rush';
+  // 文法上の原因が主。速さは「どう間違えたか」ではなく「なぜ落としたか」の副次情報として別に持つ
+  const cause=diagnoseMiss(q,chosen,correct,ms);
+  const fast=tooFast(q,ms);
   S.miss=S.miss||{};
   S.miss[cause]=(S.miss[cause]||0)+1;
+  if(fast)S.rushN=(S.rushN||0)+1;
   S.missLog=S.missLog||[];
   const it=R.list[R.idx];
-  S.missLog.push({d:today(),u:it.u,i:it.i,c:cause,
+  S.missLog.push({d:today(),u:it.u,i:it.i,c:cause,fast:fast?1:0,
     ch:String(chosen).slice(0,40),co:String(correct).slice(0,40),ms:ms||0});
   if(S.missLog.length>300)S.missLog=S.missLog.slice(-300);
   save();
-  return cause;
+  return {cause:cause,fast:fast};
 }
-function causeBox(cause){
-  const c=CAUSES[cause]||CAUSES.other;
+function causeBox(r){
+  const key=(r&&r.cause)||r||'other';
+  const fast=!!(r&&r.fast);
+  const c=CAUSES[key]||CAUSES.other;
   return `<div id="missBox"><div class="causeh">
-      <span class="causet">${c.label}</span>
+      <span class="causet">${c.label}${fast?'<em>急いで選んでいます</em>':''}</span>
       <button class="linkbtn" onclick="showCausePick()">違う</button></div>
-    <div class="causea">${c.advice}</div></div>`;
+    <div class="causea">${c.advice}${fast?'<br><span style="color:var(--wrong)">解答が速すぎます。手がかりの語を見つけてから選択肢を見る順番を徹底してください。</span>':''}</div></div>`;
 }
 function showCausePick(){
   const box=$('#missBox');if(!box)return;
@@ -4736,6 +4763,7 @@ function diagPrompt(){
 
 【誤答の分類（自動判定の集計）】
 ${tally||'データなし'}
+${S.rushN?`（うち ${S.rushN}問 は解答時間が極端に短く、読み切る前に選んでいた可能性がある）`:''}
 
 【分野別の正答率】
 ${cats||'データなし'}
